@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "bung-frontend/src/Routes", "bung-frontend/src/App.tsx", "bung-frontend/src/index.tsx"  ]
+, "bung-frontend/src/Routes", "bung-frontend/src/App.tsx", "bung-frontend/src/index.tsx"  ],
 }

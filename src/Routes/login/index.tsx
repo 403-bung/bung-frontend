@@ -1,6 +1,6 @@
 function Login() {
   const Rest_api_key = "c8688e3e2dd58da9964bf93a1d0d79b5";
-  const redirect_uri = "http://localhost:3000/login";
+  const redirect_uri = "http://localhost:3000/login/confirm";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
   const handleLogin = () => {
     window.location.href = kakaoURL;
@@ -14,7 +14,7 @@ function Login() {
       </h1>
       <button
         onClick={handleLogin}
-        className="mt-40 w-[343px h-[59px] mx-4 px-[102px] py-[19px] bg-[#BABABA] text-[18px] font-[600] rounded-[10px] "
+        className="mt-40 w-[343px] h-[59px] mx-4 px-[102px] py-[19px] bg-[#BABABA] text-[18px] font-[600] rounded-[10px] "
       >
         카카오로 시작하기
       </button>
