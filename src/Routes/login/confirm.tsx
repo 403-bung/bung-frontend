@@ -2,6 +2,7 @@ import { GrPrevious, GrNext } from "react-icons/gr";
 import logo from "../../img/logo.png";
 import React, { useState } from "react";
 import Modal from "react-modal";
+import Button from "../../components/Button";
 
 const customStyles = {
   overlay: {
@@ -73,6 +74,7 @@ function Confirm() {
           {" "}
           다음
         </button>
+        {/* <Button text="다음" onclick={openModal} /> */}
         <div>
           <Modal
             isOpen={modalIsOpen}
