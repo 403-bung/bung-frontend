@@ -67,14 +67,9 @@ function Confirm() {
             user@example.com
           </div>
         </div>
-        <button
-          onClick={openModal}
-          className="mt-[498px] w-[343px] h-[59px] bg-[#BABABA] text-[18px] font-[600] rounded-[10px]"
-        >
-          {" "}
-          다음
-        </button>
-        {/* <Button text="다음" onclick={openModal} /> */}
+        <div className="mt-[498px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
+          <Button text="다음" onclick={openModal} />
+        </div>
         <div>
           <Modal
             isOpen={modalIsOpen}
