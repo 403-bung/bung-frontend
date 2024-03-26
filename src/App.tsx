@@ -1,7 +1,5 @@
-import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import React from "react";
-import NicknamePage from "./pages/Nickname.tsx";
+import NicknamePage from "./pages/Nickname";
 
 const router = createBrowserRouter([
   { path: "/nickname", element: <NicknamePage /> },
