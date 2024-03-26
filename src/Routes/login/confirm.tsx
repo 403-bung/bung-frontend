@@ -3,6 +3,8 @@ import logo from "../../img/logo.png";
 import React, { useState } from "react";
 import Modal from "react-modal";
 import Button from "../../components/Button";
+import left_arrow from "../../icons/left_arrow.svg";
+import right_arrow from "../../icons/right_arrow.svg";
 
 const customStyles = {
   overlay: {
@@ -15,7 +17,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    padding: "20px",
+    padding: "0px",
     width: "375px",
     height: "496px",
     marginTop: "158px",
@@ -56,7 +58,7 @@ function Confirm() {
     <>
       <div className="mt-[76px] ml-4 mr-2">
         <div>
-          <GrPrevious />
+          <img src={left_arrow} alt="이전으로" />
         </div>
         <div className="mt-4 text-[26px] font-[700] font-[Pretendard] leading-[39px]  ">
           이메일을 확인해주세요
@@ -77,7 +79,7 @@ function Confirm() {
             contentLabel="약관 동의"
             style={customStyles}
           >
-            <div className="mt-8 inline-flex flex-col">
+            <div className=" mt-[32px] mx-[16px] inline-flex flex-col">
               <div className="font-[Pretendard] text-[26px] font-[700] leading-[39px]">
                 약관에 동의해 주세요
               </div>
@@ -100,7 +102,7 @@ function Confirm() {
                   약관 전체 동의
                 </label>
               </div>
-              <div className="flex justify-between items-center self-stretch mt-7">
+              <div className=" flex justify-between items-center self-stretch mt-[28px]">
                 <div className="flex items-center">
                   <input
                     type="checkbox"
@@ -120,7 +122,7 @@ function Confirm() {
                     서비스 이용약관 전체동의(필수)
                   </label>
                 </div>
-                <GrNext />
+                <img alt="상세 내용 보기" src={right_arrow} />
               </div>
               <div className="flex justify-between items-center self-stretch mt-[19px]">
                 <div className="flex items-center">
@@ -142,16 +144,19 @@ function Confirm() {
                     개인 정보 수집 및 이용 동의(필수)
                   </label>
                 </div>
-                <GrNext />
+                <img alt="상세 내용 보기" src={right_arrow} />
               </div>
             </div>
 
-            <button
+            <div className="mt-[153px] mx-[16px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
+              <Button text="확인" onclick={openModal} />
+            </div>
+            {/* <button
               onClick={openModal}
               className=" mt-[153px] w-[343px] px-[155px] py-[19px] bg-[#BABABA] text-[18px] font-[600] rounded-[10px]"
             >
               확인
-            </button>
+            </button> */}
           </Modal>
         </div>
       </div>
