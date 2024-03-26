@@ -24,16 +24,32 @@ const customStyles = {
 
 function Confirm() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("option1");
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [checkedState, setCheckedState] = useState(new Array(2).fill(false));
   const openModal = () => {
     setModalIsOpen(true);
   };
   const closeModal = () => {
     setModalIsOpen(false);
   };
-  Modal.setAppElement("#root");
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
+  const handleAllCheck = () => {
+    setIsAllChecked((prev) => !prev);
+    let array = new Array(2).fill(!isAllChecked);
+    setCheckedState(array);
+  };
+  const handleMonoCheck = (position: number) => {
+    const updatedCheckedState = checkedState.map((item, index) =>
+      index === position ? !item : item
+    );
+
+    setCheckedState(updatedCheckedState);
+    const checkedLength = updatedCheckedState.reduce((sum, currentState) => {
+      if (currentState === true) {
+        return sum + 1;
+      }
+      return sum;
+    }, 0);
+    setIsAllChecked(checkedLength === updatedCheckedState.length);
   };
   return (
     <>
@@ -70,11 +86,11 @@ function Confirm() {
               </div>
               <div className="bg-[#E9E9E9] w-[343px] px-4 py-3 flex items-center mt-[19px]">
                 <input
-                  type="radio"
+                  type="checkbox"
                   id="option1"
-                  value="option1"
-                  checked={selectedOption === "option1"}
-                  onChange={handleRadioChange}
+                  // value="option1"
+                  checked={isAllChecked}
+                  onChange={() => handleAllCheck()}
                   style={{
                     width: "21px",
                     height: "21px",
@@ -90,11 +106,11 @@ function Confirm() {
               <div className="flex justify-between items-center self-stretch mt-7">
                 <div className="flex items-center">
                   <input
-                    type="radio"
+                    type="checkbox"
                     id="option2"
-                    value="option2"
-                    checked={selectedOption === "option2"}
-                    onChange={handleRadioChange}
+                    // value="option2"
+                    checked={checkedState[0]}
+                    onChange={() => handleMonoCheck(0)}
                     style={{
                       width: "21px",
                       height: "21px",
@@ -112,11 +128,11 @@ function Confirm() {
               <div className="flex justify-between items-center self-stretch mt-[19px]">
                 <div className="flex items-center">
                   <input
-                    type="radio"
+                    type="checkbox"
                     id="option3"
-                    value="option3"
-                    checked={selectedOption === "option3"}
-                    onChange={handleRadioChange}
+                    // value="option3"
+                    checked={checkedState[1]}
+                    onChange={() => handleMonoCheck(1)}
                     style={{
                       width: "21px",
                       height: "21px",
