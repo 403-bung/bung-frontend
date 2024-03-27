@@ -3,11 +3,14 @@ import Button from "../components/Button";
 import left_arrow from "../icons/left_arrow.svg";
 import Title from "../components/Title";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { alarmModalActions } from "../store/alarmModal";
 
 function NicknamePage() {
   const [nickname, setNickname] = useState<string>("");
   const [nicknameError, setNicknameError] = useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -67,6 +70,7 @@ function NicknamePage() {
         text={"다음"}
         onClick={() => {
           navigate("/home");
+          dispatch(alarmModalActions.openModal());
         }}
       />
     </div>
