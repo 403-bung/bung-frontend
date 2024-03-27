@@ -1,9 +1,8 @@
 import Button from "../../components/Button";
 
 function Login() {
-  const Rest_api_key = "c8688e3e2dd58da9964bf93a1d0d79b5";
   const redirect_uri = "http://localhost:3000/login/confirm";
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REST_API_KEY}&redirect_uri=${redirect_uri}&response_type=code`;
   const handleLogin = () => {
     window.location.href = kakaoURL;
   };
