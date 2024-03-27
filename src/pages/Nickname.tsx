@@ -57,13 +57,17 @@ function NicknamePage() {
         </div>
         <form onSubmit={handleSubmit}>
           <input
-            className="w-[343px] h-[53px] rounded-[10px] border-[0.5px] placeholder:text-[#1f1f1f] placeholder:font-medium border-[#1f1f1f] px-4"
+            className="w-[343px] h-[53px] rounded-[10px] border-[0.5px] placeholder:text-[#1f1f1f] placeholder:font-medium border-[#1f1f1f] px-4 mb-2"
             placeholder="닉네임을 입력해 주세요"
             value={nickname}
             onChange={handleNicknameChange}
             onBlur={handleInputBlur}
           />
-          {nicknameError && <p>{nicknameError}</p>}
+          {nicknameError && (
+            <p className=" text-base text-[#ff3d3d] font-medium">
+              {nicknameError}
+            </p>
+          )}
         </form>
       </div>
       <Button
