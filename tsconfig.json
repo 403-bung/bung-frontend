@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,6 +17,10 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "bung-frontend/src/Routes", "bung-frontend/src/App.tsx", "bung-frontend/src/index.tsx"  ],
+    "src",
+    "bung-frontend/src/Routes",
+    "bung-frontend/src/App.tsx",
+    "bung-frontend/src/index.tsx",
+    "bung-frontend/src/pages"
+  ]
 }

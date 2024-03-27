@@ -1,13 +1,14 @@
 type ButtonParams = {
   text: string;
-  onclick?: () => void;
+  onClick?: () => void;
 };
 
-export default function Button({ text, onclick }: ButtonParams) {
+export default function Button({ text, onClick }: ButtonParams) {
   return (
     <button
-      onClick={onclick}
-      className="w-[343px] h-[59px] bg-stone-200 rounded-[10px] font-semibold text-[18px]"
+      type="button"
+      className="w-[343px] h-[59px] bg-[#4A25A9] rounded-[10px] font-semibold text-[18px] text-white"
+      onClick={onClick}
     >
       {text}
     </button>
