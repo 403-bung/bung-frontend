@@ -1,4 +1,3 @@
-import { GrPrevious, GrNext } from "react-icons/gr";
 import logo from "../../img/logo.png";
 import React, { useState } from "react";
 import Modal from "react-modal";
