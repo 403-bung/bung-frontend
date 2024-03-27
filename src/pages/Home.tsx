@@ -1,4 +1,4 @@
-import AlarmModal from "./AlarmModal";
+import AlarmModal from "../components/AlarmModal";
 import { useSelector } from "react-redux";
 import { ToolkitStore } from "../store";
 

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import Button from "../components/Button";
-import SubTitle1 from "../components/SubTitle1";
-import Title from "../components/Title";
+import Button from "./Button";
+import SubTitle1 from "./SubTitle1";
+import Title from "./Title";
 import { alarmModalActions } from "../store/alarmModal";
 
 export default function AlarmModal() {
