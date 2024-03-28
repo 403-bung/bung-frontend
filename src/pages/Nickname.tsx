@@ -10,6 +10,7 @@ function NicknamePage() {
   const [nickname, setNickname] = useState<string>("");
   const [nicknameError, setNicknameError] = useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
 
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,20 +19,25 @@ function NicknamePage() {
     // 닉네임 유효성 검사
     if (value === "" && isClicked) {
       setNicknameError("닉네임을 입력하세요");
+      setDisabled(true);
     } else if (value.length < 2) {
       setNicknameError("2글자 이상 입력해주세요");
+      setDisabled(true);
     } else if (value.length > 12) {
       setNicknameError("12글자 이하로 입력해주세요");
+      setDisabled(true);
     } else if (!/^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$/.test(value)) {
       setNicknameError("한글, 영어, 숫자만 입력할 수 있어요");
+      setDisabled(true);
     } else {
       setNicknameError("사용할 수 있어요");
+      setDisabled(false);
     }
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 닉네임 가용성 검사
+    // 닉네임 가용성 검사(사실 값 바꿀떄마다 해야)
     if (nickname === "test") {
       setNicknameError("이미 사용 중인 닉네임입니다.");
       return;
@@ -76,6 +82,7 @@ function NicknamePage() {
           navigate("/home");
           dispatch(alarmModalActions.openModal());
         }}
+        disabled={disabled}
       />
     </div>
   );
