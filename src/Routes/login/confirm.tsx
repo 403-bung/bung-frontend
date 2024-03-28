@@ -55,7 +55,7 @@ function Confirm() {
   };
   return (
     <>
-      <div className="mt-[76px] ml-4 mr-2">
+      <div className="pt-[76px] pb-[52px] px-4  bg-white">
         <div>
           <img src={left_arrow} alt="이전으로" />
         </div>
@@ -69,7 +69,7 @@ function Confirm() {
           </div>
         </div>
         <div className="mt-[498px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
-          <Button text="다음" onclick={openModal} />
+          <Button text="다음" onClick={openModal} />
         </div>
         <div>
           <Modal
@@ -148,7 +148,7 @@ function Confirm() {
             </div>
 
             <div className="mt-[153px] mx-[16px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
-              <Button text="확인" onclick={openModal} />
+              <Button text="확인" onClick={openModal} />
             </div>
             {/* <button
               onClick={openModal}
