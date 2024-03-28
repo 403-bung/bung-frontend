@@ -13,8 +13,9 @@ export default function NabBar() {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
+
   return (
-    <div className="flex h-20 justify-center items-center fixed bottom-0">
+    <div className="bg-white w-[375px] flex h-20 justify-center items-center fixed bottom-0">
       <NavButton
         title="홈"
         img={location.pathname === "/home" ? homeSelected : home}
