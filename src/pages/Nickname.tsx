@@ -16,8 +16,11 @@ function NicknamePage() {
   const handleNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNickname(value);
-    // 닉네임 유효성 검사
-    if (value === "" && isClicked) {
+    validateNickname(value);
+  };
+
+  const validateNickname = (value: string) => {
+    if (!value) {
       setNicknameError("닉네임을 입력하세요");
       setDisabled(true);
     } else if (value.length < 2) {
@@ -45,6 +48,7 @@ function NicknamePage() {
     // 제출 로직 구현
     console.log("닉네임 제출:", nickname);
   };
+
   const handleInputBlur = () => {
     setIsClicked(true);
     if (nickname === "") {
