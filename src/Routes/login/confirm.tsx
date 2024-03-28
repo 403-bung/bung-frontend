@@ -1,9 +1,10 @@
 import logo from "../../img/logo.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Button from "../../components/Button";
 import left_arrow from "../../icons/left_arrow.svg";
 import right_arrow from "../../icons/right_arrow.svg";
+import axios from "axios";
 
 const customStyles = {
   overlay: {
@@ -148,7 +149,21 @@ function Confirm() {
             </div>
 
             <div className="mt-[153px] mx-[16px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
-              <Button text="확인" onClick={openModal} />
+              <button
+                type="button"
+                className="w-[343px] h-[59px] bg-[#4A25A9] rounded-[10px] font-semibold text-[18px] text-white"
+                disabled={
+                  isAllChecked || !checkedState.every((checked) => checked)
+                }
+                style={{
+                  backgroundColor:
+                    isAllChecked && checkedState.every((checked) => checked)
+                      ? "#4A25A9"
+                      : "#bababa",
+                }}
+              >
+                확인
+              </button>
             </div>
             {/* <button
               onClick={openModal}
