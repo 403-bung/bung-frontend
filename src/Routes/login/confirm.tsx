@@ -1,5 +1,5 @@
 import logo from "../../img/logo.png";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import Button from "../../components/Button";
 import left_arrow from "../../icons/left_arrow.svg";
