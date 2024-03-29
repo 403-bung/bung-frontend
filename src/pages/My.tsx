@@ -4,17 +4,19 @@ import ProfileBar from "../components/ProfileBar";
 import StatusBar from "../components/StatusBar";
 import MypageTab from "../components/MypageTab";
 import AlarmTab from "../components/AlarmTab";
+import TimelineArea from "../components/TimelineArea";
 
 export default function My() {
   return (
     <>
-      <div className="w-[375px] h-full min-h-screen bg-white flex flex-col items-center ">
+      <div className="w-[375px] h-screen min-h-screen bg-white flex flex-col items-center ">
         <StatusBar />
         <Header />
         <NavBar />
         <ProfileBar />
         <MypageTab />
         <AlarmTab />
+        <TimelineArea />
       </div>
     </>
   );
