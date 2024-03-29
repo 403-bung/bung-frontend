@@ -1,6 +1,6 @@
 export default function ProfileBar() {
   return (
-    <div className="w-full h-24 pt-5 pl-5  flex items-start gap-4">
+    <div className="w-full py-5 pl-5 flex items-start gap-4">
       <div className="w-8 h-8 rounded-[32px] bg-[#d9d9d9]"></div>
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">

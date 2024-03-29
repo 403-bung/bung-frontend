@@ -7,7 +7,7 @@ export default function MypageTab() {
 
   return (
     <div className="w-full flex">
-      <div className="w-1/2 flex flex-col items-center">
+      <div className="w-1/2 px-[10px] pt-[10px] flex flex-col justify-center items-center gap-[10px]">
         <Link
           to="/my/timeline"
           className={`text-lg ${
@@ -18,9 +18,13 @@ export default function MypageTab() {
         >
           타임라인
         </Link>
-        {isTimelineActive && <div className=" w-16 h-[1px] bg-[#4a25a9]" />}
+        {isTimelineActive ? (
+          <div className=" w-16 h-[1px] bg-[#4a25a9]" />
+        ) : (
+          <div className=" w-16 h-[1px] bg-white" />
+        )}
       </div>
-      <div className="w-1/2 flex flex-col items-center">
+      <div className="w-1/2 px-[10px] pt-[10px] flex flex-col justify-center items-center gap-[10px]">
         <Link
           to="/my/manner"
           className={`text-lg ${
@@ -31,7 +35,11 @@ export default function MypageTab() {
         >
           매너
         </Link>
-        {isMannerActive && <div className=" w-8 h-[1px] bg-[#4a25a9]" />}
+        {isMannerActive ? (
+          <div className=" w-8 h-[1px] bg-[#4a25a9]" />
+        ) : (
+          <div className=" w-16 h-[1px] bg-white" />
+        )}
       </div>
     </div>
   );
