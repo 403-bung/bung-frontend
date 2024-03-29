@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import { Provider } from "react-redux";
 import store from "./store";
 import Detail from "./Routes/detail";
+import Write from "./pages/Write";
+import My from "./pages/My";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -17,6 +19,9 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
   },
+  { path: "/home", element: <Home /> },
+  { path: "/write", element: <Write /> },
+  { path: "/my", element: <My /> },
 ]);
 
 export default function App() {
