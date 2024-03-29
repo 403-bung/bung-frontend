@@ -1,10 +1,10 @@
-import { GrPrevious, GrNext } from "react-icons/gr";
 import logo from "../../img/logo.png";
 import React, { useState } from "react";
 import Modal from "react-modal";
 import Button from "../../components/Button";
 import left_arrow from "../../icons/left_arrow.svg";
 import right_arrow from "../../icons/right_arrow.svg";
+import { useNavigate } from "react-router-dom";
 
 const customStyles = {
   overlay: {
@@ -25,16 +25,55 @@ const customStyles = {
   },
 };
 
-function Confirm() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isAllChecked, setIsAllChecked] = useState(false);
-  const [checkedState, setCheckedState] = useState(new Array(2).fill(false));
+const customDetailStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+  },
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    padding: "0px",
+    paddingTop: "26px",
+    width: "375px",
+    height: "713px",
+    marginTop: "158px",
+    backgroundColor: "white",
+  },
+};
+
+const useModal = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   const openModal = () => {
-    setModalIsOpen(true);
+    setModalOpen(true);
   };
   const closeModal = () => {
-    setModalIsOpen(false);
+    setModalOpen(false);
   };
+  return { modalOpen, openModal, closeModal };
+};
+
+function Confirm() {
+  const {
+    modalOpen: modalIsOpen1,
+    openModal: openModal1,
+    closeModal: closeModal1,
+  } = useModal();
+  const {
+    modalOpen: modalIsOpen2,
+    openModal: openModal2,
+    closeModal: closeModal2,
+  } = useModal();
+  const {
+    modalOpen: modalIsOpen3,
+    openModal: openModal3,
+    closeModal: closeModal3,
+  } = useModal();
+  const [isAllChecked, setIsAllChecked] = useState(false);
+  const [checkedState, setCheckedState] = useState(new Array(2).fill(false));
   const handleAllCheck = () => {
     setIsAllChecked((prev) => !prev);
     let array = new Array(2).fill(!isAllChecked);
@@ -54,6 +93,13 @@ function Confirm() {
     }, 0);
     setIsAllChecked(checkedLength === updatedCheckedState.length);
   };
+  const handleFirstConfirm = () => {
+    closeModal2();
+  };
+  const handleSecondConfirm = () => {
+    closeModal3();
+  };
+  const navigate = useNavigate();
   return (
     <>
       <div className="pt-[76px] pb-[52px] px-4  bg-white">
@@ -70,12 +116,12 @@ function Confirm() {
           </div>
         </div>
         <div className="mt-[498px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
-          <Button text="다음" onClick={openModal} />
+          <Button text="다음" onClick={openModal1} />
         </div>
         <div>
           <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
+            isOpen={modalIsOpen1}
+            onRequestClose={closeModal1}
             contentLabel="약관 동의"
             style={customStyles}
           >
@@ -122,7 +168,28 @@ function Confirm() {
                     서비스 이용약관 전체동의(필수)
                   </label>
                 </div>
-                <img alt="상세 내용 보기" src={right_arrow} />
+                <img
+                  alt="상세 내용 보기"
+                  src={right_arrow}
+                  onClick={openModal2}
+                />
+                <Modal
+                  isOpen={modalIsOpen2}
+                  onRequestClose={closeModal2}
+                  contentLabel="개인 정보 수집"
+                  style={customDetailStyles}
+                >
+                  <div className="text-stone-900 text-lg font-semibold font-['Pretendard'] mb-[28px] pl-[28px] pr-[27px]">
+                    타이틀입니다.
+                  </div>
+                  <div className="text-zinc-600 text-base font-normal font-['Pretendard'] pl-[28px] pr-[27px]">
+                    내용입니다.
+                    텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미{" "}
+                  </div>
+                  <div className="px-[16px] mt-[19px]" onClick={openModal1}>
+                    <Button text="확인" onClick={handleFirstConfirm}></Button>
+                  </div>
+                </Modal>
               </div>
               <div className="flex justify-between items-center self-stretch mt-[19px]">
                 <div className="flex items-center">
@@ -144,12 +211,50 @@ function Confirm() {
                     개인 정보 수집 및 이용 동의(필수)
                   </label>
                 </div>
-                <img alt="상세 내용 보기" src={right_arrow} />
+                <img
+                  alt="상세 내용 보기"
+                  src={right_arrow}
+                  onClick={openModal3}
+                />
+                <Modal
+                  isOpen={modalIsOpen3}
+                  onRequestClose={closeModal3}
+                  contentLabel="개인 정보 수집"
+                  style={customDetailStyles}
+                >
+                  <div className="text-stone-900 text-lg font-semibold font-['Pretendard'] mb-[28px] pl-[28px] pr-[27px]">
+                    타이틀입니다.
+                  </div>
+                  <div className="text-zinc-600 text-base font-normal font-['Pretendard'] pl-[28px] pr-[27px]">
+                    내용입니다.
+                    텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미텍스트더미{" "}
+                  </div>
+                  <div className="px-[16px] mt-[19px]" onClick={openModal1}>
+                    <Button text="확인" onClick={handleSecondConfirm}></Button>
+                  </div>
+                </Modal>
               </div>
             </div>
 
             <div className="mt-[153px] mx-[16px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
-              <Button text="확인" onClick={openModal} />
+              <button
+                type="button"
+                className="w-[343px] h-[59px] bg-[#4A25A9] rounded-[10px] font-semibold text-[18px] text-white"
+                disabled={
+                  !isAllChecked || !checkedState.every((checked) => checked)
+                }
+                style={{
+                  backgroundColor:
+                    isAllChecked && checkedState.every((checked) => checked)
+                      ? "#4A25A9"
+                      : "#bababa",
+                }}
+                onClick={() => {
+                  navigate("/nickname");
+                }}
+              >
+                확인
+              </button>
             </div>
             {/* <button
               onClick={openModal}
