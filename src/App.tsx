@@ -21,7 +21,11 @@ const router = createBrowserRouter([
   },
   { path: "/home", element: <Home /> },
   { path: "/write", element: <Write /> },
-  { path: "/my", element: <My /> },
+  {
+    path: "/my",
+    element: <My />,
+    children: [{ path: "/my/timeline" }, { path: "/my/manner" }],
+  },
 ]);
 
 export default function App() {
