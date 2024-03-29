@@ -6,6 +6,7 @@ import MypageTab from "../components/MypageTab";
 import AlarmTab from "../components/AlarmTab";
 import TimelineArea from "../components/TimelineArea";
 import { useLocation } from "react-router";
+import MannerArea from "../components/MannerArea";
 
 export default function My() {
   const location = useLocation();
@@ -23,6 +24,7 @@ export default function My() {
             <TimelineArea />
           </div>
         )}
+        {location.pathname === "/my/manner" && <MannerArea />}
       </div>
     </>
   );
