@@ -6,15 +6,16 @@ import "./App.css";
 import Home from "./pages/Home";
 import { Provider } from "react-redux";
 import store from "./store";
+import Write from "./pages/Write";
+import My from "./pages/My";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
   { path: "/login/confirm", element: <Confirm /> },
   { path: "/nickname", element: <NicknamePage /> },
-  {
-    path: "/home",
-    element: <Home />,
-  },
+  { path: "/home", element: <Home /> },
+  { path: "/write", element: <Write /> },
+  { path: "/my", element: <My /> },
 ]);
 
 export default function App() {
