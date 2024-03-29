@@ -12,12 +12,12 @@ export default function AlarmModal() {
 
   return (
     <>
-      <div className="w-[375px] min-h-screen">
+      <div className="w-[375px] h-full fixed">
         <div
-          className=" bg-[#595959] opacity-90 w-[375px] min-h-screen"
+          className=" bg-[#595959] opacity-90 w-[375px] fixed h-full  z-10 overflow-y-hidden"
           onClick={handleCloseModal}
         ></div>
-        <div className="bg-white w-[375px] h-[496px] absolute bottom-0 z-20 px-4 pt-[52px]">
+        <div className="bg-white w-[375px] h-[496px] fixed bottom-0 z-20 px-4 pt-[52px]">
           <div className="flex flex-col items-center mb-[76px]">
             <div className=" w-[165px] h-[165px] border-black border-solid border-2 mb-8"></div>
             <Title text="알람을 받아보시겠어요?" />
