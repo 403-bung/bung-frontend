@@ -5,8 +5,10 @@ import StatusBar from "../components/StatusBar";
 import MypageTab from "../components/MypageTab";
 import AlarmTab from "../components/AlarmTab";
 import TimelineArea from "../components/TimelineArea";
+import { useLocation } from "react-router";
 
 export default function My() {
+  const location = useLocation();
   return (
     <>
       <div className="w-[375px] h-screen min-h-screen bg-white flex flex-col items-center ">
@@ -15,8 +17,12 @@ export default function My() {
         <NavBar />
         <ProfileBar />
         <MypageTab />
-        <AlarmTab />
-        <TimelineArea />
+        {location.pathname === "/my/timeline" && (
+          <div className="w-full h-full bg-[#F2F2F6]  overflow-y-auto scrollbar-hide pb-24">
+            <AlarmTab />
+            <TimelineArea />
+          </div>
+        )}
       </div>
     </>
   );

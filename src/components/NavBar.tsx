@@ -28,8 +28,8 @@ export default function NabBar() {
       />
       <NavButton
         title="마이"
-        img={location.pathname === "/my" ? mySelected : my}
-        href="/my"
+        img={location.pathname === "/my/timeline" ? mySelected : my}
+        href="/my/timeline"
       />
     </div>
   );

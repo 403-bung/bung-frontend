@@ -2,8 +2,8 @@ import TimelineCard from "./TimelineCard";
 
 export default function TimelineArea() {
   return (
-    <div className="w-full h-screen pb-24 flex flex-col items-center bg-[#F2F2F6] overflow-y-auto scrollbar-hide">
-      <div className="w-full flex flex-col p-5 gap-[10px]">
+    <div className="w-full flex flex-col items-center bg-[#F2F2F6] ">
+      <div className="w-full h-full flex flex-col p-5 gap-[10px]">
         <div>
           <span className="font-semibold text-base">3월</span>
         </div>
