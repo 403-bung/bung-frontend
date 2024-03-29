@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import GoBackBtn from "../components/GoBackBtn";
 import Button from "../components/Button";
+import WriteModal from "../components/WriteModal";
 
 export default function Write() {
   const navigate = useNavigate();
   return (
     <>
+      <WriteModal />
       <div className="w-[375px] h-full min-h-screen bg-white flex flex-col items-center">
         {/* 뒤로가기 */}
         <div className="w-[375px] h-[60px] flex items-center  pl-[9px] pr-[16px] border-b-violet-100 border-b-[1px] bg-white fixed top-0">
