@@ -1,4 +1,6 @@
 import right_arrow from "../icons/right_arrow_black.svg";
+import logo from "../icons/logo.svg";
+
 export default function AlarmTab() {
   return (
     <div className="w-full p-5 flex flex-col gap-2 bg-[#F2F2F6]">
@@ -8,7 +10,9 @@ export default function AlarmTab() {
       </div>
       <div className="bg-white text-base font-normal w-full h-full border border-solid border-[#E4DEF2] rounded-lg flex flex-col  p-5 gap-3">
         <div className="flex gap-2 items-center">
-          <div className="w-[18px] h-[18px] bg-[#E4DEF2] rounded-sm"></div>
+          <div className="w-[18px] h-[18px] bg-[#E4DEF2] rounded-sm flex px-1 py-[3px] items-start">
+            <img src={logo} alt="logo" />
+          </div>
           <span className="text-[#1F1F1F] font-semibold text-base text-nowrap">
             닉네임님, 모집이 완료되었어요!
           </span>
