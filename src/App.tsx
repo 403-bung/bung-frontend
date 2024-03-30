@@ -9,6 +9,7 @@ import store from "./store";
 import Detail from "./Routes/detail";
 import Write from "./pages/Write";
 import My from "./pages/My";
+import ChangePwd from "./pages/ChangePwd";
 
 const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
@@ -21,7 +22,12 @@ const router = createBrowserRouter([
   },
   { path: "/home", element: <Home /> },
   { path: "/write", element: <Write /> },
-  { path: "/my", element: <My /> },
+  {
+    path: "/my",
+    element: <My />,
+    children: [{ path: "/my/timeline" }, { path: "/my/manner" }],
+  },
+  { path: "/my/changePwd", element: <ChangePwd /> },
 ]);
 
 export default function App() {

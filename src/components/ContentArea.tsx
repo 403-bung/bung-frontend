@@ -8,6 +8,8 @@ export default function ContentArea() {
           <ContentCard />
           <ContentCard />
           <ContentCard />
+          <ContentCard />
+          <ContentCard />
         </div>
       </div>
     </>
