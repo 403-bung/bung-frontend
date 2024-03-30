@@ -85,6 +85,7 @@ function NicknamePage() {
         onClick={() => {
           navigate("/home");
           dispatch(alarmModalActions.openModal());
+          localStorage.setItem("key", "kakaoId");
         }}
         disabled={disabled}
       />

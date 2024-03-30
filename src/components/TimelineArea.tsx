@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import TimelineCard from "./TimelineCard";
 
 export default function TimelineArea() {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full flex flex-col items-center bg-[#F2F2F6] ">
       <div className="w-full h-full flex flex-col p-5 gap-[10px]">
@@ -66,7 +69,14 @@ export default function TimelineArea() {
           tag="열심히 참여해요👍"
         />
       </div>
-      <span className="text-base font-normal text-[#BABABA]">로그아웃</span>
+      <button
+        onClick={() => {
+          localStorage.removeItem("key");
+          navigate("/home");
+        }}
+      >
+        <span className="text-base font-normal text-[#BABABA]">로그아웃</span>
+      </button>
     </div>
   );
 }
