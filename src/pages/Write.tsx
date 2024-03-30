@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import GoBackBtn from "../components/GoBackBtn";
 import Button from "../components/Button";
 import WriteModal from "../components/WriteModal";
+import TimeModal from "../components/TimeModal";
 
 export default function Write() {
   const navigate = useNavigate();
@@ -31,9 +32,10 @@ export default function Write() {
               <div className="text-[16px] font-[600] ">오후 1시 23분~</div>
             </div>
             <div className="flex justify-between">
-              <div className="text-[14px] font-[400] px-[8px] py-[4px] rounded-md bg-violet-100 border border-violet-300">
-                수정하기
-              </div>
+              {/* <div className="text-[14px] font-[400] px-[8px] py-[4px] rounded-md bg-violet-100 border border-violet-300"> */}
+              <TimeModal />
+              {/* 수정하기
+              </div> */}
             </div>
           </div>
           {/* 카테고리 */}

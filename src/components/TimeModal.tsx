@@ -24,16 +24,10 @@ const customDetailStyles = {
   },
 };
 
-// interface IButton {
-//   name?: string;
-//   className: string;
-//   btnClick?: any;
-//   clicked?: boolean;
-// }
 export default function TimeModal() {
   const [timeModalIsOpen, setTimeModalIsOpen] = useState(false);
   useEffect(() => {
-    setTimeModalIsOpen(true);
+    setTimeModalIsOpen(false);
   }, []);
   //버튼 클릭
   const [isClicked, setIsClicked] = useState("");
@@ -48,9 +42,6 @@ export default function TimeModal() {
     "2시간 후",
     "직접 입력",
   ];
-  // const onClick = () => {
-  //   setIsClicked(!isClicked);
-  // };
   console.log(isClicked);
   // TimePicker
   const [selectedTime, setSelectedTime] = useState("");
@@ -63,14 +54,14 @@ export default function TimeModal() {
     setShowTimePicker(true);
   };
   console.log(selectedTime);
-  // console.log(timeModalIsOpen);
   return (
-    <button
+    <div
       onClick={() => {
         setTimeModalIsOpen(true);
       }}
       className="text-[14px] font-[400] px-[8px] py-[4px] rounded-md bg-violet-100 border border-violet-300"
     >
+      수정하기
       <Modal
         isOpen={timeModalIsOpen}
         onRequestClose={() => setTimeModalIsOpen(false)}
@@ -142,6 +133,6 @@ export default function TimeModal() {
           <Button text="수정하기" />
         </div>
       </Modal>
-    </button>
+    </div>
   );
 }
