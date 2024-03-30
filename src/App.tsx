@@ -10,8 +10,10 @@ import Detail from "./Routes/detail";
 import Write from "./pages/Write";
 import My from "./pages/My";
 import ChangePwd from "./pages/ChangePwd";
+import Intro from "./pages/Intro";
 
 const router = createBrowserRouter([
+  { path: "/", element: <Intro /> },
   { path: "/login", element: <Login /> },
   { path: "/login/confirm", element: <Confirm /> },
   { path: "/nickname", element: <NicknamePage /> },
