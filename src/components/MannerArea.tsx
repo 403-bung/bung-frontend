@@ -1,8 +1,10 @@
+import sticker1 from "../img/sticker1.png";
+
 export default function MannerArea() {
   return (
     <>
       <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-between m-5">
-        <div className=" w-[120px] h-[120px] border border-solid border-black"></div>
+        <img src={sticker1} alt="sticker" />
         <div className="font-semibold text-sm flex flex-col gap-2">
           <span className="text-[#1f1f1f]">전체 평균</span>
           <span className="text-[#4A25A9]">매우 좋음 2.3/3</span>
