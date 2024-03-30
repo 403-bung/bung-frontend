@@ -5,6 +5,9 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "../components/Button";
 import { useDispatch } from "react-redux";
 import { changeNicknameActions } from "../store/changeNickname";
+import { Cookies } from "react-cookie";
+import axios from "axios";
+import { SERVER_URL } from "../data/url";
 
 export default function ChangePwd() {
   const [nickname, setNickname] = useState<string>("");
@@ -46,6 +49,23 @@ export default function ChangePwd() {
     }
     // 제출 로직 구현
     console.log("닉네임 제출:", nickname);
+
+    const cookies = new Cookies();
+    const token = cookies.get("id");
+    const userNo = cookies.get("userNo");
+
+    axios
+      .put(
+        `${SERVER_URL}/users/${userNo}/nickname`,
+        { nickname },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {});
+
+    dispatch(changeNicknameActions.changeNickname());
+    navigate(-1);
   };
 
   const handleInputBlur = () => {
@@ -55,41 +75,40 @@ export default function ChangePwd() {
   };
 
   const dispatch = useDispatch();
+
   return (
     <>
-      <div className="w-[375px] h-screen h-min-screen bg-white flex flex-col">
+      <div className="w-[375px] h-screen bg-white flex flex-col">
         <StatusBar />
         <div className="pr-[15px] pt-5 pb-4 flex justify-end">
           <Link to="/my/timeline">
             <img src={closeBtn} alt="close" />
           </Link>
         </div>
-        <div className="pt-5 px-4 h-screen flex flex-col gap-2 justify-between pb-14">
-          <div>
+        <div className="h-screen pt-5 px-4 flex flex-col gap-2 justify-between pb-14">
+          <div className="h-full h-min-screen flex flex-col">
             <span className="font-semibold">닉네임</span>
-            <form onSubmit={handleSubmit}>
-              <input
-                className="w-[343px] rounded-[10px] border-[0.5px] placeholder:text-[#595959] placeholder:font-medium border-[#595959] px-4 py-[17px] mb-2"
-                placeholder="닉네임을 입력해 주세요"
-                value={nickname}
-                onChange={handleNicknameChange}
-                onBlur={handleInputBlur}
-              />
-              {nicknameError && (
-                <p className=" text-base text-[#ff3d3d] font-medium">
-                  {nicknameError}
-                </p>
-              )}
+            <form
+              className="h-full flex flex-col justify-between"
+              onSubmit={handleSubmit}
+            >
+              <div>
+                <input
+                  className="w-[343px] rounded-[10px] border-[0.5px] placeholder:text-[#595959] placeholder:font-medium border-[#595959] px-4 py-[17px] mb-2"
+                  placeholder="닉네임을 입력해 주세요"
+                  value={nickname}
+                  onChange={handleNicknameChange}
+                  onBlur={handleInputBlur}
+                />
+                {nicknameError && (
+                  <p className=" text-base text-[#ff3d3d] font-medium">
+                    {nicknameError}
+                  </p>
+                )}
+              </div>
+              <Button text={"확인하기"} disabled={disabled} />
             </form>
           </div>
-          <Button
-            text={"확인하기"}
-            onClick={() => {
-              dispatch(changeNicknameActions.changeNickname());
-              navigate(-1);
-            }}
-            disabled={disabled}
-          />
         </div>
       </div>
     </>
