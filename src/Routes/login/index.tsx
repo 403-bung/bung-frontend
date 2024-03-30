@@ -4,7 +4,7 @@ import banner from "../../img/image.png";
 
 function Login() {
   const handleLogin = () => {
-    window.location.href = `${SERVER_URL}/sign-in?oauthType=kakao`;
+    window.location.href = `${SERVER_URL}/users/sign-in?oauthType=kakao`;
   };
 
   return (
