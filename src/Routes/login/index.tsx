@@ -1,9 +1,9 @@
 import Button from "../../components/Button";
+import { SERVER_URL } from "../../data/url";
 
 function Login() {
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
   const handleLogin = () => {
-    window.location.href = kakaoURL;
+    window.location.href = `${SERVER_URL}/users/sign-in?oauthType=kakao`;
   };
 
   return (

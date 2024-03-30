@@ -9,7 +9,7 @@ export default function Write() {
   return (
     <>
       <WriteModal />
-      <div className="w-[375px] h-full min-h-screen bg-white flex flex-col items-center">
+      <div className="w-[375px] min-h-screen bg-white flex flex-col items-center overflow-y-scroll scrollbar-hide">
         {/* 뒤로가기 */}
         <div className="w-[375px] h-[60px] flex items-center  pl-[9px] pr-[16px] border-b-violet-100 border-b-[1px] bg-white fixed top-0">
           <GoBackBtn

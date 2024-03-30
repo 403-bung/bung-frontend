@@ -1,10 +1,13 @@
 import logo from "../../img/logo.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Button from "../../components/Button";
 import left_arrow from "../../icons/left_arrow.svg";
 import right_arrow from "../../icons/right_arrow.svg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { SERVER_URL } from "../../data/url";
+import { Cookies } from "react-cookie";
 
 const customStyles = {
   overlay: {
@@ -100,23 +103,44 @@ function Confirm() {
     closeModal3();
   };
   const navigate = useNavigate();
+  const [email, setEmail] = useState("user@example.com");
+  const cookies = new Cookies();
+  useEffect(() => {
+    const url = window.location.search;
+    const params = url.slice(1, url.length).split("&");
+    const userNo = params[0].split("=")[1];
+    const token = params[1].split("=")[1];
+    cookies.set("id", token, { path: "/" });
+    cookies.set("userNo", userNo, { path: "/" });
+
+    axios
+      .get(`${SERVER_URL}/users/${userNo}/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setEmail(response.data.email);
+      });
+  });
   return (
     <>
-      <div className="pt-[76px] pb-[52px] px-4  bg-white">
-        <div>
-          <img src={left_arrow} alt="이전으로" />
-        </div>
-        <div className="mt-4 text-[26px] font-[700] font-[Pretendard] leading-[39px]  ">
-          이메일을 확인해주세요
-        </div>
-        <div className="mt-7 flex">
-          <img src={logo} alt="Logo" className="w-5 h-5"></img>
-          <div className="text-[14px] font-[400] font-[Pretendard] ml-[10px]">
-            user@example.com
+      <div className="w-[375px] h-screen pt-[76px] pb-14 px-4 bg-white">
+        <img src={left_arrow} alt="이전으로" />
+
+        <div className="h-full flex flex-col justify-between">
+          <div>
+            <div className="mt-4 text-[26px] font-[700] font-[Pretendard] leading-[39px]  ">
+              이메일을 확인해주세요
+            </div>
+            <div className="mt-7 flex">
+              <img src={logo} alt="Logo" className="w-5 h-5"></img>
+              <div className="text-[14px] font-[400] font-[Pretendard] ml-[10px]">
+                {email}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="mt-[498px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
-          <Button text="다음" onClick={openModal1} />
+          <div className="w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
+            <Button text="다음" onClick={openModal1} />
+          </div>
         </div>
         <div>
           <Modal
