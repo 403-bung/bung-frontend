@@ -7,6 +7,7 @@ import right_arrow from "../../icons/right_arrow.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "../../data/url";
+import { Cookies } from "react-cookie";
 
 const customStyles = {
   overlay: {
@@ -104,15 +105,26 @@ function Confirm() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("user@example.com");
+
+  const cookies = new Cookies();
+
   useEffect(() => {
     const url = window.location.search;
     const params = url.slice(1, url.length).split("&");
     const userNo = params[0].split("=")[1];
     const token = params[1].split("=")[1];
-    axios.get(`${SERVER_URL}/users/${userNo}/profile`).then((response) => {
-      setEmail(response.data.email);
-    });
+    cookies.set("id", token, { path: "/" });
+    cookies.set("userNo", userNo, { path: "/" });
+
+    axios
+      .get(`${SERVER_URL}/users/${userNo}/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setEmail(response.data.email);
+      });
   });
+
   return (
     <>
       <div className="w-[375px] h-screen pt-[76px] pb-14 px-4 bg-white">
