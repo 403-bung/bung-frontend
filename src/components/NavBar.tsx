@@ -15,7 +15,7 @@ export default function NabBar() {
   }, [location.pathname]);
 
   return (
-    <div className="bg-white w-[375px] flex h-20 justify-center items-center fixed bottom-0">
+    <div className="bg-white w-[375px] flex h-20 justify-center items-center fixed bottom-0 border-t-[0.5px] border-solid border-[#DDDDDD]">
       <NavButton
         title="홈"
         img={location.pathname === "/home" ? homeSelected : home}
@@ -28,8 +28,8 @@ export default function NabBar() {
       />
       <NavButton
         title="마이"
-        img={location.pathname === "/my" ? mySelected : my}
-        href="/my"
+        img={location.pathname === "/my/timeline" ? mySelected : my}
+        href="/my/timeline"
       />
     </div>
   );
