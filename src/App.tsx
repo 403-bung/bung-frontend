@@ -10,8 +10,11 @@ import Detail from "./Routes/detail";
 import Write from "./pages/Write";
 import My from "./pages/My";
 import ChangePwd from "./pages/ChangePwd";
+import Intro from "./pages/Intro";
+import { CookiesProvider } from "react-cookie";
 
 const router = createBrowserRouter([
+  { path: "/", element: <Intro /> },
   { path: "/login", element: <Login /> },
   { path: "/login/confirm", element: <Confirm /> },
   { path: "/nickname", element: <NicknamePage /> },
@@ -20,7 +23,7 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
   },
-  { path: "/home", element: <Home /> },
+  { path: "/home/:category", element: <Home /> },
   { path: "/write", element: <Write /> },
   {
     path: "/my",
@@ -33,11 +36,13 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <>
-      <Provider store={store}>
-        <div className="bg-black w-full min-h-screen flex justify-center">
-          <RouterProvider router={router} />
-        </div>
-      </Provider>
+      <CookiesProvider>
+        <Provider store={store}>
+          <div className="bg-black w-full min-h-screen flex justify-center">
+            <RouterProvider router={router} />
+          </div>
+        </Provider>
+      </CookiesProvider>
     </>
   );
 }

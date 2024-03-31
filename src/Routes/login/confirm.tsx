@@ -1,5 +1,5 @@
 import logo from "../../img/logo.png";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Button from "../../components/Button";
 import left_arrow from "../../icons/left_arrow.svg";
@@ -103,8 +103,11 @@ function Confirm() {
     closeModal3();
   };
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("user@example.com");
+
   const cookies = new Cookies();
+
   useEffect(() => {
     const url = window.location.search;
     const params = url.slice(1, url.length).split("&");
@@ -121,6 +124,7 @@ function Confirm() {
         setEmail(response.data.email);
       });
   });
+
   return (
     <>
       <div className="w-[375px] h-screen pt-[76px] pb-14 px-4 bg-white">
