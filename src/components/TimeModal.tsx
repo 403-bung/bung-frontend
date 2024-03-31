@@ -42,7 +42,6 @@ export default function TimeModal() {
     "2시간 후",
     "직접 입력",
   ];
-  console.log(isClicked);
   // TimePicker
   const [selectedTime, setSelectedTime] = useState("");
   const [showTimePicker, setShowTimePicker] = useState(false);
@@ -53,7 +52,6 @@ export default function TimeModal() {
   const handleButtonClick = () => {
     setShowTimePicker(true);
   };
-  console.log(selectedTime);
   return (
     <div
       onClick={() => {
