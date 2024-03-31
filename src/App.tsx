@@ -14,36 +14,36 @@ import Intro from "./pages/Intro";
 import { CookiesProvider } from "react-cookie";
 
 const router = createBrowserRouter([
-  { path: `${process.env.REACT_APP_PUBLIC_URL}/`, element: <Intro /> },
-  { path: `${process.env.REACT_APP_PUBLIC_URL}/login`, element: <Login /> },
+  { path: `/`, element: <Intro /> },
+  { path: `/login`, element: <Login /> },
   {
-    path: `${process.env.REACT_APP_PUBLIC_URL}/login/confirm`,
+    path: `/login/confirm`,
     element: <Confirm />,
   },
   {
-    path: `${process.env.REACT_APP_PUBLIC_URL}/nickname`,
+    path: `/nickname`,
     element: <NicknamePage />,
   },
-  { path: `${process.env.REACT_APP_PUBLIC_URL}/detail`, element: <Detail /> },
+  { path: `/detail`, element: <Detail /> },
   {
-    path: `${process.env.REACT_APP_PUBLIC_URL}/home`,
+    path: `/home`,
     element: <Home />,
   },
   {
-    path: `${process.env.REACT_APP_PUBLIC_URL}/home/:category`,
+    path: `/home/:category`,
     element: <Home />,
   },
-  { path: `${process.env.REACT_APP_PUBLIC_URL}/write`, element: <Write /> },
+  { path: `/write`, element: <Write /> },
   {
-    path: `${process.env.REACT_APP_PUBLIC_URL}/my`,
+    path: `/my`,
     element: <My />,
     children: [
-      { path: `${process.env.REACT_APP_PUBLIC_URL}/my/timeline` },
-      { path: `${process.env.REACT_APP_PUBLIC_URL}/my/manner` },
+      { path: `/my/timeline` },
+      { path: `/my/manner` },
     ],
   },
   {
-    path: `${process.env.REACT_APP_PUBLIC_URL}/my/changePwd`,
+    path: `/my/changePwd`,
     element: <ChangePwd />,
   },
 ]);
