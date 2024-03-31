@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
   },
-  { path: "/home", element: <Home /> },
+  { path: "/home/:category", element: <Home /> },
   { path: "/write", element: <Write /> },
   {
     path: "/my",
