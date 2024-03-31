@@ -1,4 +1,23 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Cookies } from "react-cookie";
+import { SERVER_URL } from "../data/url";
+
 export default function DetailCard() {
+  const cookies = new Cookies();
+  const token = cookies.get("id");
+  const articleNo = cookies.get("articleNo");
+  const [user, setUser] = useState("작성자");
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/articles/${articleNo}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setUser(response.data.userNo);
+      });
+  });
+  console.log(user);
   return (
     <>
       <div className="bg-white z-[10] mt-[14px] mx-auto w-[315px] h-[499px] pt-[24px] pb-[28px] px-[24px] rounded-[10px] border border-slate-200 ">
@@ -7,9 +26,13 @@ export default function DetailCard() {
           <div className="text-violet-900  text-[14px] font-['Pretendard]">
             모집전
           </div>
-          <div className="text-right text-zinc-400 text-[14px] font-normal font-['Pretendard']">
-            수정하기
-          </div>
+          <select className="text-right text-zinc-400 text-[14px] font-normal font-['Pretendard']">
+            더보기
+            <option>더보기</option>
+            <option>수정하기</option>
+            <option>삭제하기</option>
+            <option>닫기</option>
+          </select>
         </div>
         {/* 타이틀 */}
         <div className=" text-stone-900 h-[48px] leading-tight  text-[20px] font-bold font-['Pretendard'] mt-[8px] ">
