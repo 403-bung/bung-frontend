@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/bung-frontend/static/css/main.ebda5307.css",
-    "main.js": "/bung-frontend/static/js/main.f26cc898.js",
+    "main.js": "/bung-frontend/static/js/main.7d04bcea.js",
     "static/media/Pretendard-Bold.woff": "/bung-frontend/static/media/Pretendard-Bold.1f1dbbbf311ffffcc770.woff",
     "static/media/Pretendard-SemiBold.woff": "/bung-frontend/static/media/Pretendard-SemiBold.9f6b39f88e7e6a3fd0b2.woff",
     "static/media/Pretendard-Medium.woff": "/bung-frontend/static/media/Pretendard-Medium.edd5e28caa1cc4a9e0b7.woff",
@@ -34,10 +34,10 @@
     "static/media/left_arrow.svg": "/bung-frontend/static/media/left_arrow.942840b37b409d15f86df0966f5342ab.svg",
     "static/media/right_arrow_black.svg": "/bung-frontend/static/media/right_arrow_black.1c734c5ce5286ae1caa8ead3b14e67de.svg",
     "main.ebda5307.css.map": "/bung-frontend/static/css/main.ebda5307.css.map",
-    "main.f26cc898.js.map": "/bung-frontend/static/js/main.f26cc898.js.map"
+    "main.7d04bcea.js.map": "/bung-frontend/static/js/main.7d04bcea.js.map"
   },
   "entrypoints": [
     "static/css/main.ebda5307.css",
-    "static/js/main.f26cc898.js"
+    "static/js/main.7d04bcea.js"
   ]
 }
