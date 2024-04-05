@@ -2,25 +2,55 @@ import { useEffect, useState } from "react";
 import users from "../icons/users.svg";
 import newIcon from "../icons/new.svg";
 
-const title = "제목을 써주세요";
-const content =
-  "설명글을 써주세요.텍스트더미 텍스트더미텍스트텍스트더미텍스트텍스트더미텍스트더미 최대 20자입니다...";
-export default function ContentCard() {
-  const [formattedTitle, setFormattedTitle] = useState(title);
+export type ContentCardProps = {
+  articleNo: number;
+  category: string;
+  content: string;
+  currentUserCount: string;
+  maxUserCount: string;
+  name: string;
+  partyStartTime: string;
+  recruitingEndTime: string;
+  status: string;
+};
+
+export default function ContentCard({
+  articleNo,
+  category,
+  content,
+  currentUserCount,
+  maxUserCount,
+  name,
+  partyStartTime,
+  recruitingEndTime,
+  status,
+}: ContentCardProps) {
+  const [formattedTitle, setFormattedTitle] = useState(name);
   const [formattedContent, setFormattedContent] = useState(content);
 
   useEffect(() => {
     // 제목이 20자를 초과하는 경우, 초과 부분을 자르고 "..."을 추가하여 표시
-    if (title.length > 20) {
-      setFormattedTitle(title.slice(0, 20) + "...");
+    if (name.length > 18) {
+      setFormattedTitle(name.slice(0, 18) + "...");
     }
 
     // 본문이 40자를 초과하는 경우, 초과 부분을 자르고 "..."을 추가하여 표시
     if (content.length > 40) {
       setFormattedContent(content.slice(0, 40) + "...");
     }
-  }, []);
+  }, [content, name]);
 
+  switch (status) {
+    case "READY":
+      status = "모집 전";
+      break;
+    case "IN_COLLECT":
+      status = "모집 중";
+      break;
+    case "IN_PLAY":
+      status = "모집 마감";
+      break;
+  }
   return (
     <>
       <div className="w-[345px] h-[207px] p-5 bg-white rounded-lg border border-solid border-[#E4DEF2] flex flex-col gap-5">
@@ -46,15 +76,17 @@ export default function ContentCard() {
             </span>
             <div className="w-[1px] h-3 bg-[#C7BBE4]"></div>
             <span className="text-base font-normal text-[#232323]">
-              모집 유무
+              {status}
             </span>
           </div>
           <div className="flex items-center gap-1">
             {" "}
             <img src={users} alt="users" />
             <div>
-              <span className="text-[#4A25A9]">50</span>
-              <span className="text-base font-normal text-[#232323]">/1명</span>
+              <span className="text-[#4A25A9]">{currentUserCount}</span>
+              <span className="text-base font-normal text-[#232323]">
+                /{maxUserCount}명
+              </span>
             </div>
           </div>
         </div>
