@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import users from "../icons/users.svg";
 import newIcon from "../icons/new.svg";
 
@@ -25,20 +24,9 @@ export default function ContentCard({
   recruitingEndTime,
   status,
 }: ContentCardProps) {
-  const [formattedTitle, setFormattedTitle] = useState(name);
-  const [formattedContent, setFormattedContent] = useState(content);
-
-  useEffect(() => {
-    // 제목이 20자를 초과하는 경우, 초과 부분을 자르고 "..."을 추가하여 표시
-    if (name.length > 18) {
-      setFormattedTitle(name.slice(0, 18) + "...");
-    }
-
-    // 본문이 40자를 초과하는 경우, 초과 부분을 자르고 "..."을 추가하여 표시
-    if (content.length > 40) {
-      setFormattedContent(content.slice(0, 40) + "...");
-    }
-  }, [content, name]);
+  const truncatedTitle = name.length > 18 ? name.slice(0, 18) + "..." : name;
+  const truncatedContent =
+    content.length > 40 ? content.slice(0, 40) + "..." : content;
 
   switch (status) {
     case "READY":
@@ -61,12 +49,12 @@ export default function ContentCard({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-1">
             <span className="text-lg font-medium text-[#1F1F1F]">
-              {formattedTitle}
+              {truncatedTitle}
             </span>
             <img src={newIcon} alt="new"></img>
           </div>
           <div className="text-base font-normal text-[#232323]">
-            {formattedContent}
+            {truncatedContent}
           </div>
         </div>
         <div className="flex justify-between">

@@ -1,9 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { SERVER_URL } from "../data/url";
-import { Cookies } from "react-cookie";
-import { useQuery } from "@tanstack/react-query";
+import { Link, useLocation } from "react-router-dom";
 
 const categories = [
   { text: "전체", url: "home" },
@@ -17,33 +12,7 @@ const categories = [
 ];
 
 export default function Category() {
-  const [selectedUrl, setSelectedUrl] = useState("home");
-  const cookies = new Cookies();
-  const token = cookies.get("id");
-
-  async function getArticles(category: string, token: string) {
-    const response = await axios.get(`${SERVER_URL}/articles`, {
-      headers: { Authorization: `Bearer ${token}` },
-      params: {
-        category: category === "home" ? "" : category.toUpperCase(),
-        sortStrategy: "LATEST",
-        size: 10,
-      },
-    });
-    return response.data;
-  }
-
-  const { data } = useQuery({
-    queryKey: [selectedUrl],
-    queryFn: () => getArticles(selectedUrl, token),
-  });
-  useEffect(() => {
-    console.log(selectedUrl);
-  }, [selectedUrl]);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const location = useLocation();
 
   return (
     <div className="w-[375px] flex flex-nowrap overflow-hidden hover:overflow-x-scroll p-[10px]">
@@ -51,20 +20,24 @@ export default function Category() {
         {categories.map((category) => (
           <div className="flex flex-col" key={category.text}>
             <div
-              className={`px-2 py-[5px] text-[#595959] font-normal font-base whitespace-nowrap ${
-                selectedUrl === category.url && "text-[#4A25A9] font-semibold"
+              className={`px-2 py-[5px] font-normal font-base whitespace-nowrap ${
+                (
+                  category.url === "home"
+                    ? location.pathname === "/home"
+                    : location.pathname === `/home/${category.url}`
+                )
+                  ? "text-[#4A25A9] font-semibold"
+                  : "text-[#595959]"
               }`}
             >
               <Link
                 to={category.url === "home" ? "/home" : `/home/${category.url}`}
-                onClick={() => {
-                  console.log(category.url);
-                  setSelectedUrl(category.url);
-                }}
               >
                 {category.text}
               </Link>
-              {selectedUrl === category.url && (
+              {(category.url === "home"
+                ? location.pathname === "/home"
+                : location.pathname === `/home/${category.url}`) && (
                 <div className="w-full h-px bg-[#4A25A9] relative top-2"></div>
               )}
             </div>
