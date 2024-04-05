@@ -26,7 +26,33 @@ export default function ContentCard({
 }: ContentCardProps) {
   const truncatedTitle = name.length > 18 ? name.slice(0, 18) + "..." : name;
   const truncatedContent =
-    content.length > 40 ? content.slice(0, 40) + "..." : content;
+    content.length > 50 ? content.slice(0, 50).trim() + "..." : content;
+  const [startHour, startMinute, startSecond] = partyStartTime
+    .split("T")[1]
+    .split(":");
+  let timePeriod = "오전";
+  let hour = parseInt(startHour, 10);
+  if (hour >= 12) {
+    timePeriod = "오후";
+    hour -= 12;
+  }
+  if (hour === 0) {
+    hour = 12;
+  }
+
+  let formattedStartTime = `${timePeriod} ${hour}시 ${startMinute}분`;
+
+  const now = new Date();
+  const endDateTime = new Date(recruitingEndTime);
+
+  const timeDiff = Math.max(endDateTime.getTime() - now.getTime(), 0);
+
+  const endMinutes =
+    timeDiff === 0
+      ? "00"
+      : Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+  const endSeconds =
+    timeDiff === 0 ? "00" : Math.floor((timeDiff % (1000 * 60)) / 1000);
 
   switch (status) {
     case "READY":
@@ -36,14 +62,21 @@ export default function ContentCard({
       status = "모집 중";
       break;
     case "IN_PLAY":
-      status = "모집 마감";
+      status = "진행중";
+      break;
+    case "COMPLETE_PLAY":
+      status = "진행 완료";
+      break;
+    case "COMPLETE_COLLECT":
+      status = "모집 완료";
       break;
   }
+
   return (
     <>
-      <div className="w-[345px] h-[207px] p-5 bg-white rounded-lg border border-solid border-[#E4DEF2] flex flex-col gap-5">
-        <div className="bg-[#4A25A9] w-[60px] px-2 py-1  text-white rounded-md  flex items-center gap-[2px] flex-shrink-0">
-          <span className="text-[12px]">5:26</span>{" "}
+      <div className="w-[345px] p-5 bg-white rounded-lg border border-solid border-[#E4DEF2] flex flex-col gap-5">
+        <div className="bg-[#4A25A9] w-min px-2 py-1  text-white rounded-md flex items-center gap-[2px] flex-shrink-0 text-nowrap">
+          <span className="text-[12px]">{`${endMinutes}:${endSeconds}`}</span>
           <span className="text-[10px]">남음</span>
         </div>
         <div className="flex flex-col gap-2">
@@ -60,7 +93,7 @@ export default function ContentCard({
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <span className="text-base font-normal text-[#232323]">
-              시간입력
+              {formattedStartTime}
             </span>
             <div className="w-[1px] h-3 bg-[#C7BBE4]"></div>
             <span className="text-base font-normal text-[#232323]">
@@ -68,7 +101,6 @@ export default function ContentCard({
             </span>
           </div>
           <div className="flex items-center gap-1">
-            {" "}
             <img src={users} alt="users" />
             <div>
               <span className="text-[#4A25A9]">{currentUserCount}</span>
