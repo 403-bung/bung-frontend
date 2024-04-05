@@ -53,6 +53,7 @@ export default function ContentArea() {
               <ContentCard key={index} {...element} />
             ))
           )}
+          {data?.length === 0 && <div>아직 작성된 글이 없어요</div>}
         </div>
       </div>
     </>
