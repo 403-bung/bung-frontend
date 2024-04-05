@@ -11,6 +11,14 @@ const categories = [
   { text: "아이돌", url: "idol" },
 ];
 
+const isActiveCategory = (categoryUrl: string, currentPath: string) => {
+  if (categoryUrl === "home") {
+    return currentPath === "/home";
+  } else {
+    return currentPath === `/home/${categoryUrl}`;
+  }
+};
+
 export default function Category() {
   const location = useLocation();
 
@@ -21,11 +29,7 @@ export default function Category() {
           <div className="flex flex-col" key={category.text}>
             <div
               className={`px-2 py-[5px] font-normal font-base whitespace-nowrap ${
-                (
-                  category.url === "home"
-                    ? location.pathname === "/home"
-                    : location.pathname === `/home/${category.url}`
-                )
+                isActiveCategory(category.url, location.pathname)
                   ? "text-[#4A25A9] font-semibold"
                   : "text-[#595959]"
               }`}
@@ -35,11 +39,13 @@ export default function Category() {
               >
                 {category.text}
               </Link>
-              {(category.url === "home"
-                ? location.pathname === "/home"
-                : location.pathname === `/home/${category.url}`) && (
-                <div className="w-full h-px bg-[#4A25A9] relative top-2"></div>
-              )}
+              <div
+                className={`w-full h-px ${
+                  isActiveCategory(category.url, location.pathname)
+                    ? "bg-[#4A25A9]"
+                    : ""
+                } relative top-2`}
+              />
             </div>
           </div>
         ))}
