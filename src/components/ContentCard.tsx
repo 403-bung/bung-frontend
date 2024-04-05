@@ -1,5 +1,6 @@
 import users from "../icons/users.svg";
 import newIcon from "../icons/new.svg";
+import summaryText from "../utils/summaryText";
 
 export type ContentCardProps = {
   articleNo: number;
@@ -24,14 +25,15 @@ export default function ContentCard({
   recruitingEndTime,
   status,
 }: ContentCardProps) {
-  const truncatedTitle = name.length > 18 ? name.slice(0, 18) + "..." : name;
-  const truncatedContent =
-    content.length > 50 ? content.slice(0, 50).trim() + "..." : content;
-  const [startHour, startMinute, startSecond] = partyStartTime
-    .split("T")[1]
-    .split(":");
+  const truncatedTitle = summaryText(name, 18);
+  const truncatedContent = summaryText(content, 50);
+
+  const startDateTime = new Date(partyStartTime);
+  const startHours = startDateTime.getHours();
+  const startMinutes = startDateTime.getMinutes();
+
   let timePeriod = "오전";
-  let hour = parseInt(startHour, 10);
+  let hour = startHours;
   if (hour >= 12) {
     timePeriod = "오후";
     hour -= 12;
@@ -40,19 +42,15 @@ export default function ContentCard({
     hour = 12;
   }
 
-  let formattedStartTime = `${timePeriod} ${hour}시 ${startMinute}분`;
+  const formattedStartTime = `${timePeriod} ${hour}시 ${startMinutes}분`;
 
   const now = new Date();
   const endDateTime = new Date(recruitingEndTime);
 
   const timeDiff = Math.max(endDateTime.getTime() - now.getTime(), 0);
 
-  const endMinutes =
-    timeDiff === 0
-      ? "00"
-      : Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const endSeconds =
-    timeDiff === 0 ? "00" : Math.floor((timeDiff % (1000 * 60)) / 1000);
+  const endMinutes = timeDiff === 0 ? "00" : endDateTime.getHours();
+  const endSeconds = timeDiff === 0 ? "00" : endDateTime.getSeconds();
 
   switch (status) {
     case "READY":
