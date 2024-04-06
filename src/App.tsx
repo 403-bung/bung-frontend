@@ -15,24 +15,24 @@ import { CookiesProvider } from "react-cookie";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-const router = createBrowserRouter([{ path: "/", element: <Intro /> },
-{ path: "/login", element: <Login /> },
-{ path: "/login/confirm", element: <Confirm /> },
-{ path: "/nickname", element: <NicknamePage /> },
-{ path: "/detail", element: <Detail /> },
-{
-  path: "/home",
-  element: <Home />,
-},
-{ path: "/home/:category", element: <Home /> },
-{ path: "/write", element: <Write /> },
-{
-  path: "/my",
-  element: <My />,
-  children: [{ path: "/my/timeline" }, { path: "/my/manner" }],
-  
-},
-{ path: "/my/changePwd", element: <ChangePwd /> },
+const router = createBrowserRouter([
+  { path: "/", element: <Intro /> },
+  { path: "/login", element: <Login /> },
+  { path: "/login/confirm", element: <Confirm /> },
+  { path: "/nickname", element: <NicknamePage /> },
+  { path: "/detail", element: <Detail /> },
+  {
+    path: "/home",
+    element: <Home />,
+  },
+  { path: "/home/:category", element: <Home /> },
+  { path: "/write", element: <Write /> },
+  {
+    path: "/my",
+    element: <My />,
+    children: [{ path: "/my/timeline" }, { path: "/my/manner" }],
+  },
+  { path: "/my/changePwd", element: <ChangePwd /> },
 ]);
 
 const queryClient = new QueryClient();
