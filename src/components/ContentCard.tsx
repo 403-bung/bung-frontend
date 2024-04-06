@@ -1,6 +1,9 @@
 import users from "../icons/users.svg";
 import newIcon from "../icons/new.svg";
 import summaryText from "../utils/summaryText";
+import getStatusText from "../utils/getStatusText";
+import getRemainingTime from "../utils/getRemainingTime";
+import getFormatTime from "../utils/getFormatTime";
 
 export type ContentCardProps = {
   articleNo: number;
@@ -27,54 +30,15 @@ export default function ContentCard({
 }: ContentCardProps) {
   const truncatedTitle = summaryText(name, 18);
   const truncatedContent = summaryText(content, 50);
-
-  const startDateTime = new Date(partyStartTime);
-  const startHours = startDateTime.getHours();
-  const startMinutes = startDateTime.getMinutes();
-
-  let timePeriod = "오전";
-  let hour = startHours;
-  if (hour >= 12) {
-    timePeriod = "오후";
-    hour -= 12;
-  }
-  if (hour === 0) {
-    hour = 12;
-  }
-
-  const formattedStartTime = `${timePeriod} ${hour}시 ${startMinutes}분`;
-
-  const now = new Date();
-  const endDateTime = new Date(recruitingEndTime);
-
-  const timeDiff = Math.max(endDateTime.getTime() - now.getTime(), 0);
-
-  const endMinutes = timeDiff === 0 ? "00" : endDateTime.getHours();
-  const endSeconds = timeDiff === 0 ? "00" : endDateTime.getSeconds();
-
-  switch (status) {
-    case "READY":
-      status = "모집 전";
-      break;
-    case "IN_COLLECT":
-      status = "모집 중";
-      break;
-    case "IN_PLAY":
-      status = "진행중";
-      break;
-    case "COMPLETE_PLAY":
-      status = "진행 완료";
-      break;
-    case "COMPLETE_COLLECT":
-      status = "모집 완료";
-      break;
-  }
+  const formattedStartTime = getFormatTime(partyStartTime);
+  const remainingTime = getRemainingTime(recruitingEndTime);
+  const statusText = getStatusText(status);
 
   return (
     <>
       <div className="w-[345px] p-5 bg-white rounded-lg border border-solid border-[#E4DEF2] flex flex-col gap-5">
         <div className="bg-[#4A25A9] w-min px-2 py-1  text-white rounded-md flex items-center gap-[2px] flex-shrink-0 text-nowrap">
-          <span className="text-[12px]">{`${endMinutes}:${endSeconds}`}</span>
+          <span className="text-[12px]">{remainingTime}</span>
           <span className="text-[10px]">남음</span>
         </div>
         <div className="flex flex-col gap-2">
@@ -95,7 +59,7 @@ export default function ContentCard({
             </span>
             <div className="w-[1px] h-3 bg-[#C7BBE4]"></div>
             <span className="text-base font-normal text-[#232323]">
-              {status}
+              {statusText}
             </span>
           </div>
           <div className="flex items-center gap-1">
