@@ -25,12 +25,14 @@ export default function ContentArea() {
     );
   }, [location.pathname]);
 
-  async function getArticles(category: string, token: string) {
+  const [sortBy, setSortBy] = useState<string>("CLOSE_TO_FINISH");
+
+  async function getArticles(category: string, sortBy: string) {
     const response = await axios.get(`${SERVER_URL}/articles`, {
       headers: { Authorization: `Bearer ${token}` },
       params: {
         category: category === "home" ? "" : category.toUpperCase(),
-        sortStrategy: "LATEST",
+        sortStrategy: sortBy,
         size: 10,
       },
     });
@@ -38,12 +40,28 @@ export default function ContentArea() {
   }
 
   const { data, isLoading } = useQuery<ContentCardProps[]>({
-    queryKey: [category],
-    queryFn: async () => await getArticles(category, token),
+    queryKey: [category, sortBy],
+    queryFn: async () => await getArticles(category, sortBy),
   });
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedSortBy = event.target.value;
+    setSortBy(selectedSortBy);
+  };
 
   return (
     <>
+      <div className="flex w-full justify-end bg-[#fbfbfb] pt-5 pb-4 px-4">
+        <select
+          className="bg-transparent font-normal text-[14px]"
+          value={sortBy}
+          onChange={handleSortChange}
+        >
+          <option value="CLOSE_TO_FINISH">마감순</option>
+          <option value="POPULAR">인기순</option>
+          <option value="LATEST">최신순</option>
+        </select>
+      </div>
       <div className="w-full h-full bg-[#fbfbfb] px-4 overflow-y-auto scrollbar-hide pb-[96px]">
         <div className="w-full flex flex-col gap-4">
           {isLoading ? (

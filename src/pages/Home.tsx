@@ -19,13 +19,7 @@ export default function Home() {
           <StatusBar />
           <Header />
           <Category />
-          <div className="flex w-full justify-end bg-[#fbfbfb] pt-5 pb-4 px-4">
-            <select className="bg-transparent font-normal text-[14px]">
-              <option>마감순</option>
-              <option>인기순</option>
-              <option>최신순</option>
-            </select>
-          </div>
+
           <ContentArea />
           <NabBar />
         </div>
