@@ -12,6 +12,8 @@ import My from "./pages/My";
 import ChangePwd from "./pages/ChangePwd";
 import Intro from "./pages/Intro";
 import { CookiesProvider } from "react-cookie";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const router = createBrowserRouter([
   { path: `${process.env.REACT_APP_PUBLIC_URL}/`, element: <Intro /> },
@@ -48,16 +50,21 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
     <>
-      <CookiesProvider>
-        <Provider store={store}>
-          <div className="bg-black w-full min-h-screen flex justify-center">
-            <RouterProvider router={router} />
-          </div>
-        </Provider>
-      </CookiesProvider>
+      <QueryClientProvider client={queryClient}>
+        <CookiesProvider>
+          <Provider store={store}>
+            <div className="bg-black w-full min-h-screen flex justify-center">
+              <RouterProvider router={router} />
+            </div>
+          </Provider>
+        </CookiesProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </>
   );
 }

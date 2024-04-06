@@ -3,7 +3,7 @@ import Button from "./Button";
 import SubTitle1 from "./SubTitle1";
 import Title from "./Title";
 import { alarmModalActions } from "../store/alarmModal";
-import alarmImg from "../img/alarmImg.png";
+import alarmImg from "../icons/alarmImg.svg";
 
 export default function AlarmModal() {
   const dispatch = useDispatch();
