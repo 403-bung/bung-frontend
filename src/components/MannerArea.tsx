@@ -1,4 +1,4 @@
-import sticker1 from "../img/sticker1.png";
+import sticker1 from "../icons/sticker1.svg";
 
 export default function MannerArea() {
   return (

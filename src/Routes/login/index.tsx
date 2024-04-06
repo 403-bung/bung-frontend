@@ -1,6 +1,6 @@
 import KaKaoLoginBtn from "../../components/KakaoLoginBtn";
 import { SERVER_URL } from "../../data/url";
-import banner from "../../img/image.png";
+import banner from "../../icons/main.svg";
 
 function Login() {
   const handleLogin = () => {
@@ -10,7 +10,7 @@ function Login() {
   return (
     <div className="w-[375px] min-h-screen h-screen pt-[96px] pb-14 px-4 bg-white flex flex-col justify-between">
       <div>
-        <img src={banner} alt="banner" className="w-" />
+        <img src={banner} alt="banner" />
         <div className="text-center text-stone-900 text-[26px] font-bold mt-6">
           지금 당장 빠르게 팀원을 <br />
           구할 수 있어요!
