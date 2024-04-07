@@ -27,6 +27,7 @@ interface TimeProps {
 }
 
 export default function WriteModal({ setEndTimeString }: TimeProps) {
+  //모달창
   const [modalIsOpen, setModalIsOpen] = useState(false);
   useEffect(() => {
     setModalIsOpen(true);
@@ -46,12 +47,7 @@ export default function WriteModal({ setEndTimeString }: TimeProps) {
   const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
   const endTimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
   useEffect(() => {
-    const endHours = recruitingEndTime.getHours();
-    const endMinutes = recruitingEndTime.getMinutes();
-    const endPeriod = endHours < 12 ? "오전" : "오후";
-    const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
-    const endTimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
-    setEndTimeString(endTimeString); // 부모 컴포넌트로 값을 전달
+    setEndTimeString(recruitingEndTime.toString());
   }, [recruitingEndTime, setEndTimeString]);
   return (
     <Modal
