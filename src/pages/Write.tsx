@@ -67,9 +67,12 @@ export default function Write() {
   //     });
   // });
   console.log(name);
+  const [endTimeString, setEndTimeString] = useState("");
+  // console.log(setEndTimeString);
+  console.log(endTimeString);
   return (
     <>
-      <WriteModal />
+      <WriteModal setEndTimeString={setEndTimeString} />
       <div className="w-[375px] min-h-screen bg-white flex flex-col items-center overflow-y-scroll scrollbar-hide">
         {/* 뒤로가기 */}
         <div className="w-[375px] h-[60px] flex items-center  pl-[9px] pr-[16px] border-b-violet-100 border-b-[1px] bg-white fixed top-0">
@@ -86,11 +89,11 @@ export default function Write() {
           <div className="flex gap-[32px] flex-col">
             <div className="flex justify-between ">
               <div className="text-[16px] font-[400] ">모집 시작</div>
-              <div className="text-[16px] font-[600] ">~ 오후 1시 23분</div>
+              <div className="text-[16px] font-[600] ">~ {endTimeString}</div>
             </div>
             <div className="flex justify-between ">
               <div className="text-[16px] font-[400] ">모임 시작</div>
-              <div className="text-[16px] font-[600] ">오후 1시 23분~</div>
+              <div className="text-[16px] font-[600] ">{endTimeString}~</div>
             </div>
             <div className="flex justify-between">
               {/* <div className="text-[14px] font-[400] px-[8px] py-[4px] rounded-md bg-violet-100 border border-violet-300"> */}
