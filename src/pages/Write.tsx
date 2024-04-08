@@ -39,21 +39,12 @@ export default function Write() {
       const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
       const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
       setEndTime(TimeString);
-    } else {
-      const endPeriod = "";
-      const endMinutes = "";
-      const endDisplayTime = "";
-      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
-      setEndTime(TimeString);
-      console.log("날짜가 유효하지 않습니다.");
     }
   }, [endtimeModalString]);
   useEffect(() => {
     if (endtimeModalString) {
       const dateObject: Date = new Date(endtimeModalString);
       setTime(dateObject);
-    } else {
-      console.log("날짜가 유효하지 않습니다.");
     }
   }, [endtimeModalString]);
   //writeModal
@@ -69,16 +60,12 @@ export default function Write() {
       const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
       const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
       setEndTime(TimeString);
-    } else {
-      console.log("날짜가 유효하지 않습니다.");
     }
   }, [endTimeString]);
   useEffect(() => {
     if (endTimeString) {
       const dateObject: Date = new Date(endTimeString);
       setTime(dateObject);
-    } else {
-      console.log("날짜가 유효하지 않습니다.");
     }
   }, [endTimeString]);
   const [endTime, setEndTime] = useState<string | undefined>();

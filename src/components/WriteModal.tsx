@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import cancel from "../icons/cancel.svg";
 import Button from "./Button";
+import ModalTimeButton from "./WriteModalTimeBtn";
 
 const customDetailStyles = {
   overlay: {
@@ -32,6 +33,19 @@ export default function WriteModal({ setEndTimeString }: TimeProps) {
   useEffect(() => {
     setModalIsOpen(true);
   }, []);
+  //버튼 클릭
+  const [isClicked, setIsClicked] = useState("");
+  const changeTag = (name: string) => {
+    setIsClicked(name);
+  };
+  const buttonNameList = [
+    "10분 후",
+    "30분 후",
+    "1시간 후",
+    "1.5시간 후",
+    "2시간 후",
+    "직접 입력",
+  ];
   //시간 변환
   const [recruitingEndTime, setRecruitingEndTime] = useState(new Date());
   const endHours = recruitingEndTime.getHours();
@@ -75,36 +89,41 @@ export default function WriteModal({ setEndTimeString }: TimeProps) {
       </div>
       <div className="w-[375px] flex flex-nowrap overflow-x-hidden hover:overflow-x-scroll  mt-[29px] scrollbar-hide ">
         <div className="flex items-center gap-[6px] ml-[25px] mr-[25px] ">
-          <button
-            className="text-[16px] font-[500] bg-[#EDE9F6] text-[#4A25A9] w-[71px] h-[39px] p-[10px] rounded-md border border-violet-900 flex items-center"
-            onClick={() => handleButtonClick(10)}
-          >
-            10분 후
-          </button>
-          <button
-            className="text-[16px] font-[500] bg-white text-neutral-400 w-[74px] h-[39px] p-[10px] rounded-md border border-neutral-400 flex items-center"
-            onClick={() => handleButtonClick(30)}
-          >
-            30분 후
-          </button>
-          <button
-            className="text-[16px] font-[500] bg-white text-neutral-400 w-[75px] h-[39px] p-[10px] rounded-md border border-neutral-400 flex items-center"
-            onClick={() => handleButtonClick(60)}
-          >
-            1시간 후
-          </button>
-          <button
-            className="text-[16px] font-[500] bg-white text-neutral-400 w-[88px] h-[39px] p-[10px] rounded-md border border-neutral-400 flex items-center"
-            onClick={() => handleButtonClick(90)}
-          >
-            1.5시간 후
-          </button>
-          <button
-            className="text-[16px] font-[500] bg-white text-neutral-400 w-[77px] h-[39px] p-[10px] rounded-md border border-neutral-400 flex items-center"
-            onClick={() => handleButtonClick(120)}
-          >
-            2시간 후
-          </button>
+          <div onClick={() => handleButtonClick(10)}>
+            <ModalTimeButton
+              name={buttonNameList[0]}
+              onClick={() => changeTag(buttonNameList[0])}
+              clicked={isClicked === buttonNameList[0]}
+            />
+          </div>
+          <div onClick={() => handleButtonClick(30)}>
+            <ModalTimeButton
+              name={buttonNameList[1]}
+              onClick={() => changeTag(buttonNameList[1])}
+              clicked={isClicked === buttonNameList[1]}
+            />
+          </div>
+          <div onClick={() => handleButtonClick(60)}>
+            <ModalTimeButton
+              name={buttonNameList[2]}
+              onClick={() => changeTag(buttonNameList[2])}
+              clicked={isClicked === buttonNameList[2]}
+            />
+          </div>
+          <div onClick={() => handleButtonClick(90)}>
+            <ModalTimeButton
+              name={buttonNameList[3]}
+              onClick={() => changeTag(buttonNameList[3])}
+              clicked={isClicked === buttonNameList[3]}
+            />
+          </div>
+          <div onClick={() => handleButtonClick(120)}>
+            <ModalTimeButton
+              name={buttonNameList[4]}
+              onClick={() => changeTag(buttonNameList[4])}
+              clicked={isClicked === buttonNameList[4]}
+            />
+          </div>
         </div>
       </div>
       <div className="px-[16px] mt-[56px]">
