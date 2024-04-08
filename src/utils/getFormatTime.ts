@@ -20,3 +20,7 @@ function getDayNight(hour: number) {
 
   return { timePeriod, hour };
 }
+
+export function getPaddingTime(time: number) {
+  return time.toString().padStart(2, "0");
+}

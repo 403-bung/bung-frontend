@@ -8,6 +8,7 @@ import getStatusText from "../utils/getStatusText";
 import Modal from "react-modal";
 import ReactModal from "react-modal";
 import Title from "./Title";
+import { getPaddingTime } from "../utils/getFormatTime";
 
 type Article = {
   articleNo: number; // 구인글 번호
@@ -30,6 +31,16 @@ type Participant = {
   participantUserNo: number; // 참여 신청자 사용자 번호
   state: number; // 참여 신청자 상태
 };
+
+const categories = new Map([
+  ["GROUP_BUYING", "공동구매"],
+  ["GAME", "게임"],
+  ["EVENT", "이벤트"],
+  ["STUDY", "스터디"],
+  ["FREE", "자유"],
+  ["PLEASE", "해주세요"],
+  ["IDOL", "아이돌"],
+]);
 
 const customModalStyle: ReactModal.Styles = {
   overlay: {
@@ -103,6 +114,8 @@ export default function DetailCard() {
 
   const time = new Date(article?.partyStartTime || "");
   const statusText = getStatusText(article?.status || "");
+  const minutes = getPaddingTime(time.getMinutes());
+  const seconds = getPaddingTime(time.getSeconds());
   return (
     <>
       <div className="bg-white w-80 z-[10] mt-[14px] pt-6 pb-7 px-6 rounded-[10px] border border-slate-200 ">
@@ -158,13 +171,18 @@ export default function DetailCard() {
             <span>참여 링크</span>
           </div>
           <div className="flex flex-col text-[#1F1F1F] font-normal text-sm  gap-2 break-all">
-            <span className="text-[#4A25A9]">{article?.maxUserCount}명</span>
-            <span>{article?.currentUserCount}명</span>
-            <span> {`${time.getMinutes()}:${time.getSeconds()}`}</span>
-            <span>{article?.category}</span>
-            <span>{userData?.nickname}</span>
-
-            <span>{article?.showLink ? article?.link : "비공개"}</span>
+            <span className="text-[#4A25A9] min-h-5">
+              {article?.maxUserCount}명
+            </span>
+            <span className="min-h-5">{article?.currentUserCount}명</span>
+            <span className="min-h-5">{`${minutes}:${seconds}`}</span>
+            <span className="min-h-5">
+              {categories.get(article?.category || " ")}
+            </span>
+            <span className="min-h-5">{userData?.nickname}</span>
+            <span className="min-h-5">
+              {article?.showLink ? article?.link : "비공개"}
+            </span>
           </div>
         </div>
       </div>

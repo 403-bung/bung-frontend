@@ -1,3 +1,5 @@
+import { getPaddingTime } from "./getFormatTime";
+
 export default function getRemainingTime(endTime: string) {
   const now = new Date();
   const endDateTime = new Date(endTime);
@@ -8,9 +10,9 @@ export default function getRemainingTime(endTime: string) {
     (timeDiff % (1000 * 60 * 60)) / (1000 * 60)
   );
   const remainingSeconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-  const remainingTime = `${remainingMinutes
-    .toString()
-    .padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+  const remainingTime = `${getPaddingTime(remainingMinutes)}:${getPaddingTime(
+    remainingSeconds
+  )}`;
 
   return remainingTime;
 }
