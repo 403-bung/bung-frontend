@@ -93,7 +93,7 @@ export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
         : writeHours
       : "시간이 정의되지 않음";
   const recruitingTimeString = `${recruitingPeriod} ${recruitingDisplayTime}시 ${recruitingMinutes}분`;
-  //string -> date
+  // string -> date
   const dateArray = recruitingTimeString.split(" ");
   const period = dateArray[0];
   let time = parseInt(dateArray[1]);
@@ -101,10 +101,8 @@ export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
   if (period === "오후") {
     time += 12;
   }
-  const date = new Date();
-  date.setHours(time, minutes, 0);
-  console.log(date);
-
+  const dateData = new Date();
+  dateData.setHours(time, minutes, 0);
   //버튼클릭으로 시간 변경
   const currentDateTime = new Date();
   function addMinutesToDate(date: Date, minutes: number) {
@@ -116,10 +114,13 @@ export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
     setSelectedTime("");
   }
   useEffect(() => {
-    if (recruitingTime) {
-      setTimeString(recruitingTime.toString());
+    // if (recruitingTime) {
+    //   setTimeString(recruitingTime.toString());
+    // }
+    if (dateData) {
+      setTimeString(dateData.toString());
     }
-  }, [recruitingTime, setTimeString]);
+  }, [recruitingTime, setTimeString, dateData]);
   return (
     <div
       onClick={() => {
@@ -198,7 +199,13 @@ export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
             </div>
           </div>
         </div>
-        <div className="px-[16px] mt-[56px]">
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setTimeModalIsOpen(false);
+          }}
+          className="px-[16px] mt-[56px]"
+        >
           <Button text="수정하기" />
         </div>
       </Modal>

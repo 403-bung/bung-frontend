@@ -25,12 +25,41 @@ export default function Write() {
   const [content, setContent] = useState<string>("");
   const [link, setLink] = useState<string>("");
   const [showLink, setShowLink] = useState(false);
+
+  //timeModal
+  const [endtimeModalString, setEndTimeModalString] = useState<
+    string | undefined
+  >(undefined);
+  useEffect(() => {
+    if (endtimeModalString) {
+      const dateObject: Date = new Date(endtimeModalString);
+      const endHours = dateObject.getHours();
+      const endMinutes = dateObject.getMinutes();
+      const endPeriod = endHours < 12 ? "오전" : "오후";
+      const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
+      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+      setEndTime(TimeString);
+    } else {
+      const endPeriod = "";
+      const endMinutes = "";
+      const endDisplayTime = "";
+      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+      setEndTime(TimeString);
+      console.log("날짜가 유효하지 않습니다.");
+    }
+  }, [endtimeModalString]);
+  useEffect(() => {
+    if (endtimeModalString) {
+      const dateObject: Date = new Date(endtimeModalString);
+      setTime(dateObject);
+    } else {
+      console.log("날짜가 유효하지 않습니다.");
+    }
+  }, [endtimeModalString]);
+  //writeModal
   const [endTimeString, setEndTimeString] = useState<string | undefined>(
     undefined
   );
-  const [endTime, setEndTime] = useState<string | undefined>();
-  const [time, setTime] = useState<Date>();
-  // console.log(time);
   useEffect(() => {
     if (endTimeString) {
       const dateObject: Date = new Date(endTimeString);
@@ -52,6 +81,8 @@ export default function Write() {
       console.log("날짜가 유효하지 않습니다.");
     }
   }, [endTimeString]);
+  const [endTime, setEndTime] = useState<string | undefined>();
+  const [time, setTime] = useState<Date>();
   const recruitingStartTime = time;
   const recruitingEndTime = time;
   const partyStartTime = time;
@@ -120,7 +151,10 @@ export default function Write() {
               <div className="text-[16px] font-[600] ">{endTime}~</div>
             </div>
             <div className="flex justify-between">
-              <TimeModal writeTime={time} setTimeString={setContent} />
+              <TimeModal
+                writeTime={time}
+                setTimeString={setEndTimeModalString}
+              />
               {/* 수정하기 */}
             </div>
           </div>
