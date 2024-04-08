@@ -30,6 +30,7 @@ export default function Write() {
   );
   const [endTime, setEndTime] = useState<string | undefined>();
   const [time, setTime] = useState<Date>();
+  // console.log(time);
   useEffect(() => {
     if (endTimeString) {
       const dateObject: Date = new Date(endTimeString);
@@ -51,9 +52,6 @@ export default function Write() {
       console.log("날짜가 유효하지 않습니다.");
     }
   }, [endTimeString]);
-  console.log(endTime);
-  console.log(typeof endTimeString);
-  console.log(typeof time);
   const recruitingStartTime = time;
   const recruitingEndTime = time;
   const partyStartTime = time;
@@ -122,7 +120,7 @@ export default function Write() {
               <div className="text-[16px] font-[600] ">{endTime}~</div>
             </div>
             <div className="flex justify-between">
-              <TimeModal />
+              <TimeModal writeTime={time} setTimeString={setContent} />
               {/* 수정하기 */}
             </div>
           </div>

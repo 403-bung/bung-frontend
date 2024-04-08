@@ -32,8 +32,15 @@ export default function WriteModal({ setEndTimeString }: TimeProps) {
   useEffect(() => {
     setModalIsOpen(true);
   }, []);
-  const currentDateTime = new Date();
+  //시간 변환
   const [recruitingEndTime, setRecruitingEndTime] = useState(new Date());
+  const endHours = recruitingEndTime.getHours();
+  const endMinutes = recruitingEndTime.getMinutes();
+  const endPeriod = endHours < 12 ? "오전" : "오후";
+  const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
+  const endTimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+  //버튼 클릭으로 시간 변환
+  const currentDateTime = new Date();
   function addMinutesToDate(date: Date, minutes: number) {
     return new Date(date.getTime() + minutes * 60000);
   }
@@ -41,11 +48,7 @@ export default function WriteModal({ setEndTimeString }: TimeProps) {
     const newEndTime = addMinutesToDate(currentDateTime, minutes);
     setRecruitingEndTime(newEndTime);
   }
-  const endHours = recruitingEndTime.getHours();
-  const endMinutes = recruitingEndTime.getMinutes();
-  const endPeriod = endHours < 12 ? "오전" : "오후";
-  const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
-  const endTimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+
   useEffect(() => {
     setEndTimeString(recruitingEndTime.toString());
   }, [recruitingEndTime, setEndTimeString]);
