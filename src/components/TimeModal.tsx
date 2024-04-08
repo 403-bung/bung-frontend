@@ -92,7 +92,19 @@ export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
         ? writeHours - 12
         : writeHours
       : "시간이 정의되지 않음";
-  const recuitingTimeString = `${recruitingPeriod} ${recruitingDisplayTime}시 ${recruitingMinutes}분`;
+  const recruitingTimeString = `${recruitingPeriod} ${recruitingDisplayTime}시 ${recruitingMinutes}분`;
+  //string -> date
+  const dateArray = recruitingTimeString.split(" ");
+  const period = dateArray[0];
+  let time = parseInt(dateArray[1]);
+  const minutes = parseInt(dateArray[2]);
+  if (period === "오후") {
+    time += 12;
+  }
+  const date = new Date();
+  date.setHours(time, minutes, 0);
+  console.log(date);
+
   //버튼클릭으로 시간 변경
   const currentDateTime = new Date();
   function addMinutesToDate(date: Date, minutes: number) {
@@ -135,10 +147,10 @@ export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
             모임시작
           </div>
           <div className="text-black text-[28px] ml-[16px] mt-[8px]">
-            {recuitingTimeString}~
+            {recruitingTimeString}~
           </div>
           <div className="text-purple-800 ml-[19px] mt-[19px]">
-            모집기간: ~ {recuitingTimeString}
+            모집기간: ~ {recruitingTimeString}
           </div>
           <div className="w-[295px] h-[75px] mt-[61px] ml-[16px] flex flex-wrap gap-[8px] ">
             <div onClick={() => handleTimeButtonClick(10)}>
