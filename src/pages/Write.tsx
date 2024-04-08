@@ -12,6 +12,7 @@ export default function Write() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get("id");
+  const userNo = cookies.get("userNo");
   const [selected, setSelected] = useState("카테고리");
   const handleSelect = (e: any) => {
     setSelected(e.target.value);
@@ -64,7 +65,7 @@ export default function Write() {
       const response = await axios.post(
         `${SERVER_URL}/articles`,
         {
-          // userNo: userNo,
+          userNo: userNo,
           name: name,
           category: selected,
           content: content,
@@ -74,6 +75,7 @@ export default function Write() {
           partyStartTime,
           link: link,
           showLink,
+          draft: showLink,
         },
 
         {
@@ -82,7 +84,7 @@ export default function Write() {
           },
         }
       );
-      console.log("글 작성 성공:", response.data);
+      console.log("글 작성 성공:", response);
       // navigate("/home");
     } catch (error) {
       console.error("글 작성 실패:", error);
@@ -120,10 +122,8 @@ export default function Write() {
               <div className="text-[16px] font-[600] ">{endTime}~</div>
             </div>
             <div className="flex justify-between">
-              {/* <div className="text-[14px] font-[400] px-[8px] py-[4px] rounded-md bg-violet-100 border border-violet-300"> */}
               <TimeModal />
-              {/* 수정하기
-              </div> */}
+              {/* 수정하기 */}
             </div>
           </div>
           {/* 카테고리 */}
