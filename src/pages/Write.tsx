@@ -9,34 +9,91 @@ import axios from "axios";
 import { SERVER_URL } from "../data/url";
 
 export default function Write() {
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  const token = cookies.get("id");
+  const userNo = cookies.get("userNo");
   const [selected, setSelected] = useState("카테고리");
+  const [draft, setDraft] = useState(false);
   const handleSelect = (e: any) => {
     setSelected(e.target.value);
   };
-  const [userCount, setUserCount] = useState("인원수");
+  const [userCount, setUserCount] = useState("");
   const handleUserCount = (e: any) => {
     setUserCount(e.target.value);
   };
   const [name, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [link, setLink] = useState<string>("");
-  console.log(selected);
-  console.log(userCount);
-  const navigate = useNavigate();
-  const cookies = new Cookies();
-  const token = cookies.get("id");
-  const userNo = cookies.get("userNo");
+  const [showLink, setShowLink] = useState(false);
+
+  //timeModal
+  const [endtimeModalString, setEndTimeModalString] = useState<
+    string | undefined
+  >(undefined);
+  useEffect(() => {
+    if (endtimeModalString) {
+      const dateObject: Date = new Date(endtimeModalString);
+      const endHours = dateObject.getHours();
+      const endMinutes = dateObject.getMinutes();
+      const endPeriod = endHours < 12 ? "오전" : "오후";
+      const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
+      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+      setEndTime(TimeString);
+    }
+  }, [endtimeModalString]);
+  useEffect(() => {
+    if (endtimeModalString) {
+      const dateObject: Date = new Date(endtimeModalString);
+      setTime(dateObject);
+    }
+  }, [endtimeModalString]);
+  //writeModal
+  const [endTimeString, setEndTimeString] = useState<string | undefined>(
+    undefined
+  );
+  useEffect(() => {
+    if (endTimeString) {
+      const dateObject: Date = new Date(endTimeString);
+      const endHours = dateObject.getHours();
+      const endMinutes = dateObject.getMinutes();
+      const endPeriod = endHours < 12 ? "오전" : "오후";
+      const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
+      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+      setEndTime(TimeString);
+    }
+  }, [endTimeString]);
+  useEffect(() => {
+    if (endTimeString) {
+      const dateObject: Date = new Date(endTimeString);
+      setTime(dateObject);
+    }
+  }, [endTimeString]);
+  const [endTime, setEndTime] = useState<string | undefined>();
+  const [time, setTime] = useState<Date>();
+  const recruitingStartTime = time;
+  const recruitingEndTime = time;
+  const partyStartTime = time;
+  const handleShowLink = () => {
+    setShowLink(!showLink);
+  };
+  console.log(time);
   const handleWrite = async () => {
     try {
       const response = await axios.post(
         `${SERVER_URL}/articles`,
         {
-          userNo: userNo,
+          // userNo: userNo,
           name: name,
           category: selected,
           content: content,
-          maxUserCount: userCount,
+          maxUserCount: parseInt(userCount),
+          recruitingStartTime,
+          recruitingEndTime,
+          partyStartTime,
           link: link,
+          showLink,
+          draft,
         },
 
         {
@@ -45,31 +102,22 @@ export default function Write() {
           },
         }
       );
-      console.log("글 작성 성공:", response.data);
-      navigate("/home");
+      console.log("글 작성 성공:", response.config.data);
+      console.log(response);
+      // navigate("/home");
     } catch (error) {
       console.error("글 작성 실패:", error);
     }
   };
-  // useEffect(() => {
-  //   axios
-  //     .post(
-  //       `${SERVER_URL}/articles`,
-  //       { userNo: userNo, name: name },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     )
-  //     .then((response) => {
-  //       setTitle(response.data.name);
-  //     });
-  // });
-  console.log(name);
+  // console.log(selected);
+  // console.log(name);
+  // console.log(content);
+  console.log(draft);
+  // console.log(typeof endTimeString);
+  // console.log(link);
   return (
     <>
-      <WriteModal />
+      <WriteModal setEndTimeString={setEndTimeString} />
       <div className="w-[375px] min-h-screen bg-white flex flex-col items-center overflow-y-scroll scrollbar-hide">
         {/* 뒤로가기 */}
         <div className="w-[375px] h-[60px] flex items-center  pl-[9px] pr-[16px] border-b-violet-100 border-b-[1px] bg-white fixed top-0">
@@ -86,17 +134,18 @@ export default function Write() {
           <div className="flex gap-[32px] flex-col">
             <div className="flex justify-between ">
               <div className="text-[16px] font-[400] ">모집 시작</div>
-              <div className="text-[16px] font-[600] ">~ 오후 1시 23분</div>
+              <div className="text-[16px] font-[600] ">~ {endTime}</div>
             </div>
             <div className="flex justify-between ">
               <div className="text-[16px] font-[400] ">모임 시작</div>
-              <div className="text-[16px] font-[600] ">오후 1시 23분~</div>
+              <div className="text-[16px] font-[600] ">{endTime}~</div>
             </div>
             <div className="flex justify-between">
-              {/* <div className="text-[14px] font-[400] px-[8px] py-[4px] rounded-md bg-violet-100 border border-violet-300"> */}
-              <TimeModal />
-              {/* 수정하기
-              </div> */}
+              <TimeModal
+                writeTime={time}
+                setTimeString={setEndTimeModalString}
+              />
+              {/* 수정하기 */}
             </div>
           </div>
           {/* 카테고리 */}
@@ -106,19 +155,20 @@ export default function Write() {
             className="w-full py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600]"
           >
             <option value="카테고리">카테고리</option>
-            <option value="공동구매">공동구매</option>
-            <option value="게임">게임</option>
-            <option value="이벤트">이벤트</option>
-            <option value="스터디">스터디</option>
-            <option value="자유">자유</option>
-            <option value="해주세요">해주세요</option>
-            <option value="아이돌">아이돌</option>
+            <option value="group_buying">공동구매</option>
+            <option value="game">게임</option>
+            <option value="event">이벤트</option>
+            <option value="study">스터디</option>
+            <option value="free">자유</option>
+            <option value="please">해주세요</option>
+            <option value="idol">아이돌</option>
           </select>
           {/* 제목 */}
           <div>
             <div className="text-[16px] font-[600]">제목</div>
             <input
               onChange={(e) => setTitle(e.target.value)}
+              // value={name}
               placeholder="제목을 입력해주세요"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
             />
@@ -162,7 +212,11 @@ export default function Write() {
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
             />
             <div className="flex mt-[8.5px]">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={showLink}
+                onChange={handleShowLink}
+              />
               <div className="text-[14px] font-[400] ml-[8px]">
                 모임 시작 전 비공개
               </div>
@@ -172,9 +226,9 @@ export default function Write() {
           <div onClick={handleWrite}>
             <Button
               text="작성하기"
-              onClick={() => {
-                navigate("/home");
-              }}
+              // onClick={() => {
+              //   navigate("/home");
+              // }}
             />
           </div>
         </div>

@@ -24,7 +24,12 @@ const customDetailStyles = {
   },
 };
 
-export default function TimeModal() {
+interface TimeProps {
+  writeTime: Date | undefined;
+  setTimeString: (timeString: string) => void;
+}
+
+export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
   const [timeModalIsOpen, setTimeModalIsOpen] = useState(false);
   useEffect(() => {
     setTimeModalIsOpen(false);
@@ -43,7 +48,7 @@ export default function TimeModal() {
     "직접 입력",
   ];
   // TimePicker
-  const [selectedTime, setSelectedTime] = useState("");
+  let [selectedTime, setSelectedTime] = useState("");
   const [showTimePicker, setShowTimePicker] = useState(false);
   const handleTimeChange = (time: string) => {
     setSelectedTime(time);
@@ -52,6 +57,70 @@ export default function TimeModal() {
   const handleButtonClick = () => {
     setShowTimePicker(true);
   };
+  //시간 변환
+  const [recruitingTime, setRecruitingTime] = useState(writeTime);
+  const writeHours = writeTime?.getHours();
+  const recruitingHours =
+    selectedTime.length > 0
+      ? parseInt(selectedTime.slice(0, 2))
+      : recruitingTime?.getHours();
+  const recruitingMinutes =
+    selectedTime.length > 0
+      ? parseInt(selectedTime.slice(3, 5))
+      : recruitingHours !== undefined
+      ? recruitingTime?.getMinutes()
+      : writeTime !== undefined
+      ? writeTime.getMinutes()
+      : "시간이 정의되지 않음";
+  const recruitingPeriod =
+    recruitingHours !== undefined
+      ? recruitingHours < 12
+        ? "오전"
+        : "오후"
+      : writeHours !== undefined
+      ? writeHours < 12
+        ? "오전"
+        : "오후"
+      : "시간이 정의되지 않음";
+  const recruitingDisplayTime =
+    recruitingHours !== undefined
+      ? recruitingHours > 12
+        ? recruitingHours - 12
+        : recruitingHours
+      : writeHours !== undefined
+      ? writeHours > 12
+        ? writeHours - 12
+        : writeHours
+      : "시간이 정의되지 않음";
+  const recruitingTimeString = `${recruitingPeriod} ${recruitingDisplayTime}시 ${recruitingMinutes}분`;
+  // string -> date
+  const dateArray = recruitingTimeString.split(" ");
+  const period = dateArray[0];
+  let time = parseInt(dateArray[1]);
+  const minutes = parseInt(dateArray[2]);
+  if (period === "오후") {
+    time += 12;
+  }
+  const dateData = new Date();
+  dateData.setHours(time, minutes, 0);
+  //버튼클릭으로 시간 변경
+  const currentDateTime = new Date();
+  function addMinutesToDate(date: Date, minutes: number) {
+    return new Date(date.getTime() + minutes * 60000);
+  }
+  function handleTimeButtonClick(minutes: number) {
+    const newEndTime = addMinutesToDate(currentDateTime, minutes);
+    setRecruitingTime(newEndTime);
+    setSelectedTime("");
+  }
+  useEffect(() => {
+    // if (recruitingTime) {
+    //   setTimeString(recruitingTime.toString());
+    // }
+    if (dateData) {
+      setTimeString(dateData.toString());
+    }
+  }, [recruitingTime, setTimeString, dateData]);
   return (
     <div
       onClick={() => {
@@ -79,44 +148,47 @@ export default function TimeModal() {
             모임시작
           </div>
           <div className="text-black text-[28px] ml-[16px] mt-[8px]">
-            오후 1시 23분~
+            {recruitingTimeString}~
           </div>
           <div className="text-purple-800 ml-[19px] mt-[19px]">
-            모집기간: ~ 오후 1시 23분
+            모집기간: ~ {recruitingTimeString}
           </div>
           <div className="w-[295px] h-[75px] mt-[61px] ml-[16px] flex flex-wrap gap-[8px] ">
-            <TimeButton
-              name={buttonNameList[0]}
-              onClick={() => changeTag(buttonNameList[0])}
-              clicked={isClicked === buttonNameList[0]}
-            />
-            <TimeButton
-              name={buttonNameList[1]}
-              onClick={() => changeTag(buttonNameList[1])}
-              clicked={isClicked === buttonNameList[1]}
-            />
-            <TimeButton
-              name={buttonNameList[2]}
-              onClick={() => changeTag(buttonNameList[2])}
-              clicked={isClicked === buttonNameList[2]}
-            />
-            <TimeButton
-              name={buttonNameList[3]}
-              onClick={() => changeTag(buttonNameList[3])}
-              clicked={isClicked === buttonNameList[3]}
-            />
-            <TimeButton
-              name={buttonNameList[4]}
-              onClick={() => changeTag(buttonNameList[4])}
-              clicked={isClicked === buttonNameList[4]}
-            />
-            {/* <div onClick={handleButtonClick}>
+            <div onClick={() => handleTimeButtonClick(10)}>
               <TimeButton
-                name={buttonNameList[5]}
-                onClick={() => changeTag(buttonNameList[5])}
-                clicked={isClicked === buttonNameList[5]}
+                name={buttonNameList[0]}
+                onClick={() => changeTag(buttonNameList[0])}
+                clicked={isClicked === buttonNameList[0]}
               />
-            </div> */}
+            </div>
+            <div onClick={() => handleTimeButtonClick(30)}>
+              <TimeButton
+                name={buttonNameList[1]}
+                onClick={() => changeTag(buttonNameList[1])}
+                clicked={isClicked === buttonNameList[1]}
+              />
+            </div>
+            <div onClick={() => handleTimeButtonClick(60)}>
+              <TimeButton
+                name={buttonNameList[2]}
+                onClick={() => changeTag(buttonNameList[2])}
+                clicked={isClicked === buttonNameList[2]}
+              />
+            </div>
+            <div onClick={() => handleTimeButtonClick(90)}>
+              <TimeButton
+                name={buttonNameList[3]}
+                onClick={() => changeTag(buttonNameList[3])}
+                clicked={isClicked === buttonNameList[3]}
+              />
+            </div>
+            <div onClick={() => handleTimeButtonClick(120)}>
+              <TimeButton
+                name={buttonNameList[4]}
+                onClick={() => changeTag(buttonNameList[4])}
+                clicked={isClicked === buttonNameList[4]}
+              />
+            </div>
             {showTimePicker && <TimePicker onTimeChange={handleTimeChange} />}
             <div onClick={handleButtonClick}>
               <TimeButton
@@ -127,7 +199,13 @@ export default function TimeModal() {
             </div>
           </div>
         </div>
-        <div className="px-[16px] mt-[56px]">
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setTimeModalIsOpen(false);
+          }}
+          className="px-[16px] mt-[56px]"
+        >
           <Button text="수정하기" />
         </div>
       </Modal>
