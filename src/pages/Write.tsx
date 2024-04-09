@@ -7,26 +7,12 @@ import { Cookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../data/url";
+import getFormatTime from "../utils/getFormatTime";
 
 export default function Write() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get("id");
-  const userNo = cookies.get("userNo");
-  const [selected, setSelected] = useState("카테고리");
-  const [draft, setDraft] = useState(false);
-  const handleSelect = (e: any) => {
-    setSelected(e.target.value);
-  };
-  const [userCount, setUserCount] = useState("");
-  const handleUserCount = (e: any) => {
-    setUserCount(e.target.value);
-  };
-  const [name, setTitle] = useState<string>("");
-  const [content, setContent] = useState<string>("");
-  const [link, setLink] = useState<string>("");
-  const [showLink, setShowLink] = useState(false);
-
   //timeModal
   const [endtimeModalString, setEndTimeModalString] = useState<
     string | undefined
@@ -40,6 +26,7 @@ export default function Write() {
       const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
       const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
       setEndTime(TimeString);
+      // setTime(dateObject);
     }
   }, [endtimeModalString]);
   useEffect(() => {
@@ -61,6 +48,7 @@ export default function Write() {
       const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
       const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
       setEndTime(TimeString);
+      // setTime(dateObject);
     }
   }, [endTimeString]);
   useEffect(() => {
@@ -71,19 +59,59 @@ export default function Write() {
   }, [endTimeString]);
   const [endTime, setEndTime] = useState<string | undefined>();
   const [time, setTime] = useState<Date>();
+  // function convertStringToDate(endTime: any) {
+  //   const regex = /(\d{1,2})시 (\d{1,2})분/;
+  //   const match = endTime.match(regex);
+  //   let hours = parseInt(match[1]);
+  //   const minutes = parseInt(match[2]);
+  //   let isPM = false;
+  //   if (endTime?.includes("오후")) {
+  //     isPM = true;
+  //   }
+  //   if (isPM && hours !== 12) {
+  //     hours += 12;
+  //   } else if (!isPM && hours === 12) {
+  //     hours = 0;
+  //   }
+  //   const date = new Date();
+  //   date.setHours(hours);
+  //   date.setMinutes(minutes);
+  //   date.setSeconds(0);
+  // }
+  // date.setSeconds(0);
+  // console.log(hours, minutes, date);
+  // const finalTime =
+  //post API
   const recruitingStartTime = time;
   const recruitingEndTime = time;
-  const partyStartTime = time;
+  const [partyStartTime, setPartyStartTime] = useState<Date>();
+  useEffect(() => {
+    if (endtimeModalString) {
+      const dateObject: Date = new Date(endtimeModalString);
+      setPartyStartTime(dateObject);
+    }
+  }, [endtimeModalString]);
+  const [name, setTitle] = useState<string>("");
+  const [selected, setSelected] = useState("카테고리");
+  const handleSelect = (e: any) => {
+    setSelected(e.target.value);
+  };
+  const [content, setContent] = useState<string>("");
+  const [userCount, setUserCount] = useState("");
+  const handleUserCount = (e: any) => {
+    setUserCount(e.target.value);
+  };
+  const [link, setLink] = useState<string>("");
+  const [showLink, setShowLink] = useState(false);
   const handleShowLink = () => {
     setShowLink(!showLink);
   };
-  console.log(time);
+  const [draft, setDraft] = useState(false);
   const handleWrite = async () => {
     try {
       const response = await axios.post(
         `${SERVER_URL}/articles`,
         {
-          // userNo: userNo,
           name: name,
           category: selected,
           content: content,
@@ -109,12 +137,6 @@ export default function Write() {
       console.error("글 작성 실패:", error);
     }
   };
-  // console.log(selected);
-  // console.log(name);
-  // console.log(content);
-  console.log(draft);
-  // console.log(typeof endTimeString);
-  // console.log(link);
   return (
     <>
       <WriteModal setEndTimeString={setEndTimeString} />
