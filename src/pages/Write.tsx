@@ -173,13 +173,13 @@ export default function Write() {
             className="w-full py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600]"
           >
             <option value="카테고리">카테고리</option>
-            <option value="group_buying">공동구매</option>
-            <option value="game">게임</option>
-            <option value="event">이벤트</option>
-            <option value="study">스터디</option>
-            <option value="free">자유</option>
-            <option value="please">해주세요</option>
-            <option value="idol">아이돌</option>
+            <option value="GROUP_BUYING">공동구매</option>
+            <option value="GAME">게임</option>
+            <option value="EVENT">이벤트</option>
+            <option value="STUDY">스터디</option>
+            <option value="FREE">자유</option>
+            <option value="PLEASE">해주세요</option>
+            <option value="IDOL">아이돌</option>
           </select>
           {/* 제목 */}
           <div>
