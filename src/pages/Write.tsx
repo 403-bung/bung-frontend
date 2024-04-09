@@ -26,7 +26,7 @@ export default function Write() {
       const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
       const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
       setEndTime(TimeString);
-      // setTime(dateObject);
+      setTime(dateObject);
     }
   }, [endtimeModalString]);
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function Write() {
       const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
       const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
       setEndTime(TimeString);
-      // setTime(dateObject);
+      setTime(dateObject);
     }
   }, [endTimeString]);
   useEffect(() => {
@@ -57,40 +57,36 @@ export default function Write() {
       setTime(dateObject);
     }
   }, [endTimeString]);
-  const [endTime, setEndTime] = useState<string | undefined>();
+  const [endTime, setEndTime] = useState<string | undefined>("00시 00분");
   const [time, setTime] = useState<Date>();
-  // function convertStringToDate(endTime: any) {
-  //   const regex = /(\d{1,2})시 (\d{1,2})분/;
-  //   const match = endTime.match(regex);
-  //   let hours = parseInt(match[1]);
-  //   const minutes = parseInt(match[2]);
-  //   let isPM = false;
-  //   if (endTime?.includes("오후")) {
-  //     isPM = true;
-  //   }
-  //   if (isPM && hours !== 12) {
-  //     hours += 12;
-  //   } else if (!isPM && hours === 12) {
-  //     hours = 0;
-  //   }
-  //   const date = new Date();
-  //   date.setHours(hours);
-  //   date.setMinutes(minutes);
-  //   date.setSeconds(0);
-  // }
-  // date.setSeconds(0);
-  // console.log(hours, minutes, date);
-  // const finalTime =
-  //post API
-  const recruitingStartTime = time;
-  const recruitingEndTime = time;
-  const [partyStartTime, setPartyStartTime] = useState<Date>();
-  useEffect(() => {
-    if (endtimeModalString) {
-      const dateObject: Date = new Date(endtimeModalString);
-      setPartyStartTime(dateObject);
+  function convertStringToDate(endTime: any) {
+    const regex = /(\d{1,2})시 (\d{1,2})분/;
+    const match = endTime.match(regex);
+    let hours = parseInt(match[1]);
+    const minutes = parseInt(match[2]);
+    let isPM = false;
+    if (endTime?.includes("오후")) {
+      isPM = true;
     }
-  }, [endtimeModalString]);
+    if (isPM && hours !== 12) {
+      hours += 12;
+    } else if (!isPM && hours === 12) {
+      hours = 0;
+    }
+    const date = new Date();
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(0);
+    const koreaTimeOffset = 9 * 60;
+    const koreaTime = new Date(date.getTime() + koreaTimeOffset * 60000);
+    return koreaTime;
+  }
+  const finalTime = convertStringToDate(endTime);
+  console.log(finalTime);
+  //post API
+  const recruitingStartTime = finalTime;
+  const recruitingEndTime = finalTime;
+  const partyStartTime = finalTime;
   const [name, setTitle] = useState<string>("");
   const [selected, setSelected] = useState("카테고리");
   const handleSelect = (e: any) => {

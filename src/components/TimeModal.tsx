@@ -102,7 +102,7 @@ export default function TimeModal({ writeTime, setTimeString }: TimeProps) {
     time += 12;
   }
   const dateData = new Date();
-  dateData.setHours(time, minutes);
+  dateData.setHours(time, minutes, 0);
   //버튼클릭으로 시간 변경
   const currentDateTime = new Date();
   function addMinutesToDate(date: Date, minutes: number) {
