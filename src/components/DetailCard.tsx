@@ -92,7 +92,7 @@ export default function DetailCard() {
     const response = await axios.delete(`${SERVER_URL}/articles/${articleNo}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response.data);
+    return response.data;
   }
 
   const { data: article } = useQuery<Article>({
@@ -110,6 +110,7 @@ export default function DetailCard() {
     if (selectedOption === "삭제하기") {
       setModalOpen(true); // 모달 열기
     }
+    event.target.value = "더보기";
   };
 
   const time = new Date(article?.partyStartTime || "");
@@ -122,34 +123,36 @@ export default function DetailCard() {
         {/* 모집전, 수정하기 */}
         <div className="flex justify-between items-center mb-2">
           <div className="text-[#4A25A9] text-[14px]">{statusText}</div>
-          {/* {Number(userNo) === article?.userNo && (
-            <select className="text-[#BABABA] text-[14px] font-normal">
-              더보기
+          {userNo === article?.userNo && (
+            <select
+              className="text-[#BABABA] text-[14px] font-normal"
+              onChange={handleOptionChange}
+            >
+              <option>더보기</option>
               <option>수정하기</option>
-              <option>삭제하기</option>
+              <option onSelect={() => setModalOpen(true)}>삭제하기</option>
               <option>닫기</option>
             </select>
-          )} */}
-          <select
-            className="text-[#BABABA] text-[14px] font-normal"
-            onChange={handleOptionChange}
+          )}
+
+          <Modal
+            isOpen={modalOpen}
+            style={customModalStyle}
+            onRequestClose={() => setModalOpen(false)}
           >
-            <option>더보기</option>
-            <option>수정하기</option>
-            <option onSelect={() => setModalOpen(true)}>삭제하기</option>
-            <option>닫기</option>
-          </select>
-          <Modal isOpen={modalOpen} style={customModalStyle}>
             <Title text={"벙개를 삭제하시겠어요?"} />
             <div className="w-full flex flex-col items-center gap-5">
               <button
                 className="bg-[#4A25A9] w-full text-white text-base font-semibold py-5 rounded-[10px]"
                 onClick={() => {
-                  deleteArticle(article?.articleNo || 0);
+                  /* 삭제되면 true, 실패하면 false */
+                  const result = deleteArticle(article?.articleNo || 0);
+                  window.location.href = "/home";
                 }}
               >
                 삭제하기
               </button>
+
               <button onClick={() => setModalOpen(false)}>취소하기</button>
             </div>
           </Modal>
