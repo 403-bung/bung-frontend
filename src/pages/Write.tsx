@@ -127,7 +127,7 @@ export default function Write() {
       );
       console.log("글 작성 성공:", response.config.data);
       console.log(response);
-      // navigate("/home");
+      navigate("/home");
     } catch (error) {
       console.error("글 작성 실패:", error);
     }

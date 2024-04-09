@@ -131,7 +131,7 @@ export default function DetailCard() {
               onChange={handleOptionChange}
             >
               <option>더보기</option>
-              <option onSelect={() => navigate("/home")}>수정하기</option>
+              <option>수정하기</option>
               <option>삭제하기</option>
               <option>닫기</option>
             </select>
