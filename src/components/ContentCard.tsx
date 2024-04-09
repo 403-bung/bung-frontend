@@ -4,6 +4,7 @@ import summaryText from "../utils/summaryText";
 import getStatusText from "../utils/getStatusText";
 import getRemainingTime from "../utils/getRemainingTime";
 import getFormatTime from "../utils/getFormatTime";
+import { Link } from "react-router-dom";
 
 export type ContentCardProps = {
   articleNo: number;
@@ -36,7 +37,10 @@ export default function ContentCard({
 
   return (
     <>
-      <div className="w-[345px] p-5 bg-white rounded-lg border border-solid border-[#E4DEF2] flex flex-col gap-5">
+      <Link
+        to={`/detail/${articleNo}`}
+        className="w-[345px] p-5 bg-white rounded-lg border border-solid border-[#E4DEF2] flex flex-col gap-5"
+      >
         <div className="bg-[#4A25A9] w-min px-2 py-1  text-white rounded-md flex items-center gap-[2px] flex-shrink-0 text-nowrap">
           <span className="text-[12px]">{remainingTime}</span>
           <span className="text-[10px]">남음</span>
@@ -72,7 +76,7 @@ export default function ContentCard({
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </>
   );
 }

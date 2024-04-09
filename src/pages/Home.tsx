@@ -19,7 +19,6 @@ export default function Home() {
           <StatusBar />
           <Header />
           <Category />
-
           <ContentArea />
           <NabBar />
         </div>
