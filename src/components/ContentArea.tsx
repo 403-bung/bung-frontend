@@ -24,7 +24,6 @@ export default function ContentArea() {
         : location.pathname.replace("/home/", "")
     );
   }, [location.pathname]);
-
   const [sortBy, setSortBy] = useState<string>("CLOSE_TO_FINISH");
 
   async function getArticles(category: string, sortBy: string) {
@@ -38,7 +37,6 @@ export default function ContentArea() {
     });
     return response.data;
   }
-
   const { data, isLoading } = useQuery<ContentCardProps[]>({
     queryKey: [category, sortBy],
     queryFn: async () => await getArticles(category, sortBy),

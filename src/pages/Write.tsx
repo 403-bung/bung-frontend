@@ -14,10 +14,11 @@ export default function Write() {
   const token = cookies.get("id");
   const userNo = cookies.get("userNo");
   const [selected, setSelected] = useState("카테고리");
+  const [draft, setDraft] = useState(false);
   const handleSelect = (e: any) => {
     setSelected(e.target.value);
   };
-  const [userCount, setUserCount] = useState("인원수");
+  const [userCount, setUserCount] = useState("");
   const handleUserCount = (e: any) => {
     setUserCount(e.target.value);
   };
@@ -76,22 +77,23 @@ export default function Write() {
   const handleShowLink = () => {
     setShowLink(!showLink);
   };
+  console.log(time);
   const handleWrite = async () => {
     try {
       const response = await axios.post(
         `${SERVER_URL}/articles`,
         {
-          userNo: userNo,
+          // userNo: userNo,
           name: name,
           category: selected,
           content: content,
-          maxUserCount: userCount,
+          maxUserCount: parseInt(userCount),
           recruitingStartTime,
           recruitingEndTime,
           partyStartTime,
           link: link,
           showLink,
-          draft: showLink,
+          draft,
         },
 
         {
@@ -100,7 +102,8 @@ export default function Write() {
           },
         }
       );
-      console.log("글 작성 성공:", response);
+      console.log("글 작성 성공:", response.config.data);
+      console.log(response);
       // navigate("/home");
     } catch (error) {
       console.error("글 작성 실패:", error);
@@ -109,7 +112,7 @@ export default function Write() {
   // console.log(selected);
   // console.log(name);
   // console.log(content);
-  // console.log(userCount);
+  console.log(draft);
   // console.log(typeof endTimeString);
   // console.log(link);
   return (
@@ -152,13 +155,13 @@ export default function Write() {
             className="w-full py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600]"
           >
             <option value="카테고리">카테고리</option>
-            <option value="공동구매">공동구매</option>
-            <option value="게임">게임</option>
-            <option value="이벤트">이벤트</option>
-            <option value="스터디">스터디</option>
-            <option value="자유">자유</option>
-            <option value="해주세요">해주세요</option>
-            <option value="아이돌">아이돌</option>
+            <option value="group_buying">공동구매</option>
+            <option value="game">게임</option>
+            <option value="event">이벤트</option>
+            <option value="study">스터디</option>
+            <option value="free">자유</option>
+            <option value="please">해주세요</option>
+            <option value="idol">아이돌</option>
           </select>
           {/* 제목 */}
           <div>
