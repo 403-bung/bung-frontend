@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Cookies } from "react-cookie";
 import { SERVER_URL } from "../data/url";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getStatusText from "../utils/getStatusText";
 import Modal from "react-modal";
@@ -70,7 +70,7 @@ export default function DetailCard() {
   const userNo = cookies.get("userNo");
   const params = useParams();
   const [modalOpen, setModalOpen] = useState(false);
-
+  const navigate = useNavigate();
   async function getArticle(articleNo: string) {
     const response = await axios.get(`${SERVER_URL}/articles/${articleNo}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -99,16 +99,18 @@ export default function DetailCard() {
     queryKey: ["article", params.articleNo],
     queryFn: async () => await getArticle(params.articleNo as string),
   });
-
   const { data: userData } = useQuery({
     queryKey: ["writer", article?.userNo],
     queryFn: async () => await getUser(article?.userNo as number),
   });
-
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value;
+    const articleNo = article?.articleNo;
     if (selectedOption === "삭제하기") {
       setModalOpen(true); // 모달 열기
+    }
+    if (selectedOption === "수정하기") {
+      navigate(`/detail/${articleNo}/edit`);
     }
     event.target.value = "더보기";
   };
@@ -129,8 +131,8 @@ export default function DetailCard() {
               onChange={handleOptionChange}
             >
               <option>더보기</option>
-              <option>수정하기</option>
-              <option onSelect={() => setModalOpen(true)}>삭제하기</option>
+              <option onSelect={() => navigate("/home")}>수정하기</option>
+              <option>삭제하기</option>
               <option>닫기</option>
             </select>
           )}

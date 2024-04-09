@@ -1,24 +1,11 @@
-import { Cookies } from "react-cookie";
 import KaKaoLoginBtn from "../../components/KakaoLoginBtn";
 import { SERVER_URL } from "../../data/url";
 import banner from "../../icons/main.svg";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
   const handleLogin = () => {
     window.location.href = `${SERVER_URL}/users/sign-in?oauthType=kakao`;
   };
-  // const navigate = useNavigate();
-  // const cookies = new Cookies();
-  // const id = cookies.get("id");
-  // useEffect(() => {
-  //   if (!id) {
-  //     navigate("/login");
-  //   } else {
-  //     navigate("/home");
-  //   }
-  // });
 
   return (
     <div className="w-[375px] min-h-screen h-screen pt-[96px] pb-14 px-4 bg-white flex flex-col justify-between">

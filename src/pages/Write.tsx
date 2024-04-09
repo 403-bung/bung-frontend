@@ -7,7 +7,6 @@ import { Cookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../data/url";
-import getFormatTime from "../utils/getFormatTime";
 
 export default function Write() {
   const navigate = useNavigate();
