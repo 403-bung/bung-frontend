@@ -20,7 +20,7 @@ export default function Detail() {
       }
     }, 1000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [repeatCount]);
 
   return (
     <div className="bg-[#EDE9F6] relative">
