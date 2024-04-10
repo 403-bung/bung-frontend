@@ -101,6 +101,7 @@ export default function Write() {
   const handleShowLink = () => {
     setShowLink(!showLink);
   };
+  console.log(showLink);
   const [draft, setDraft] = useState(false);
   const handleWrite = async () => {
     try {
@@ -231,7 +232,7 @@ export default function Write() {
             <div className="flex mt-[8.5px]">
               <input
                 type="checkbox"
-                checked={showLink}
+                // checked={showLink}
                 onChange={handleShowLink}
               />
               <div className="text-[14px] font-[400] ml-[8px]">
