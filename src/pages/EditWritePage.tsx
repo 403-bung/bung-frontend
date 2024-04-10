@@ -11,25 +11,85 @@ import TimeModal from "../components/TimeModal";
 
 type Article = {
   articleNo: number;
+  name: string;
+  category: string;
+  content: string;
+  maxUserCount: number;
   // recruitingStartTime: Date; // 모집 시작 시간
-  // recruitingEndTime: Date; // 모집 종료 시간
+  recruitingEndTime: Date;
   partyStartTime: Date;
+  link: string;
+  showLink: boolean;
 };
 
 export default function EditWritePage() {
   const navigate = useNavigate();
-  const cookies = new Cookies();
-  const token = cookies.get("id");
   const params = useParams();
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
   });
+  //카테고리
+  const [category, setCategory] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setCategory(article.category);
+    }
+  }, [article]);
+  const handleCategory = (e: any) => {
+    setCategory(e.target.value);
+  };
+  //이름
+  const [name, setName] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setName(article.name);
+    }
+  }, [article]);
+  //내용
+  const [content, setContent] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setContent(article.content);
+    }
+  }, [article]);
+  //인원수
+  const [maxUserCount, setMaxUserCount] = useState<number>();
+  useEffect(() => {
+    if (article) {
+      setMaxUserCount(article.maxUserCount);
+    }
+  }, [article]);
+  const handleMaxUserCount = (e: any) => {
+    setMaxUserCount(parseInt(e.target.value));
+  };
+  //링크
+  const [link, setLink] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setLink(article.link);
+    }
+  }, [article]);
+  //링크 표시 여부
+  const [showLink, setShowLink] = useState<boolean>();
+  useEffect(() => {
+    if (article) {
+      setShowLink(article.showLink);
+    }
+  }, [article]);
+  const handleShowLink = () => {
+    setShowLink(!showLink);
+  };
   console.log(article);
-  const articleNo = params.articleNo;
-
+  console.log(typeof maxUserCount);
   //시간
   //기존 설정 시간 표시
-  const dateString = article?.partyStartTime;
+  const [dateString, setDateString] = useState<Date>();
+  useEffect(() => {
+    if (article) {
+      setDateString(article.partyStartTime);
+    }
+  }, [article]);
+  // const dateString = article?.partyStartTime;
   const [endtimeModalString, setEndTimeModalString] = useState<
     string | undefined
   >(undefined);
@@ -85,19 +145,43 @@ export default function EditWritePage() {
     return koreaTime;
   }
   const finalTime = convertStringToDate(endTime);
+  const recruitingEndTime = finalTime;
+  const partyStartTime = finalTime;
   console.log(finalTime);
   //PUT API
-  const EditArticle = async (articleNo: number) => {
+  const articleNo = article?.articleNo;
+  const cookies = new Cookies();
+  const token = cookies.get("id");
+  const EditArticle = async () => {
     const response = await axios.put(
-      `${SERVER_URL}/articles/${articleNo}/`,
+      `${SERVER_URL}/articles/${articleNo}`,
       {
-        partyStartTime: time,
+        name,
+        category,
+        content,
+        maxUserCount,
+        recruitingEndTime,
+        partyStartTime,
+        link,
+        showLink,
       },
       {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    console.log(response.data);
+    // .then((response) => {});
+    console.log(
+      category,
+      content,
+      maxUserCount,
+      recruitingEndTime,
+      partyStartTime,
+      link,
+      showLink
+    );
+    navigate(-1);
+    console.log(response.config.data);
+    console.log(response);
   };
   return (
     <>
@@ -131,9 +215,10 @@ export default function EditWritePage() {
             </div>
           </div>
           {/* 카테고리 */}
-          {/* <select
-            onChange={handleSelect}
-            value={selected}
+          <select
+            onChange={handleCategory}
+            value={category}
+            defaultValue={category}
             className="w-full py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600]"
           >
             <option value="카테고리">카테고리</option>
@@ -144,33 +229,36 @@ export default function EditWritePage() {
             <option value="FREE">자유</option>
             <option value="PLEASE">해주세요</option>
             <option value="IDOL">아이돌</option>
-          </select> */}
+          </select>
           {/* 제목 */}
           <div>
             <div className="text-[16px] font-[600]">제목</div>
-            {/* <input
-              onChange={(e) => setTitle(e.target.value)}
+            <input
+              onChange={(e) => setName(e.target.value)}
               // value={name}
+              defaultValue={name}
               placeholder="제목을 입력해주세요"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
-            /> */}
+            />
           </div>
           {/* 본문 */}
           <div>
             <div className="text-[16px] font-[600]">본문</div>
-            {/* <textarea
+            <textarea
               onChange={(e) => setContent(e.target.value)}
+              defaultValue={content}
               placeholder="내용을 입력해주세요&#10;(예상 시간, 참여 목적 등 구체적으로 적을 수록 &#10;모임 성공 확률이 높아져요)"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[200px] w-[343px] leading-tight"
-            /> */}
+            />
           </div>
           {/* 모집인원 */}
           <div className="flex items-center gap-[33px]">
             <div className="text-[16px] font-[600]">모집인원</div>
             <div>
-              {/* <select
-                onChange={handleUserCount}
-                value={userCount}
+              <select
+                onChange={handleMaxUserCount}
+                value={maxUserCount}
+                defaultValue={maxUserCount}
                 className="w-[254px] py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600] "
               >
                 <option>모집 인원을 입력해주세요</option>
@@ -182,30 +270,31 @@ export default function EditWritePage() {
                 <option>8</option>
                 <option>9</option>
                 <option>10</option>
-              </select> */}
+              </select>
             </div>
           </div>
           {/* 링크 */}
           <div>
             <div className="text-[16px] font-[600]">링크</div>
-            {/* <input
+            <input
               onChange={(e) => setLink(e.target.value)}
               placeholder="공유 파일 등 링크를 입력해주세요"
+              defaultValue={link}
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
-            /> */}
+            />
             <div className="flex mt-[8.5px]">
-              {/* <input
+              <input
                 type="checkbox"
                 checked={showLink}
                 onChange={handleShowLink}
-              /> */}
+              />
               <div className="text-[14px] font-[400] ml-[8px]">
                 모임 시작 전 비공개
               </div>
             </div>
           </div>
           {/* 버튼 */}
-          <div>
+          <div onClick={EditArticle}>
             <Button
               text="수정완료"
               // onClick={() => {

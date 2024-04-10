@@ -97,7 +97,7 @@ export default function Write() {
     setUserCount(e.target.value);
   };
   const [link, setLink] = useState<string>("");
-  const [showLink, setShowLink] = useState(false);
+  const [showLink, setShowLink] = useState(true);
   const handleShowLink = () => {
     setShowLink(!showLink);
   };
