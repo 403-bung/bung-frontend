@@ -1,10 +1,9 @@
 import KaKaoLoginBtn from "../../components/KakaoLoginBtn";
-import { SERVER_URL } from "../../data/url";
 import banner from "../../icons/main.svg";
 
 function Login() {
   const handleLogin = () => {
-    window.location.href = `${SERVER_URL}/users/sign-in?oauthType=kakao`;
+    window.location.href = `${process.env.REACT_APP_API_URL}/users/sign-in?oauthType=kakao`;
   };
 
   return (

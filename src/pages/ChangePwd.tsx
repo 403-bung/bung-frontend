@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { changeNicknameActions } from "../store/changeNickname";
 import { Cookies } from "react-cookie";
 import axios from "axios";
-import { SERVER_URL } from "../data/url";
 
 export default function ChangePwd() {
   const [nickname, setNickname] = useState<string>("");
@@ -56,7 +55,7 @@ export default function ChangePwd() {
 
     axios
       .put(
-        `${SERVER_URL}/users/${userNo}/nickname`,
+        `${process.env.REACT_APP_API_URL}/users/${userNo}/nickname`,
         { nickname },
         {
           headers: { Authorization: `Bearer ${token}` },

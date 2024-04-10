@@ -3,7 +3,6 @@ import profile from "../icons/profile.svg";
 import { Cookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { SERVER_URL } from "../data/url";
 
 export default function ProfileBar() {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ export default function ProfileBar() {
 
   useEffect(() => {
     axios
-      .get(`${SERVER_URL}/users/${userNo}/profile`, {
+      .get(`${process.env.REACT_APP_API_URL}/users/${userNo}/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

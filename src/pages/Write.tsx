@@ -6,7 +6,6 @@ import TimeModal from "../components/TimeModal";
 import { Cookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { SERVER_URL } from "../data/url";
 
 export default function Write() {
   const navigate = useNavigate();
@@ -105,7 +104,7 @@ export default function Write() {
   const handleWrite = async () => {
     try {
       const response = await axios.post(
-        `${SERVER_URL}/articles`,
+        `${process.env.REACT_APP_API_URL}/articles`,
         {
           name: name,
           category: selected,

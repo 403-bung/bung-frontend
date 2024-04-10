@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { alarmModalActions } from "../store/alarmModal";
 import { Cookies } from "react-cookie";
 import axios from "axios";
-import { SERVER_URL } from "../data/url";
 
 function NicknamePage() {
   const [nickname, setNickname] = useState<string>("");
@@ -57,7 +56,7 @@ function NicknamePage() {
 
     axios
       .put(
-        `${SERVER_URL}/users/${userNo}/nickname`,
+        `${process.env.REACT_APP_API_URL}/users/${userNo}/nickname`,
         { nickname },
         {
           headers: { Authorization: `Bearer ${token}` },

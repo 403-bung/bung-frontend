@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { Cookies } from "react-cookie";
-import { SERVER_URL } from "../data/url";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getStatusText from "../utils/getStatusText";
@@ -72,26 +71,35 @@ export default function DetailCard() {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   async function getArticle(articleNo: string) {
-    const response = await axios.get(`${SERVER_URL}/articles/${articleNo}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      params: { userNo: userNo, articleNo: articleNo },
-    });
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { userNo: userNo, articleNo: articleNo },
+      }
+    );
 
     return response.data;
   }
 
   async function getUser(userNo: number) {
-    const response = await axios.get(`${SERVER_URL}/users/${userNo}/profile`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/users/${userNo}/profile`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     return response.data;
   }
 
   async function deleteArticle(articleNo: number) {
-    const response = await axios.delete(`${SERVER_URL}/articles/${articleNo}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axios.delete(
+      `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   }
 
