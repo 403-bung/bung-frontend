@@ -5,7 +5,6 @@ export default function getFormatTime(time: string) {
 
   const { timePeriod, hour } = getDayNight(startHours);
 
-  console.log(startDateTime)
   return `${timePeriod} ${hour}시 ${startMinutes}분`;
 }
 function getDayNight(hour: number) {

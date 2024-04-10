@@ -1,66 +1,130 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import GoBackBtn from "../components/GoBackBtn";
 import Button from "../components/Button";
-import WriteModal from "../components/WriteModal";
-import TimeModal from "../components/TimeModal";
-import { Cookies } from "react-cookie";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../data/url";
+import { Cookies } from "react-cookie";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import TimeModal from "../components/TimeModal";
+// import convertStringnToDate from "../utils/covertStringToDate";
 
-export default function Write() {
+type Article = {
+  articleNo: number;
+  name: string;
+  category: string;
+  content: string;
+  maxUserCount: number;
+  // recruitingStartTime: Date; // 모집 시작 시간
+  recruitingEndTime: Date;
+  partyStartTime: Date;
+  link: string;
+  showLink: boolean;
+};
+
+export default function EditWritePage() {
   const navigate = useNavigate();
-  const cookies = new Cookies();
-  const token = cookies.get("id");
-  //timeModal
+  const params = useParams();
+  const { data: article } = useQuery<Article>({
+    queryKey: ["article", params.articleNo],
+  });
+  //카테고리
+  const [category, setCategory] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setCategory(article.category);
+    }
+  }, [article]);
+  const handleCategory = (e: any) => {
+    setCategory(e.target.value);
+  };
+  //이름
+  const [name, setName] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setName(article.name);
+    }
+  }, [article]);
+  //내용
+  const [content, setContent] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setContent(article.content);
+    }
+  }, [article]);
+  //인원수
+  const [maxUserCount, setMaxUserCount] = useState<number>();
+  useEffect(() => {
+    if (article) {
+      setMaxUserCount(article.maxUserCount);
+    }
+  }, [article]);
+  const handleMaxUserCount = (e: any) => {
+    setMaxUserCount(parseInt(e.target.value));
+  };
+  //링크
+  const [link, setLink] = useState<string>();
+  useEffect(() => {
+    if (article) {
+      setLink(article.link);
+    }
+  }, [article]);
+  //링크 표시 여부
+  const [showLink, setShowLink] = useState<boolean>();
+  useEffect(() => {
+    if (article) {
+      setShowLink(article.showLink);
+    }
+  }, [article]);
+  const handleShowLink = () => {
+    setShowLink(!showLink);
+  };
+  console.log(article);
+  console.log(typeof maxUserCount);
+  //시간
+  //기존 설정 시간 표시
+  const [dateString, setDateString] = useState<Date>();
+  useEffect(() => {
+    if (article) {
+      setDateString(article.partyStartTime);
+    }
+  }, [article]);
+  // const dateString = article?.partyStartTime;
   const [endtimeModalString, setEndTimeModalString] = useState<
     string | undefined
   >(undefined);
-  useEffect(() => {
-    if (endtimeModalString) {
-      const dateObject: Date = new Date(endtimeModalString);
-      const endHours = dateObject.getHours();
-      const endMinutes = dateObject.getMinutes();
-      const endPeriod = endHours < 12 ? "오전" : "오후";
-      const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
-      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
-      setEndTime(TimeString);
-      setTime(dateObject);
-    }
-  }, [endtimeModalString]);
-  useEffect(() => {
-    if (endtimeModalString) {
-      const dateObject: Date = new Date(endtimeModalString);
-      setTime(dateObject);
-    }
-  }, [endtimeModalString]);
-  //writeModal
-  const [endTimeString, setEndTimeString] = useState<string | undefined>(
-    undefined
-  );
-  useEffect(() => {
-    if (endTimeString) {
-      const dateObject: Date = new Date(endTimeString);
-      const endHours = dateObject.getHours();
-      const endMinutes = dateObject.getMinutes();
-      const endPeriod = endHours < 12 ? "오전" : "오후";
-      const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
-      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
-      setEndTime(TimeString);
-      setTime(dateObject);
-    }
-  }, [endTimeString]);
-  useEffect(() => {
-    if (endTimeString) {
-      const dateObject: Date = new Date(endTimeString);
-      setTime(dateObject);
-    }
-  }, [endTimeString]);
   const [endTime, setEndTime] = useState<string | undefined>("00시 00분");
   const [time, setTime] = useState<Date>();
+  useEffect(() => {
+    if (endtimeModalString) {
+      const dateObject: Date = new Date(endtimeModalString);
+      const endHours = dateObject.getHours();
+      const endMinutes = dateObject.getMinutes();
+      const endPeriod = endHours < 12 ? "오전" : "오후";
+      const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
+      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+      setEndTime(TimeString);
+      // setTime(dateObject);
+    }
+  }, [endtimeModalString]);
+  useEffect(() => {
+    if (dateString) {
+      const dateObject: Date = new Date(dateString);
+      const endHours = dateObject.getHours();
+      const endMinutes = dateObject.getMinutes();
+      const endPeriod = endHours < 12 ? "오전" : "오후";
+      const endDisplayTime = endHours > 12 ? endHours - 12 : endHours;
+      const TimeString = `${endPeriod} ${endDisplayTime}시 ${endMinutes}분`;
+      setEndTime(TimeString);
+      setTime(dateObject);
+    }
+  }, [dateString]);
   function convertStringToDate(endTime: any) {
     const regex = /(\d{1,2})시 (\d{1,2})분/;
     const match = endTime.match(regex);
+    if (!match) {
+      return new Date();
+    }
     let hours = parseInt(match[1]);
     const minutes = parseInt(match[2]);
     let isPM = false;
@@ -81,60 +145,46 @@ export default function Write() {
     return koreaTime;
   }
   const finalTime = convertStringToDate(endTime);
-  console.log(finalTime);
-  //post API
-  const recruitingStartTime = finalTime;
   const recruitingEndTime = finalTime;
   const partyStartTime = finalTime;
-  const [name, setTitle] = useState<string>("");
-  const [selected, setSelected] = useState("카테고리");
-  const handleSelect = (e: any) => {
-    setSelected(e.target.value);
-  };
-  const [content, setContent] = useState<string>("");
-  const [userCount, setUserCount] = useState("");
-  const handleUserCount = (e: any) => {
-    setUserCount(e.target.value);
-  };
-  const [link, setLink] = useState<string>("");
-  const [showLink, setShowLink] = useState(true);
-  const handleShowLink = () => {
-    setShowLink(!showLink);
-  };
-  const [draft, setDraft] = useState(false);
-  const handleWrite = async () => {
-    try {
-      const response = await axios.post(
-        `${SERVER_URL}/articles`,
-        {
-          name: name,
-          category: selected,
-          content: content,
-          maxUserCount: parseInt(userCount),
-          recruitingStartTime,
-          recruitingEndTime,
-          partyStartTime,
-          link: link,
-          showLink,
-          draft,
-        },
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("글 작성 성공:", response.config.data);
-      console.log(response);
-      navigate("/home");
-    } catch (error) {
-      console.error("글 작성 실패:", error);
-    }
+  console.log(finalTime);
+  //PUT API
+  const articleNo = article?.articleNo;
+  const cookies = new Cookies();
+  const token = cookies.get("id");
+  const EditArticle = async () => {
+    const response = await axios.put(
+      `${SERVER_URL}/articles/${articleNo}`,
+      {
+        name,
+        category,
+        content,
+        maxUserCount,
+        recruitingEndTime,
+        partyStartTime,
+        link,
+        showLink,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    // .then((response) => {});
+    console.log(
+      category,
+      content,
+      maxUserCount,
+      recruitingEndTime,
+      partyStartTime,
+      link,
+      showLink
+    );
+    navigate(-1);
+    console.log(response.config.data);
+    console.log(response);
   };
   return (
     <>
-      <WriteModal setEndTimeString={setEndTimeString} />
       <div className="w-[375px] min-h-screen bg-white flex flex-col items-center overflow-y-scroll scrollbar-hide">
         {/* 뒤로가기 */}
         <div className="w-[375px] h-[60px] flex items-center  pl-[9px] pr-[16px] border-b-violet-100 border-b-[1px] bg-white fixed top-0">
@@ -144,7 +194,6 @@ export default function Write() {
             }}
           />
           <div className="text-[16px] font-[600] ml-[118px]">모임 만들기</div>
-          <div className="text-[16px] font-[600] ml-[79px]">임시저장</div>
         </div>
         <div className="mt-[80px] w-[343px] flex flex-col gap-[32px] h-screen ">
           {/* 모집시간, 모임시작 , 수정하기*/}
@@ -167,8 +216,9 @@ export default function Write() {
           </div>
           {/* 카테고리 */}
           <select
-            onChange={handleSelect}
-            value={selected}
+            onChange={handleCategory}
+            value={category}
+            defaultValue={category}
             className="w-full py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600]"
           >
             <option value="카테고리">카테고리</option>
@@ -184,8 +234,9 @@ export default function Write() {
           <div>
             <div className="text-[16px] font-[600]">제목</div>
             <input
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               // value={name}
+              defaultValue={name}
               placeholder="제목을 입력해주세요"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
             />
@@ -195,6 +246,7 @@ export default function Write() {
             <div className="text-[16px] font-[600]">본문</div>
             <textarea
               onChange={(e) => setContent(e.target.value)}
+              defaultValue={content}
               placeholder="내용을 입력해주세요&#10;(예상 시간, 참여 목적 등 구체적으로 적을 수록 &#10;모임 성공 확률이 높아져요)"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[200px] w-[343px] leading-tight"
             />
@@ -204,8 +256,9 @@ export default function Write() {
             <div className="text-[16px] font-[600]">모집인원</div>
             <div>
               <select
-                onChange={handleUserCount}
-                value={userCount}
+                onChange={handleMaxUserCount}
+                value={maxUserCount}
+                defaultValue={maxUserCount}
                 className="w-[254px] py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600] "
               >
                 <option>모집 인원을 입력해주세요</option>
@@ -226,6 +279,7 @@ export default function Write() {
             <input
               onChange={(e) => setLink(e.target.value)}
               placeholder="공유 파일 등 링크를 입력해주세요"
+              defaultValue={link}
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
             />
             <div className="flex mt-[8.5px]">
@@ -240,9 +294,9 @@ export default function Write() {
             </div>
           </div>
           {/* 버튼 */}
-          <div onClick={handleWrite}>
+          <div onClick={EditArticle}>
             <Button
-              text="작성하기"
+              text="수정완료"
               // onClick={() => {
               //   navigate("/home");
               // }}

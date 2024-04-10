@@ -14,6 +14,7 @@ import Intro from "./pages/Intro";
 import { CookiesProvider } from "react-cookie";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import EditWritePage from "./pages/EditWritePage";
 
 const router = createBrowserRouter([
   { path: "/", element: <Intro /> },
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
   { path: "/login/confirm", element: <Confirm /> },
   { path: "/nickname", element: <NicknamePage /> },
   { path: "/detail/:articleNo", element: <Detail /> },
+  { path: "/detail/:articleNo/edit", element: <EditWritePage /> },
   {
     path: "/home",
     element: <Home />,
