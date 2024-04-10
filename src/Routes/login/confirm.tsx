@@ -14,16 +14,13 @@ const customStyles = {
     backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    padding: "0px",
+    padding: 0,
     width: "375px",
     height: "496px",
-    marginTop: "158px",
+    top: "calc(100% - 496px)",
+    left: "calc(50% - 375px / 2)",
+    right: "auto",
+    transform: "translate(0%, 0%)",
     backgroundColor: "white",
   },
 };
@@ -108,6 +105,9 @@ function Confirm() {
 
   const cookies = new Cookies();
 
+  const [userNo, setUserNo] = useState("");
+  const [token, setToken] = useState("");
+
   useEffect(() => {
     const url = window.location.search;
     const params = url.slice(1, url.length).split("&");
@@ -115,6 +115,8 @@ function Confirm() {
     const token = params[1].split("=")[1];
     cookies.set("id", token, { path: "/" });
     cookies.set("userNo", userNo, { path: "/" });
+    setToken(token);
+    setUserNo(userNo);
 
     axios
       .get(`${SERVER_URL}/users/${userNo}/profile`, {
@@ -123,7 +125,17 @@ function Confirm() {
       .then((response) => {
         setEmail(response.data.email);
       });
-  });
+  }, [cookies]);
+
+  function submitAgree() {
+    axios.put(
+      `${SERVER_URL}/users/${userNo}/terms-agree`,
+      { userNo: userNo, privacyPolicy: true, termsOfService: true },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  }
 
   return (
     <>
@@ -132,14 +144,12 @@ function Confirm() {
 
         <div className="h-full flex flex-col justify-between">
           <div>
-            <div className="mt-4 text-[26px] font-[700] font-[Pretendard] leading-[39px]  ">
+            <div className="mt-4 text-[26px] font-[700]  leading-[39px]  ">
               이메일을 확인해주세요
             </div>
             <div className="mt-7 flex">
               <img src={logo} alt="Logo" className="w-5 h-5"></img>
-              <div className="text-[14px] font-[400] font-[Pretendard] ml-[10px]">
-                {email}
-              </div>
+              <div className="text-[14px] font-[400]  ml-[10px]">{email}</div>
             </div>
           </div>
           <div className="w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
@@ -153,8 +163,8 @@ function Confirm() {
             contentLabel="약관 동의"
             style={customStyles}
           >
-            <div className=" mt-[32px] mx-[16px] inline-flex flex-col">
-              <div className="font-[Pretendard] text-[26px] font-[700] leading-[39px]">
+            <div className="pt-8 px-4 flex flex-col">
+              <div className="text-[26px] text-[#1F1F1F] font-bold">
                 약관에 동의해 주세요
               </div>
               <div className="bg-[#E9E9E9] w-[343px] px-4 py-3 flex items-center mt-[19px]">
@@ -264,7 +274,7 @@ function Confirm() {
               </div>
             </div>
 
-            <div className="mt-[153px] mx-[16px] w-[343px] h-[59px] py-[19px] bg-zinc-400 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
+            <div className="mt-[153px] px-4 w-full h-[59px] py-5 rounded-[10px] flex justify-center items-center ">
               <button
                 type="button"
                 className="w-[343px] h-[59px] bg-[#4A25A9] rounded-[10px] font-semibold text-[18px] text-white"
@@ -279,17 +289,12 @@ function Confirm() {
                 }}
                 onClick={() => {
                   navigate("/nickname");
+                  submitAgree();
                 }}
               >
                 확인
               </button>
             </div>
-            {/* <button
-              onClick={openModal}
-              className=" mt-[153px] w-[343px] px-[155px] py-[19px] bg-[#BABABA] text-[18px] font-[600] rounded-[10px]"
-            >
-              확인
-            </button> */}
           </Modal>
         </div>
       </div>
