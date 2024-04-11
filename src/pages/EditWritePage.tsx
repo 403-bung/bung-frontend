@@ -79,7 +79,7 @@ export default function EditWritePage() {
     setShowLink(!showLink);
   };
   console.log(article);
-  console.log(typeof maxUserCount);
+  console.log(showLink);
   //시간
   //기존 설정 시간 표시
   const [dateString, setDateString] = useState<Date>();
@@ -284,7 +284,7 @@ export default function EditWritePage() {
             <div className="flex mt-[8.5px]">
               <input
                 type="checkbox"
-                checked={showLink}
+                checked={!showLink}
                 onChange={handleShowLink}
               />
               <div className="text-[14px] font-[400] ml-[8px]">
