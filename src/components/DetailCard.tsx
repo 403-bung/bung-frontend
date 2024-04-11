@@ -9,7 +9,7 @@ import Title from "./Title";
 import useRemainingTime from "../hooks/useRemainingTime";
 import { deleteArticle, getArticle, getUser } from "../api";
 
-type Article = {
+export type Article = {
   articleNo: number; // 구인글 번호
   name: string; // 구인글 제목
   category: string; // 카테고리
@@ -28,10 +28,10 @@ type Article = {
 
 type Participant = {
   participantUserNo: number; // 참여 신청자 사용자 번호
-  state: number; // 참여 신청자 상태
+  state: string; // 참여 신청자 상태
 };
 
-const categories = new Map([
+export const categories = new Map([
   ["GROUP_BUYING", "공동구매"],
   ["GAME", "게임"],
   ["EVENT", "이벤트"],
@@ -41,7 +41,7 @@ const categories = new Map([
   ["IDOL", "아이돌"],
 ]);
 
-const customModalStyle: ReactModal.Styles = {
+export const customModalStyle: ReactModal.Styles = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 10,
