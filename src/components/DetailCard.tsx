@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,6 +7,7 @@ import Modal from "react-modal";
 import ReactModal from "react-modal";
 import Title from "./Title";
 import useRemainingTime from "../hooks/useRemainingTime";
+import { deleteArticle, getArticle, getUser } from "../api";
 
 type Article = {
   articleNo: number; // 구인글 번호
@@ -70,39 +70,6 @@ export default function DetailCard() {
   const params = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
-
-  async function getArticle(articleNo: string) {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { userNo: userNo, articleNo: articleNo },
-      }
-    );
-
-    return response.data;
-  }
-
-  async function getUser(userNo: number) {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/users/${userNo}/profile`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    return response.data;
-  }
-
-  async function deleteArticle(articleNo: number) {
-    const response = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    return response.data;
-  }
 
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],

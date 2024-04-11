@@ -33,3 +33,37 @@ export async function feedback() {
 
   return response.data;
 }
+
+export async function getArticle(articleNo: string) {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+      params: { userNo: userNo, articleNo: articleNo },
+    }
+  );
+
+  return response.data;
+}
+
+export async function getUser(userNo: number) {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_URL}/users/${userNo}/profile`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  return response.data;
+}
+
+export async function deleteArticle(articleNo: number) {
+  const response = await axios.delete(
+    `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  return response.data;
+}
