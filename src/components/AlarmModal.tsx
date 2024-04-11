@@ -5,7 +5,6 @@ import Title from "./Title";
 import { alarmModalActions } from "../store/alarmModal";
 import alarmImg from "../icons/alarmImg.svg";
 import axios from "axios";
-import { SERVER_URL } from "../data/url";
 import { Cookies } from "react-cookie";
 
 export default function AlarmModal() {
@@ -22,7 +21,7 @@ export default function AlarmModal() {
   function submitAlarm(pushEnable: boolean) {
     axios
       .put(
-        `${SERVER_URL}/users/${userNo}/push`,
+        `${process.env.REACT_APP_API_URL}/users/${userNo}/push`,
         { pushEnable },
         {
           headers: { Authorization: `Bearer ${token}` },
