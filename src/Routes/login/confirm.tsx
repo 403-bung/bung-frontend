@@ -128,7 +128,7 @@ function Confirm() {
 
   function submitAgree() {
     axios.put(
-      `${SERVER_URL}/users/${userNo}/terms-agree`,
+      `${process.env.REACT_APP_API_URL}/users/${userNo}/terms-agree`,
       { userNo: userNo, privacyPolicy: true, termsOfService: true },
       {
         headers: { Authorization: `Bearer ${token}` },
