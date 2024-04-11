@@ -8,10 +8,69 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../data/url";
 
-export default function Write() {
+export default function DraftArticle() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get("id");
+  //draftArticle GET API
+  const [draftArticle, setDraftArticle] = useState<any>();
+  const GetDraftArticle = async () => {
+    const userNo = cookies.get("userNo");
+    const response = await axios
+      .get(`${SERVER_URL}/articles/draft`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { userNo: userNo },
+      })
+      .then((response) => {
+        setDraftArticle(response.data);
+        setCategory(response.data.category);
+        setName(response.data.name);
+        setContent(response.data.content);
+        setMaxUserCount(response.data.maxUserCount);
+        setLink(response.data.link);
+        setShowLink(response.data.showLink);
+      });
+    // console.log(response);
+  };
+  useEffect(() => {
+    GetDraftArticle();
+  }, []);
+  //카테고리
+  const [category, setCategory] = useState<string>();
+  useEffect(() => {
+    if (category === "카테고리") setCategory("GROUP_BUYING");
+    if (category === "게임") setCategory("GAME");
+    if (category === "이벤트") setCategory("EVENT");
+    if (category === "스터디") setCategory("STUDY");
+    if (category === "자유") setCategory("FREE");
+    if (category === "해주세요") setCategory("PLEASE");
+    if (category === "아이돌") setCategory("IDOL");
+  }, [category]);
+  const handleCategory = (e: any) => {
+    setCategory(e.target.value);
+  };
+  //제목
+  const [name, setName] = useState<string>();
+  //본문
+  const [content, setContent] = useState<string>();
+  //인원수
+  const [maxUserCount, setMaxUserCount] = useState<number>();
+  const handleMaxUserCount = (e: any) => {
+    setMaxUserCount(parseInt(e.target.value));
+  };
+  //링크
+  const [link, setLink] = useState<string>();
+  //링크 표시 여부
+  const [showLink, setShowLink] = useState<boolean>();
+  const handleShowLink = () => {
+    setShowLink(!showLink);
+  };
+  const [draft, setDraft] = useState(false);
+  const handleDraft = () => {
+    setDraft(true);
+  };
+  console.log(draftArticle);
+  console.log(draft);
   //timeModal
   const [endtimeModalString, setEndTimeModalString] = useState<
     string | undefined
@@ -86,41 +145,20 @@ export default function Write() {
   const recruitingStartTime = finalTime;
   const recruitingEndTime = finalTime;
   const partyStartTime = finalTime;
-  const [name, setTitle] = useState<string>("");
-  const [selected, setSelected] = useState("카테고리");
-  const handleSelect = (e: any) => {
-    setSelected(e.target.value);
-  };
-  const [content, setContent] = useState<string>("");
-  const [userCount, setUserCount] = useState("");
-  const handleUserCount = (e: any) => {
-    setUserCount(e.target.value);
-  };
-  const [link, setLink] = useState<string>("");
-  const [showLink, setShowLink] = useState(true);
-  const handleShowLink = () => {
-    setShowLink(!showLink);
-  };
-  const [draft, setDraft] = useState(false);
-  const handleDraft = () => {
-    setDraft(true);
-  };
-  //임시저장 API
-  // console.log(draft);
   //글 작성 API
   const handleWrite = async () => {
     try {
       const response = await axios.post(
         `${SERVER_URL}/articles`,
         {
-          name: name,
-          category: selected,
-          content: content,
-          maxUserCount: parseInt(userCount),
+          name,
+          category,
+          content,
+          maxUserCount,
           recruitingStartTime,
           recruitingEndTime,
           partyStartTime,
-          link: link,
+          link,
           showLink,
           draft,
         },
@@ -153,7 +191,7 @@ export default function Write() {
           <div onClick={handleWrite}>
             <button
               className="text-[16px] font-[600] ml-[79px]"
-              onClick={handleDraft}
+              onClick={() => setDraft(true)}
             >
               임시저장
             </button>
@@ -180,8 +218,9 @@ export default function Write() {
           </div>
           {/* 카테고리 */}
           <select
-            onChange={handleSelect}
-            value={selected}
+            onChange={handleCategory}
+            value={category}
+            defaultValue={category}
             className="w-full py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600]"
           >
             <option value="카테고리">카테고리</option>
@@ -197,8 +236,9 @@ export default function Write() {
           <div>
             <div className="text-[16px] font-[600]">제목</div>
             <input
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               // value={name}
+              defaultValue={name}
               placeholder="제목을 입력해주세요"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
             />
@@ -208,6 +248,7 @@ export default function Write() {
             <div className="text-[16px] font-[600]">본문</div>
             <textarea
               onChange={(e) => setContent(e.target.value)}
+              defaultValue={content}
               placeholder="내용을 입력해주세요&#10;(예상 시간, 참여 목적 등 구체적으로 적을 수록 &#10;모임 성공 확률이 높아져요)"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[200px] w-[343px] leading-tight"
             />
@@ -217,8 +258,9 @@ export default function Write() {
             <div className="text-[16px] font-[600]">모집인원</div>
             <div>
               <select
-                onChange={handleUserCount}
-                value={userCount}
+                onChange={handleMaxUserCount}
+                value={maxUserCount}
+                defaultValue={maxUserCount}
                 className="w-[254px] py-[17px] border border-neutral-400  rounded-[10px]  px-[16px] text-zinc-400 text-[16px] font-[600] "
               >
                 <option>모집 인원을 입력해주세요</option>
@@ -238,13 +280,14 @@ export default function Write() {
             <div className="text-[16px] font-[600]">링크</div>
             <input
               onChange={(e) => setLink(e.target.value)}
+              defaultValue={link}
               placeholder="공유 파일 등 링크를 입력해주세요"
               className="mt-[8px] px-[16px] py-[17px] rounded-[10px] border border-zinc-600 text-[16px] font-[500] h-[53px] w-[343px]"
             />
             <div className="flex mt-[8.5px]">
               <input
                 type="checkbox"
-                // checked={showLink}
+                checked={!showLink}
                 onChange={handleShowLink}
               />
               <div className="text-[14px] font-[400] ml-[8px]">
@@ -253,13 +296,13 @@ export default function Write() {
             </div>
           </div>
           {/* 버튼 */}
-          <div onClick={handleWrite}>
-            <Button
-              text="작성하기"
-              // onClick={() => {
-              //   navigate("/home");
-              // }}
-            />
+          <div
+            onClick={() => {
+              handleWrite();
+              setDraft(false);
+            }}
+          >
+            <Button text="작성하기" />
           </div>
         </div>
       </div>
