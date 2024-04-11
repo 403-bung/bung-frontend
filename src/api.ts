@@ -21,3 +21,15 @@ export function joinParty(participantUserNo: number, articleNo: number) {
       console.log(response.data);
     });
 }
+
+export async function feedback() {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_URL}/users/${userNo}/feedback`,
+    {
+      params: { userNo },
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  return response.data;
+}
