@@ -6,7 +6,6 @@ import left_arrow from "../../icons/left_arrow.svg";
 import right_arrow from "../../icons/right_arrow.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { SERVER_URL } from "../../data/url";
 import { Cookies } from "react-cookie";
 
 const customStyles = {
@@ -119,7 +118,7 @@ function Confirm() {
     setUserNo(userNo);
 
     axios
-      .get(`${SERVER_URL}/users/${userNo}/profile`, {
+      .get(`${process.env.REACT_APP_API_URL}/users/${userNo}/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
