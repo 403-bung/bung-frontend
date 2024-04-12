@@ -6,7 +6,6 @@ import TimeModal from "../components/TimeModal";
 import { Cookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { SERVER_URL } from "../data/url";
 
 export default function DraftArticle() {
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ export default function DraftArticle() {
   const GetDraftArticle = async () => {
     const userNo = cookies.get("userNo");
     const response = await axios
-      .get(`${SERVER_URL}/articles/draft`, {
+      .get(`${process.env.REACT_APP_API_URL}/articles/draft`, {
         headers: { Authorization: `Bearer ${token}` },
         params: { userNo: userNo },
       })
@@ -149,7 +148,7 @@ export default function DraftArticle() {
   const handleWrite = async () => {
     try {
       const response = await axios.post(
-        `${SERVER_URL}/articles`,
+        `${process.env.REACT_APP_API_URL}/articles`,
         {
           name,
           category,
