@@ -3,11 +3,8 @@ import { Cookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getStatusText from "utils/getStatusText";
-import Modal from "react-modal";
 import ReactModal from "react-modal";
-import Title from "./Title";
-import useRemainingTime from "hooks/useRemainingTime";
-import { deleteArticle, getArticle, getUser } from "../api";
+import { getArticle, getUser } from "../api";
 import ModalDeleteConfirm from "components/UI/ModalDeleteConfirm";
 import OptionSelect from "components/UI/OptionSelect";
 import ArticleInfo from "./UI/ArticleInfo";
@@ -32,6 +29,17 @@ export type Article = {
 type Participant = {
   participantUserNo: number; // 참여 신청자 사용자 번호
   state: string; // 참여 신청자 상태
+};
+
+export type UserInfo = {
+  email: string;
+  nickname: string;
+  oauthType: string;
+  privacyPolicy: boolean;
+  profileImageUrl: string;
+  pushEnable: boolean;
+  termsOfService: boolean;
+  userNo: number;
 };
 
 export const categories = new Map([
@@ -79,7 +87,7 @@ export default function DetailCard() {
     queryFn: async () => await getArticle(Number(params.articleNo)),
   });
 
-  const { data: userData } = useQuery({
+  const { data: userData } = useQuery<UserInfo>({
     queryKey: ["writer", article?.userNo],
     queryFn: async () => await getUser(article?.userNo as number),
   });
@@ -112,7 +120,7 @@ export default function DetailCard() {
         {/* 텍스트 */}
         <div className="text-[#232323] text-base mb-12">{article?.content}</div>
         {article && (
-          <ArticleInfo article={article} nickname={userData?.nickname} />
+          <ArticleInfo article={article} nickname={userData?.nickname || ""} />
         )}
       </div>
       <ModalDeleteConfirm

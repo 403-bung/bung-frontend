@@ -3,17 +3,10 @@ import GoBackBtn from "../components/GoBackBtn";
 import StatusBar from "../components/StatusBar";
 import { useQuery } from "@tanstack/react-query";
 import { Cookies } from "react-cookie";
-import {
-  Article,
-  categories,
-  customModalStyle,
-} from "../components/DetailCard";
-import { deleteArticle, getArticle, getUser } from "../api";
+import { Article, UserInfo } from "../components/DetailCard";
+import { getArticle, getUser } from "../api";
 import getStatusText from "../utils/getStatusText";
-import useRemainingTime from "../hooks/useRemainingTime";
 import { useEffect, useState } from "react";
-import Title from "../components/Title";
-import Modal from "react-modal";
 import OptionSelect from "components/UI/OptionSelect";
 import ModalDeleteConfirm from "components/UI/ModalDeleteConfirm";
 import ArticleInfo from "components/UI/ArticleInfo";
@@ -24,20 +17,22 @@ type ParticipantInfo = {
   state: string;
   userNo: number;
 };
+
 export default function Activity() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const userNo = cookies.get("userNo");
   const params = useParams();
   const [modalOpen, setModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState<ParticipantInfo[]>();
+  // 참여자 정보
+  const [participantInfo, setParticipantInfo] = useState<ParticipantInfo[]>();
 
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
     queryFn: async () => await getArticle(Number(params.articleNo)),
   });
 
-  const { data: userData } = useQuery({
+  const { data: userData } = useQuery<UserInfo>({
     queryKey: ["writer", article?.userNo],
     queryFn: async () => await getUser(article?.userNo as number),
   });
@@ -56,7 +51,7 @@ export default function Activity() {
         };
         participantDetails.push(item);
       }
-      setUserInfo(participantDetails);
+      setParticipantInfo(participantDetails);
     });
   }, [article, userNo]);
 
@@ -94,7 +89,10 @@ export default function Activity() {
               {article?.name}
             </div>
             {article && (
-              <ArticleInfo article={article} nickname={userData?.nickname} />
+              <ArticleInfo
+                article={article}
+                nickname={userData?.nickname || ""}
+              />
             )}
           </div>
         </div>
@@ -105,6 +103,7 @@ export default function Activity() {
             </span>
             {/* <span className="w-full">참여자를 모집하기 전이에요</span> */}
             <div className="w-full grid grid-flow-col auto-cols-max gap-6 justify-start flex-wrap">
+              {/* 방장 정보 */}
               <div className="flex flex-col gap-2 items-center">
                 <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-[3px] border-solid border-[#6E51BA]">
                   <img
@@ -125,12 +124,12 @@ export default function Activity() {
                 </div>
               </div>
 
-              {userInfo?.map((user) => (
+              {participantInfo?.map((participant) => (
                 <>
                   <div className="flex flex-col gap-2 items-center">
                     <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
                       <img
-                        src={user.profileImageUrl}
+                        src={participant.profileImageUrl}
                         className="w-full h-full object-cover"
                         width="100px"
                         height="100px"
@@ -140,23 +139,27 @@ export default function Activity() {
 
                     <div className="w-full flex items-center justify-evenly">
                       {/* READY, ACCEPT, DENY */}
-                      <div
-                        className={`w-[37px] font-semibold text-xs  flex justify-center items-center rounded-lg py-[2px] ${
-                          user.state === "READY"
-                            ? "text-[#4A25A9] bg-[#EDE9F6]"
-                            : user.state === "ACCEPT"
-                            ? "text-white bg-[#A492D4]"
-                            : "text-[#F24242] bg-[#F242421A]"
-                        }`}
-                      >
-                        {user.state === "READY"
-                          ? "대기"
-                          : user.state === "ACCEPT"
-                          ? "수락"
-                          : "거절"}
-                      </div>
+                      {/* 방장은 상태를 볼 수 있음, 참여자는 자신의 상태만 볼 수 있음 */}
+                      {(userData?.userNo === article?.userNo ||
+                        userData?.userNo === participant.userNo) && (
+                        <div
+                          className={`w-[37px] font-semibold text-xs  flex justify-center items-center rounded-lg py-[2px] ${
+                            participant.state === "READY"
+                              ? "text-[#4A25A9] bg-[#EDE9F6]"
+                              : participant.state === "ACCEPT"
+                              ? "text-white bg-[#A492D4]"
+                              : "text-[#F24242] bg-[#F242421A]"
+                          }`}
+                        >
+                          {participant.state === "READY"
+                            ? "대기"
+                            : participant.state === "ACCEPT"
+                            ? "수락"
+                            : "거절"}
+                        </div>
+                      )}
                       <span className=" font-normal text-sm text-[#1F1F1F]">
-                        {user.nickname}
+                        {participant.nickname}
                       </span>
                     </div>
                   </div>
