@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,8 +7,9 @@ import Modal from "react-modal";
 import ReactModal from "react-modal";
 import Title from "./Title";
 import useRemainingTime from "../hooks/useRemainingTime";
+import { deleteArticle, getArticle, getUser } from "../api";
 
-type Article = {
+export type Article = {
   articleNo: number; // 구인글 번호
   name: string; // 구인글 제목
   category: string; // 카테고리
@@ -28,10 +28,10 @@ type Article = {
 
 type Participant = {
   participantUserNo: number; // 참여 신청자 사용자 번호
-  state: number; // 참여 신청자 상태
+  state: string; // 참여 신청자 상태
 };
 
-const categories = new Map([
+export const categories = new Map([
   ["GROUP_BUYING", "공동구매"],
   ["GAME", "게임"],
   ["EVENT", "이벤트"],
@@ -41,7 +41,7 @@ const categories = new Map([
   ["IDOL", "아이돌"],
 ]);
 
-const customModalStyle: ReactModal.Styles = {
+export const customModalStyle: ReactModal.Styles = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 10,
@@ -71,42 +71,9 @@ export default function DetailCard() {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  async function getArticle(articleNo: string) {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { userNo: userNo, articleNo: articleNo },
-      }
-    );
-
-    return response.data;
-  }
-
-  async function getUser(userNo: number) {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/users/${userNo}/profile`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    return response.data;
-  }
-
-  async function deleteArticle(articleNo: number) {
-    const response = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    return response.data;
-  }
-
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
-    queryFn: async () => await getArticle(params.articleNo as string),
+    queryFn: async () => await getArticle(Number(params.articleNo)),
   });
 
   const { data: userData } = useQuery({

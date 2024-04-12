@@ -15,6 +15,7 @@ import { CookiesProvider } from "react-cookie";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import EditWritePage from "./pages/EditWritePage";
+import Activity from "./pages/Activity";
 
 const router = createBrowserRouter([
   { path: "/", element: <Intro /> },
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
     children: [{ path: "/my/timeline" }, { path: "/my/manner" }],
   },
   { path: "/my/changePwd", element: <ChangePwd /> },
+  { path: "/activity/:articleNo", element: <Activity /> },
 ]);
 
 const queryClient = new QueryClient();
