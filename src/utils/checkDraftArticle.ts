@@ -5,7 +5,7 @@ export const checkDraftArticle = async (navigate:any) => {
   const cookies = new Cookies()
   const token = cookies.get("id");
   const userNo = cookies.get("userNo");
-  const response = await axios.get(`${process.env.REACT_APP_PUBLIC_URL}/articles/draft`, {
+  const response = await axios.get(`${process.env.REACT_APP_API_URL}/articles/draft`, {
     headers: { Authorization: `Bearer ${token}` },
     params: { userNo: userNo },
   });
