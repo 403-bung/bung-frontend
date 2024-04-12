@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { alarmModalActions } from "../store/alarmModal";
-import Title from "./Title";
+import Title from "./UI/Title";
 
 export default function ActivityModal() {
   const navigate = useNavigate();

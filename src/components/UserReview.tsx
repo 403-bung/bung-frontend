@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import StatusBar from "./StatusBar";
 import closeBtn from "../icons/closeBtn.svg";
+import StatusBar from "./UI/StatusBar";
 
 export default function UserReview() {
   return (

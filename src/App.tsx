@@ -16,9 +16,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import EditWritePage from "pages/EditWritePage";
 
-import DraftModal from "./components/DraftModal";
-import DraftArticle from "./pages/DraftArticle";
-import Activity from "./pages/Activity";
 import ActivityModal from "./components/ActivityModal";
 import Review from "./pages/Review";
 import UserReview from "./components/UserReview";
@@ -27,9 +24,8 @@ import DraftModal from "components/write/DraftModal";
 import DraftArticle from "pages/DraftArticle";
 import Activity from "pages/Activity";
 
-
 const router = createBrowserRouter([
-  {path:"/review/:articleNo/userNo",element:<UserReview/>},
+  { path: "/review/:articleNo/userNo", element: <UserReview /> },
   { path: "/activityModal", element: <ActivityModal /> },
   { path: "/review/:articleNo", element: <Review /> },
   { path: "/draftModal", element: <DraftModal /> },
