@@ -116,8 +116,6 @@ export default function Activity() {
                   />
                 </div>
                 <div className="w-full flex items-center justify-evenly">
-                  {/* READY, ACCEPT, DENY */}
-
                   <div className="w-[37px] font-semibold text-xs text-[#1F1F1F] flex justify-center items-center bg-[#EDE9F6] rounded-lg py-[2px]">
                     방장
                   </div>
@@ -142,22 +140,21 @@ export default function Activity() {
 
                     <div className="w-full flex items-center justify-evenly">
                       {/* READY, ACCEPT, DENY */}
-                      {user.state === "READY" && (
-                        <div className="w-[37px] font-semibold text-xs text-[#4A25A9] flex justify-center items-center bg-[#EDE9F6] rounded-lg py-[2px]">
-                          대기
-                        </div>
-                      )}
-                      {user.state === "ACCEPT" && (
-                        <div className="w-[37px] font-semibold text-xs text-white flex justify-center items-center bg-[#A492D4] rounded-lg py-[2px]">
-                          수락
-                        </div>
-                      )}
-                      {user.state === "DENY" && (
-                        <div className="w-[37px] font-semibold text-xs text-[#F24242] flex justify-center items-center bg-[#F242421A] rounded-lg py-[2px]">
-                          거절
-                        </div>
-                      )}
-
+                      <div
+                        className={`w-[37px] font-semibold text-xs  flex justify-center items-center rounded-lg py-[2px] ${
+                          user.state === "READY"
+                            ? "text-[#4A25A9] bg-[#EDE9F6]"
+                            : user.state === "ACCEPT"
+                            ? "text-white bg-[#A492D4]"
+                            : "text-[#F24242] bg-[#F242421A]"
+                        }`}
+                      >
+                        {user.state === "READY"
+                          ? "대기"
+                          : user.state === "ACCEPT"
+                          ? "수락"
+                          : "거절"}
+                      </div>
                       <span className=" font-normal text-sm text-[#1F1F1F]">
                         {user.nickname}
                       </span>
