@@ -73,7 +73,7 @@ export default function DetailCard() {
 
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
-    queryFn: async () => await getArticle(params.articleNo as string),
+    queryFn: async () => await getArticle(Number(params.articleNo)),
   });
 
   const { data: userData } = useQuery({

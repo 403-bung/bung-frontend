@@ -34,7 +34,7 @@ export async function feedback() {
   return response.data;
 }
 
-export async function getArticle(articleNo: string) {
+export async function getArticle(articleNo: number) {
   const response = await axios.get(
     `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
     {
