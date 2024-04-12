@@ -15,9 +15,14 @@ import { CookiesProvider } from "react-cookie";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import EditWritePage from "./pages/EditWritePage";
+
+import DraftModal from "./components/DraftModal";
+import DraftArticle from "./pages/DraftArticle";
 import Activity from "./pages/Activity";
 
 const router = createBrowserRouter([
+  { path: "/draftModal", element: <DraftModal /> },
+  { path: "/draft", element: <DraftArticle /> },
   { path: "/", element: <Intro /> },
   { path: "/login", element: <Login /> },
   { path: "/login/confirm", element: <Confirm /> },

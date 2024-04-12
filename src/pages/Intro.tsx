@@ -8,12 +8,17 @@ export default function Intro() {
   const cookies = new Cookies();
   const id = cookies.get("id");
   useEffect(() => {
-    if (!id) {
-      setInterval(() => navigate("/login"), 3000);
-    } else {
-      navigate("/home");
-    }
+    setInterval(() => navigate("/login"), 3000);
   });
+  // useEffect(() => {
+  //   if (!id) {
+  //     setInterval(() => navigate("/login"), 3000);
+  //   }
+  //   else {
+  //     navigate("/home");
+  //   }
+  // }
+  // );
 
   return (
     <div className="w-[375px] min-h-screen bg-white flex flex-col justify-center items-center absolute top-0">
