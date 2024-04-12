@@ -1,4 +1,4 @@
-import KaKaoLoginBtn from "../../components/KakaoLoginBtn";
+import KaKaoLoginBtn from "../../components/UI/KakaoLoginBtn";
 import banner from "../../icons/main.svg";
 
 function Login() {

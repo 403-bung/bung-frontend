@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import alarm from "../icons/alarm.svg";
-import bung from "../icons/bung.svg";
+import alarm from "icons/alarm.svg";
+import bung from "icons/bung.svg";
+
 export default function Header() {
   return (
     <>

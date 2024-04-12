@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import Title from "./Title";
-import { alarmModalActions } from "../store/alarmModal";
+import Title from "../UI/Title";
+import { alarmModalActions } from "../../store/alarmModal";
 import { useNavigate } from "react-router-dom";
 
 export default function DraftModal() {

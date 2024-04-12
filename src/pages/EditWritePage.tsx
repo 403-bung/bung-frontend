@@ -1,12 +1,12 @@
 import { useNavigate, useParams } from "react-router-dom";
-import GoBackBtn from "../components/GoBackBtn";
-import Button from "../components/Button";
+import GoBackBtn from "components/UI/GoBackBtn";
+import Button from "components/UI/Button";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import TimeModal from "../components/TimeModal";
-// import convertStringnToDate from "../utils/covertStringToDate";
+import TimeModal from "components/write/TimeModal";
+// import convertStringnToDate from "utils/covertStringToDate";
 
 type Article = {
   articleNo: number;

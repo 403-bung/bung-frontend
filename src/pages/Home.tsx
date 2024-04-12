@@ -1,11 +1,11 @@
-import AlarmModal from "../components/AlarmModal";
+import AlarmModal from "components/home/AlarmModal";
 import { useSelector } from "react-redux";
-import { ToolkitStore } from "../store";
-import NabBar from "../components/NavBar";
-import StatusBar from "../components/StatusBar";
-import Header from "../components/Header";
-import Category from "../components/Category";
-import ContentArea from "../components/ContentArea";
+import { ToolkitStore } from "store";
+import NabBar from "components/UI/NavBar";
+import StatusBar from "components/UI/StatusBar";
+import Header from "components/home/Header";
+import Category from "components/home/Category";
+import ContentArea from "components/home/ContentArea";
 
 export default function Home() {
   const isOpened = useSelector(

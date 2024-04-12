@@ -1,10 +1,10 @@
-import users from "../icons/users.svg";
-import newIcon from "../icons/new.svg";
-import summaryText from "../utils/summaryText";
-import getStatusText from "../utils/getStatusText";
-import getFormatTime from "../utils/getFormatTime";
+import users from "icons/users.svg";
+import newIcon from "icons/new.svg";
+import summaryText from "utils/summaryText";
+import getStatusText from "utils/getStatusText";
+import getFormatTime from "utils/getFormatTime";
 import { Link } from "react-router-dom";
-import useRemainingTime from "../hooks/useRemainingTime";
+import useRemainingTime from "hooks/useRemainingTime";
 
 export type ContentCardProps = {
   articleNo: number;

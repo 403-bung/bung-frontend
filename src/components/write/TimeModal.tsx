@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import cancel from "../icons/cancel.svg";
-import Button from "./Button";
+import cancel from "icons/cancel.svg";
+import Button from "components/UI/Button";
 import TimePicker from "./TimePicker";
 import TimeButton from "./TimeButton";
 

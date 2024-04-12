@@ -1,21 +1,21 @@
-import Header from "../components/Header";
-import NavBar from "../components/NavBar";
-import ProfileBar from "../components/ProfileBar";
-import StatusBar from "../components/StatusBar";
-import MypageTab from "../components/MypageTab";
-import AlarmTab from "../components/AlarmTab";
-import TimelineArea from "../components/TimelineArea";
+import Header from "components/home/Header";
+import NavBar from "components/UI/NavBar";
+import ProfileBar from "components/mypage/ProfileBar";
+import StatusBar from "components/UI/StatusBar";
+import MypageTab from "components/UI/MypageTab";
+import AlarmTab from "components/mypage/AlarmTab";
+import TimelineArea from "components/mypage/TimelineArea";
 import { useLocation } from "react-router";
-import MannerArea from "../components/MannerArea";
+import MannerArea from "components/mypage/MannerArea";
 import { useDispatch, useSelector } from "react-redux";
-import { changeNicknameActions } from "../store/changeNickname";
-import { ToolkitStore } from "../store";
+import { changeNicknameActions } from "store/changeNickname";
+import { ToolkitStore } from "store";
 import { useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Cookies } from "react-cookie";
-import SubTitle1 from "../components/SubTitle1";
-import KaKaoLoginBtn from "../components/KakaoLoginBtn";
+import SubTitle1 from "components/UI/SubTitle1";
+import KaKaoLoginBtn from "components/UI/KakaoLoginBtn";
 import { useNavigate } from "react-router-dom";
 
 export default function My() {

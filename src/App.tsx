@@ -1,20 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./Routes/login";
-import Confirm from "./Routes/login/confirm";
-import NicknamePage from "./pages/Nickname";
-import "./App.css";
-import Home from "./pages/Home";
+import Login from "Routes/login";
+import Confirm from "Routes/login/confirm";
+import NicknamePage from "pages/Nickname";
+import "App.css";
+import Home from "pages/Home";
 import { Provider } from "react-redux";
-import store from "./store";
-import Detail from "./Routes/detail";
-import Write from "./pages/Write";
-import My from "./pages/My";
-import ChangePwd from "./pages/ChangePwd";
-import Intro from "./pages/Intro";
+import store from "store";
+import Detail from "Routes/detail";
+import Write from "pages/Write";
+import My from "pages/My";
+import ChangePwd from "pages/ChangePwd";
+import Intro from "pages/Intro";
 import { CookiesProvider } from "react-cookie";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import EditWritePage from "./pages/EditWritePage";
+import EditWritePage from "pages/EditWritePage";
 
 import DraftModal from "./components/DraftModal";
 import DraftArticle from "./pages/DraftArticle";
@@ -22,6 +22,11 @@ import Activity from "./pages/Activity";
 import ActivityModal from "./components/ActivityModal";
 import Review from "./pages/Review";
 import UserReview from "./components/UserReview";
+
+import DraftModal from "components/write/DraftModal";
+import DraftArticle from "pages/DraftArticle";
+import Activity from "pages/Activity";
+
 
 const router = createBrowserRouter([
   {path:"/review/:articleNo/userNo",element:<UserReview/>},

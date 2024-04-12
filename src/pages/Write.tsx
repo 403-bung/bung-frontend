@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import GoBackBtn from "../components/GoBackBtn";
-import Button from "../components/Button";
-import WriteModal from "../components/WriteModal";
-import TimeModal from "../components/TimeModal";
+import GoBackBtn from "components/UI/GoBackBtn";
+import Button from "components/UI/Button";
+import WriteModal from "components/write/WriteModal";
+import TimeModal from "components/write/TimeModal";
 import { Cookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -100,6 +100,7 @@ export default function Write() {
   const handleShowLink = () => {
     setShowLink(!showLink);
   };
+  console.log(showLink);
   const [draft, setDraft] = useState(false);
   const handleDraft = () => {
     setDraft(true);

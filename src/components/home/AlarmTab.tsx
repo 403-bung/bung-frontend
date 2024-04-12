@@ -1,5 +1,5 @@
-import right_arrow from "../icons/right_arrow_black.svg";
-import logo from "../icons/logo.svg";
+import right_arrow from "icons/right_arrow_black.svg";
+import logo from "icons/logo.svg";
 
 export default function AlarmTab() {
   return (

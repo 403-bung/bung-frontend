@@ -1,6 +1,6 @@
-import Header from "../components/Header";
-import cancel from "../icons/cancel.svg";
-import StatusBar from "../components/StatusBar";
+import Header from "components/home/Header";
+import cancel from "icons/cancel.svg";
+import StatusBar from "components/UI/StatusBar";
 import { useNavigate } from "react-router-dom";
 
 export default function Time() {

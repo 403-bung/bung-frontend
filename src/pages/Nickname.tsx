@@ -1,10 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import Button from "../components/Button";
-import left_arrow from "../icons/left_arrow.svg";
-import Title from "../components/Title";
+import Button from "components/UI/Button";
+import left_arrow from "icons/left_arrow.svg";
+import Title from "components/UI/Title";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { alarmModalActions } from "../store/alarmModal";
+import { alarmModalActions } from "store/alarmModal";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 

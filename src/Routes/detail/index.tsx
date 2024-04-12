@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Button from "../../components/Button";
-import GoBackBtn from "../../components/GoBackBtn";
-import DetailCard from "../../components/DetailCard";
+import Button from "components/UI/Button";
+import GoBackBtn from "components/UI/GoBackBtn";
+import DetailCard from "components/detail/DetailCard";
 import { useEffect, useState } from "react";
-import StatusBar from "../../components/StatusBar";
+import StatusBar from "components/UI/StatusBar";
 import { Cookies } from "react-cookie";
-import { joinParty } from "../../api";
+import { joinParty } from "api";
 
 export default function Detail() {
   const navigate = useNavigate();

@@ -17,7 +17,6 @@ function TimeButton({ name, className, onClick, clicked }: ITimeButton) {
       onClick={onClick}
     >
       ​​​​​​{name}
-      ​​​​
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import bung from "../icons/bung.svg";
+import bung from "icons/bung.svg";
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
 

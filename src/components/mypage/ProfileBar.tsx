@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import profile from "../icons/profile.svg";
+import profile from "icons/profile.svg";
 import { Cookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
