@@ -1,12 +1,12 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import StatusBar from "../components/StatusBar";
 import closeBtn from "../icons/closeBtn.svg";
 import profile from "../icons/profile.svg";
 import { useQuery } from "@tanstack/react-query";
-import { Article } from "../components/DetailCard";
 import { getArticle, getUser } from "../api";
 import { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
+import { Article } from "components/detail/DetailCard";
+import StatusBar from "components/UI/StatusBar";
 
 type ParticipantInfo = {
   profileImageUrl: string;
