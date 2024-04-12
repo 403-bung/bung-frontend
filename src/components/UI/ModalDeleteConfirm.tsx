@@ -1,5 +1,5 @@
 import Modal from "react-modal";
-import Title from "components/Title";
+import Title from "components/UI/Title";
 import { deleteArticle } from "api";
 
 interface ModalDeleteConfirmProps {

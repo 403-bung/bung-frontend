@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import sticker1 from "../icons/sticker1.svg";
-import sticker2 from "../icons/sticker2.svg";
-import sticker3 from "../icons/sticker3.svg";
+import sticker1 from "icons/sticker1.svg";
+import sticker2 from "icons/sticker2.svg";
+import sticker3 from "icons/sticker3.svg";
 
-import { feedback } from "../api";
+import { feedback } from "api";
 import { useEffect, useState } from "react";
 
 type Feedback = {

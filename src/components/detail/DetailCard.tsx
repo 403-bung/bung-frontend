@@ -4,10 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getStatusText from "utils/getStatusText";
 import ReactModal from "react-modal";
-import { getArticle, getUser } from "../api";
+import { getArticle, getUser } from "../../api";
 import ModalDeleteConfirm from "components/UI/ModalDeleteConfirm";
 import OptionSelect from "components/UI/OptionSelect";
-import ArticleInfo from "./UI/ArticleInfo";
+import ArticleInfo from "../UI/ArticleInfo";
 
 export type Article = {
   articleNo: number; // 구인글 번호

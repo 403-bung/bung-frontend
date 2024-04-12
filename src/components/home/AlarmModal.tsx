@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
-import Button from "./Button";
-import SubTitle1 from "./SubTitle1";
-import Title from "./Title";
-import { alarmModalActions } from "../store/alarmModal";
-import alarmImg from "../icons/alarmImg.svg";
+import Button from "components/UI/Button";
+import SubTitle1 from "components/UI/SubTitle1";
+import Title from "components/UI/Title";
+import { alarmModalActions } from "store/alarmModal";
+import alarmImg from "icons/alarmImg.svg";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 

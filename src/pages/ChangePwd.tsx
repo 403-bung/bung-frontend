@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import closeBtn from "../icons/closeBtn.svg";
-import StatusBar from "../components/StatusBar";
+import closeBtn from "icons/closeBtn.svg";
+import StatusBar from "components/UI/StatusBar";
 import { ChangeEvent, FormEvent, useState } from "react";
-import Button from "../components/Button";
+import Button from "components/UI/Button";
 import { useDispatch } from "react-redux";
-import { changeNicknameActions } from "../store/changeNickname";
+import { changeNicknameActions } from "store/changeNickname";
 import { Cookies } from "react-cookie";
 import axios from "axios";
 

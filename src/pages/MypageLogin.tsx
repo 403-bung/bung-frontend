@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import KaKaoLoginBtn from "../components/KakaoLoginBtn";
-import NabBar from "../components/NavBar";
-import StatusBar from "../components/StatusBar";
-import SubTitle1 from "../components/SubTitle1";
+import Header from "components/home/Header";
+import KaKaoLoginBtn from "components/UI/KakaoLoginBtn";
+import NabBar from "components/UI/NavBar";
+import StatusBar from "components/UI/StatusBar";
+import SubTitle1 from "components/UI/SubTitle1";
 
 export default function MypageLogin() {
   const navigate = useNavigate();

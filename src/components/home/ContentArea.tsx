@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import ContentCard, { ContentCardProps } from "./ContentCard";
+import ContentCard, { ContentCardProps } from "components/home/ContentCard";
 import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import axios from "axios";

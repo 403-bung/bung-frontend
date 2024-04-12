@@ -1,7 +1,7 @@
 import logo from "../../img/logo.png";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import Button from "../../components/Button";
+import Button from "../../components/UI/Button";
 import left_arrow from "../../icons/left_arrow.svg";
 import right_arrow from "../../icons/right_arrow.svg";
 import { useNavigate } from "react-router-dom";

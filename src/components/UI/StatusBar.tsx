@@ -1,7 +1,7 @@
-import location from "../icons/location.svg";
-import signal from "../icons/Signal.svg";
-import chain from "../icons/chain.svg";
-import battery from "../icons/battery.svg";
+import location from "icons/location.svg";
+import signal from "icons/Signal.svg";
+import chain from "icons/chain.svg";
+import battery from "icons/battery.svg";
 
 export default function StatusBar() {
   return (

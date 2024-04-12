@@ -1,4 +1,4 @@
-import left_arrow from "../icons/left_arrow.svg";
+import left_arrow from "icons/left_arrow.svg";
 
 type ButtonParams = {
   onClick?: () => void;

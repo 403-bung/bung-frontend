@@ -1,14 +1,14 @@
-import homeSelected from "../icons/home_selected.svg";
-import home from "../icons/home.svg";
-import my from "../icons/my.svg";
-import mySelected from "../icons/my_selected.svg";
-import write from "../icons/write.svg";
-import writeSelected from "../icons/write_selected.svg";
+import homeSelected from "icons/home_selected.svg";
+import home from "icons/home.svg";
+import my from "icons/my.svg";
+import mySelected from "icons/my_selected.svg";
+import write from "icons/write.svg";
+import writeSelected from "icons/write_selected.svg";
 import NavButton from "./NavButton";
 import { useLocation } from "react-router";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkDraftArticle } from "../utils/checkDraftArticle";
+import { checkDraftArticle } from "utils/checkDraftArticle";
 
 export default function NabBar() {
   const location = useLocation();

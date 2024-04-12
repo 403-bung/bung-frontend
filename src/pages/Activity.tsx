@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import GoBackBtn from "../components/GoBackBtn";
-import StatusBar from "../components/StatusBar";
+import GoBackBtn from "components/UI/GoBackBtn";
+import StatusBar from "components/UI/StatusBar";
 import { useQuery } from "@tanstack/react-query";
 import { Cookies } from "react-cookie";
-import { Article, UserInfo } from "../components/DetailCard";
-import { getArticle, getUser } from "../api";
-import getStatusText from "../utils/getStatusText";
+import { Article, UserInfo } from "components/detail/DetailCard";
+import { getArticle, getUser } from "api";
+import getStatusText from "utils/getStatusText";
 import { useEffect, useState } from "react";
 import OptionSelect from "components/UI/OptionSelect";
 import ModalDeleteConfirm from "components/UI/ModalDeleteConfirm";
@@ -36,6 +36,10 @@ export default function Activity() {
     queryKey: ["writer", article?.userNo],
     queryFn: async () => await getUser(article?.userNo as number),
   });
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   useEffect(() => {
     const participantDetails: ParticipantInfo[] = [];

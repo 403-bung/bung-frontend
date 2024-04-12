@@ -1,4 +1,4 @@
-import { Article, categories } from "components/DetailCard";
+import { Article, categories } from "components/detail/DetailCard";
 import useRemainingTime from "hooks/useRemainingTime";
 
 export default function ArticleInfo({
