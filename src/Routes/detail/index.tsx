@@ -1,14 +1,20 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/Button";
 import GoBackBtn from "../../components/GoBackBtn";
 import DetailCard from "../../components/DetailCard";
 import { useEffect, useState } from "react";
 import StatusBar from "../../components/StatusBar";
+import { Cookies } from "react-cookie";
+import { joinParty } from "../../api";
 
 export default function Detail() {
   const navigate = useNavigate();
   const [top, setTop] = useState(0);
   const [repeatCount, setRepeatCount] = useState(0);
+
+  const cookies = new Cookies();
+  const userNo = cookies.get("userNo");
+  const params = useParams();
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -20,7 +26,7 @@ export default function Detail() {
       }
     }, 1000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [repeatCount]);
 
   return (
     <div className="bg-[#EDE9F6] relative">
@@ -53,7 +59,10 @@ export default function Detail() {
               </div>
             </div>
             <div className="mt-3 ">
-              <Button text="알림받기" />
+              <Button
+                text="알림받기"
+                onClick={() => joinParty(userNo, Number(params.articleNo))}
+              />
             </div>
           </div>
         </div>

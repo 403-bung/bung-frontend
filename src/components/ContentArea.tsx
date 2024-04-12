@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import ContentCard, { ContentCardProps } from "./ContentCard";
 import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
-import { SERVER_URL } from "../data/url";
 import axios from "axios";
 import { Cookies } from "react-cookie";
 
@@ -27,14 +26,17 @@ export default function ContentArea() {
   const [sortBy, setSortBy] = useState<string>("CLOSE_TO_FINISH");
 
   async function getArticles(category: string, sortBy: string) {
-    const response = await axios.get(`${SERVER_URL}/articles`, {
-      headers: { Authorization: `Bearer ${token}` },
-      params: {
-        category: category === "home" ? "" : category.toUpperCase(),
-        sortStrategy: sortBy,
-        size: 10,
-      },
-    });
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/articles`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        params: {
+          category: category === "home" ? "" : category.toUpperCase(),
+          sortStrategy: sortBy,
+          size: 10,
+        },
+      }
+    );
     return response.data;
   }
   const { data, isLoading } = useQuery<ContentCardProps[]>({

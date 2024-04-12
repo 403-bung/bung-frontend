@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import GoBackBtn from "../components/GoBackBtn";
 import Button from "../components/Button";
 import axios from "axios";
-import { SERVER_URL } from "../data/url";
 import { Cookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
@@ -154,7 +153,7 @@ export default function EditWritePage() {
   const token = cookies.get("id");
   const EditArticle = async () => {
     const response = await axios.put(
-      `${SERVER_URL}/articles/${articleNo}`,
+      `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
       {
         name,
         category,

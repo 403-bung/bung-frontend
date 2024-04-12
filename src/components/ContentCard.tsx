@@ -2,9 +2,9 @@ import users from "../icons/users.svg";
 import newIcon from "../icons/new.svg";
 import summaryText from "../utils/summaryText";
 import getStatusText from "../utils/getStatusText";
-import getRemainingTime from "../utils/getRemainingTime";
 import getFormatTime from "../utils/getFormatTime";
 import { Link } from "react-router-dom";
+import useRemainingTime from "../hooks/useRemainingTime";
 
 export type ContentCardProps = {
   articleNo: number;
@@ -32,7 +32,7 @@ export default function ContentCard({
   const truncatedTitle = summaryText(name, 18);
   const truncatedContent = summaryText(content, 50);
   const formattedStartTime = getFormatTime(partyStartTime);
-  const remainingTime = getRemainingTime(recruitingEndTime);
+  const remainingTime = useRemainingTime(recruitingEndTime || "");
   const statusText = getStatusText(status);
 
   return (

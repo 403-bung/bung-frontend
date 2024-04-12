@@ -1,25 +1,24 @@
-import axios from "axios";
 import { useState } from "react";
 import { Cookies } from "react-cookie";
-import { SERVER_URL } from "../data/url";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getStatusText from "../utils/getStatusText";
 import Modal from "react-modal";
 import ReactModal from "react-modal";
 import Title from "./Title";
-import { getPaddingTime } from "../utils/getFormatTime";
+import useRemainingTime from "../hooks/useRemainingTime";
+import { deleteArticle, getArticle, getUser } from "../api";
 
-type Article = {
+export type Article = {
   articleNo: number; // 구인글 번호
   name: string; // 구인글 제목
   category: string; // 카테고리
   content: string; // 구인글 내용
   maxUserCount: number; // 모집 인원
   currentUserCount: number; // 현재 참여 인원
-  recruitingStartTime: Date; // 모집 시작 시간
-  recruitingEndTime: Date; // 모집 종료 시간
-  partyStartTime: Date; // 모임 시작 시간
+  recruitingStartTime: string; // 모집 시작 시간
+  recruitingEndTime: string; // 모집 종료 시간
+  partyStartTime: string; // 모임 시작 시간
   status: string; // 구인글 상태
   link: string; // 링크
   showLink: boolean; // 링크 공개 여부
@@ -29,10 +28,10 @@ type Article = {
 
 type Participant = {
   participantUserNo: number; // 참여 신청자 사용자 번호
-  state: number; // 참여 신청자 상태
+  state: string; // 참여 신청자 상태
 };
 
-const categories = new Map([
+export const categories = new Map([
   ["GROUP_BUYING", "공동구매"],
   ["GAME", "게임"],
   ["EVENT", "이벤트"],
@@ -42,7 +41,7 @@ const categories = new Map([
   ["IDOL", "아이돌"],
 ]);
 
-const customModalStyle: ReactModal.Styles = {
+export const customModalStyle: ReactModal.Styles = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 10,
@@ -71,38 +70,17 @@ export default function DetailCard() {
   const params = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
-  async function getArticle(articleNo: string) {
-    const response = await axios.get(`${SERVER_URL}/articles/${articleNo}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      params: { userNo: userNo, articleNo: articleNo },
-    });
-
-    return response.data;
-  }
-
-  async function getUser(userNo: number) {
-    const response = await axios.get(`${SERVER_URL}/users/${userNo}/profile`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    return response.data;
-  }
-
-  async function deleteArticle(articleNo: number) {
-    const response = await axios.delete(`${SERVER_URL}/articles/${articleNo}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  }
 
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
-    queryFn: async () => await getArticle(params.articleNo as string),
+    queryFn: async () => await getArticle(Number(params.articleNo)),
   });
+
   const { data: userData } = useQuery({
     queryKey: ["writer", article?.userNo],
     queryFn: async () => await getUser(article?.userNo as number),
   });
+
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value;
     const articleNo = article?.articleNo;
@@ -111,14 +89,14 @@ export default function DetailCard() {
     }
     if (selectedOption === "수정하기") {
       navigate(`/detail/${articleNo}/edit`);
+    } else {
+      event.target.value = "더보기";
     }
-    event.target.value = "더보기";
   };
 
-  const time = new Date(article?.partyStartTime || "");
   const statusText = getStatusText(article?.status || "");
-  const minutes = getPaddingTime(time.getMinutes());
-  const seconds = getPaddingTime(time.getSeconds());
+  const remainingTime = useRemainingTime(article?.partyStartTime || "");
+
   return (
     <>
       <div className="bg-white w-80 z-[10] mt-[14px] pt-6 pb-7 px-6 rounded-[10px] border border-slate-200 ">
@@ -180,7 +158,7 @@ export default function DetailCard() {
               {article?.maxUserCount}명
             </span>
             <span className="min-h-5">{article?.currentUserCount}명</span>
-            <span className="min-h-5">{`${minutes}:${seconds}`}</span>
+            <span className="min-h-5">{remainingTime}</span>
             <span className="min-h-5">
               {categories.get(article?.category || " ")}
             </span>
