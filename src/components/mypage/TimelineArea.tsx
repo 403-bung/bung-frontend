@@ -60,6 +60,7 @@ export default function TimelineArea() {
             time={getFullTime(history.partyStartTime)}
             category={categories.get(history.category || "FREE") || "자유"}
             tag="열심히 참여해요👍"
+            articleNo={history.articleNo}
           />
         ))}
       </div>
