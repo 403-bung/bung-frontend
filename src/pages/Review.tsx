@@ -19,7 +19,7 @@ export default function Review() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const userNo = cookies.get("userNo");
-  console.log();
+  const articleNo = console.log();
   const params = useParams();
   const [userInfo, setUserInfo] = useState<ParticipantInfo[]>();
   const { data: article } = useQuery<Article>({
@@ -105,7 +105,7 @@ export default function Review() {
                   width="100px"
                   height="100px"
                   alt="profile"
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate(`userNo`)}
                 />
               </div>
 
