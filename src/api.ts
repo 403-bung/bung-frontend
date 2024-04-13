@@ -2,8 +2,6 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 
 const cookies = new Cookies();
-const userNo = cookies.get("userNo");
-const token = cookies.get("id");
 
 export function joinParty(participantUserNo: number, articleNo: number) {
   axios
@@ -14,7 +12,7 @@ export function joinParty(participantUserNo: number, articleNo: number) {
         articleNo,
       },
       {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${cookies.get("id")}` },
       }
     )
     .then((response) => {
@@ -24,10 +22,10 @@ export function joinParty(participantUserNo: number, articleNo: number) {
 
 export async function feedback() {
   const response = await axios.get(
-    `${process.env.REACT_APP_API_URL}/users/${userNo}/feedback`,
+    `${process.env.REACT_APP_API_URL}/users/${cookies.get("userNo")}/feedback`,
     {
-      params: { userNo },
-      headers: { Authorization: `Bearer ${token}` },
+      params: { userNo: cookies.get("userNo") },
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
     }
   );
 
@@ -38,7 +36,7 @@ export async function getArticle(articleNo: number) {
   const response = await axios.get(
     `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
       params: { userNo: cookies.get("userNo"), articleNo: articleNo },
     }
   );
@@ -50,7 +48,7 @@ export async function getUser(userNo: number) {
   const response = await axios.get(
     `${process.env.REACT_APP_API_URL}/users/${userNo}/profile`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
     }
   );
 
@@ -61,7 +59,7 @@ export async function deleteArticle(articleNo: number) {
   const response = await axios.delete(
     `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
     }
   );
 
