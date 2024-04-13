@@ -117,6 +117,7 @@ export default function Activity() {
                   className="w-[100px] h-[100px] rounded-full overflow-hidden border-[3px] border-solid border-[#6E51BA]"
                   onClick={() => {
                     setFirstModal(true);
+                    navigate(`/activity/${article?.articleNo}/timeline`);
                   }}
                 >
                   <img
@@ -140,7 +141,7 @@ export default function Activity() {
                 isOpen={firstModal}
                 onClose={() => {
                   setFirstModal(false);
-                  navigate(`/activity/${article?.articleNo}/timeline`);
+                  navigate(`/activity/${article?.articleNo}`);
                 }}
                 articleNo={article?.articleNo}
                 userNo={userData?.userNo || 0}
@@ -151,6 +152,7 @@ export default function Activity() {
                     <div
                       className="w-[100px] h-[100px] rounded-full overflow-hidden"
                       onClick={() => {
+                        navigate(`/activity/${article?.articleNo}/timeline`);
                         setProfileModalOpen(true);
                       }}
                     >
@@ -193,7 +195,7 @@ export default function Activity() {
                     isOpen={profileModalOpen}
                     onClose={() => {
                       setProfileModalOpen(false);
-                      navigate(`/activity/${article?.articleNo}/timeline`);
+                      navigate(`/activity/${article?.articleNo}`);
                     }}
                     articleNo={article?.articleNo}
                     userNo={participant.userNo}
