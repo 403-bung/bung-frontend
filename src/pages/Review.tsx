@@ -93,32 +93,32 @@ export default function Review() {
             </div>
           </div>
 
-          {/* {userInfo?.map((user) => ( */}
-          <>
-            <div className="flex flex-col gap-2 items-center">
-              <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
-                <img
-                  // src={user.profileImageUrl}
-                  src={profile}
-                  className="w-full h-full object-cover"
-                  width="100px"
-                  height="100px"
-                  alt="profile"
-                  onClick={() => navigate(`userNo`)}
-                />
-              </div>
+          {userInfo?.map((user) => (
+            <>
+              <div className="flex flex-col gap-2 items-center">
+                <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
+                  <img
+                    src={user.profileImageUrl}
+                    // src={profile}
+                    className="w-full h-full object-cover"
+                    width="100px"
+                    height="100px"
+                    alt="profile"
+                    onClick={() => navigate(`${userNo}`)}
+                  />
+                </div>
 
-              <div className="w-full flex items-center justify-evenly">
-                {/* READY, ACCEPT, DENY */}
+                <div className="w-full flex items-center justify-evenly">
+                  {/* READY, ACCEPT, DENY */}
 
-                <span className=" font-normal text-sm text-[#1F1F1F]">
-                  {/* {user.nickname} */}
-                  닉네임
-                </span>
+                  <span className=" font-normal text-sm text-[#1F1F1F]">
+                    {user.nickname}
+                    닉네임
+                  </span>
+                </div>
               </div>
-            </div>
-          </>
-          {/* ))} */}
+            </>
+          ))}
         </div>
       </div>
     </>

@@ -26,7 +26,7 @@ import FinishReview from "pages/FinishReview";
 import UserReview from "pages/UserReview";
 
 const router = createBrowserRouter([
-  { path: "/review/:articleNo/userNo", element: <UserReview /> },
+  { path: "/review/:articleNo/:userNo", element: <UserReview /> },
   { path: "/finishreview/:articleNo", element: <FinishReview /> },
   { path: "/activityModal", element: <ActivityModal /> },
   { path: "/review/:articleNo", element: <Review /> },
