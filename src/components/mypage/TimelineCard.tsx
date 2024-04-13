@@ -16,8 +16,7 @@ export default function TimelineCard({
   date,
 }: TimelineCardProps) {
   return (
-    <div className="flex gap-[14px]">
-      <span className="w-10 font-semibold text-base text-nowrap">{date}</span>
+    <div className="flex w-full">
       <div className="w-full p-4 bg-white border border-solid border-[#E4DEF2] rounded-lg flex flex-col gap-5">
         <span className=" font-semibold text-[14px] text-[#4A25A9]">
           {status}

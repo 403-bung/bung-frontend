@@ -48,10 +48,25 @@ export default function My() {
             <ProfileBar />
             <MypageTab />
             {location.pathname === "/my/timeline" && (
-              <div className="w-full h-full bg-[#F2F2F6]  overflow-y-auto scrollbar-hide pb-24">
-                <AlarmTab />
-                <TimelineArea />
-              </div>
+              <>
+                <div className="w-full h-full bg-[#F2F2F6] overflow-y-auto scrollbar-hide pb-18">
+                  <AlarmTab />
+                  <TimelineArea />
+                </div>
+                <div className="pt-5 pb-24 bg-[#F2F2F6] w-full flex justify-center">
+                  <button
+                    onClick={() => {
+                      cookies.remove("id", { path: "/" });
+                      cookies.remove("userNo", { path: "/" });
+                      navigate("/home");
+                    }}
+                  >
+                    <span className="text-base font-normal text-[#BABABA]">
+                      로그아웃
+                    </span>
+                  </button>
+                </div>
+              </>
             )}
             {location.pathname === "/my/manner" && <MannerArea />}
           </>
