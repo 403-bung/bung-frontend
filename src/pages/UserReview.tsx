@@ -15,6 +15,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getArticle, getUser } from "api";
 import { Article } from "components/detail/DetailCard";
 import { useEffect } from "react";
+import axios from "axios";
+import FeedBackTags from "components/FeedbackTags";
 
 type ParticipantInfo = {
   profileImageUrl: string;
@@ -28,7 +30,6 @@ export default function UserReview() {
   const cookies = new Cookies();
   const userNo = cookies.get("userNo");
   const params = useParams();
-  // const articleNo = 0;
   const [userInfo, setUserInfo] = useState<ParticipantInfo[]>();
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
@@ -59,11 +60,53 @@ export default function UserReview() {
   useEffect(() => {
     console.log(article);
   }, [article]);
-  const articleNo = article?.articleNo;
 
-  const [reviewPoint, setReviewPoint] = useState(null);
+  //postAPI
+  const token = cookies.get("id");
+  const fromUserNo = article?.userNo;
+  const articleNo = article?.articleNo;
+  const [satisfaction, setSatisfaction] = useState("VERY_SATISFIED");
   const handleButtonClick = (value: any) => {
-    setReviewPoint(value);
+    setSatisfaction(value);
+    if (
+      value === "VERY_SATISFIED" ||
+      value === "SATISFIED" ||
+      value === "DISSATISFIED"
+    ) {
+      setFeedbackTags([]);
+    }
+  };
+  const [feedbackTags, setFeedbackTags] = useState<string[]>([]);
+  const handleTagClick = (value: string) => {
+    if (feedbackTags.includes(value)) {
+      setFeedbackTags(feedbackTags.filter((tag) => tag !== value));
+    } else {
+      setFeedbackTags([...feedbackTags, value]);
+    }
+  };
+  console.log(feedbackTags);
+  const handleFeedback = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/feedback`,
+        {
+          fromUserNo,
+          toUserNo: userInfo,
+          satisfaction,
+          articleNo,
+          feedbackTags,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("후기 작성 성공", response.config.data);
+      navigate(`/finishreview/${articleNo}`);
+    } catch (error) {
+      console.error("후기 작성 실패", error);
+    }
   };
   return (
     <>
@@ -94,7 +137,7 @@ export default function UserReview() {
               닉네임
             </div>
             <div className="mt-[8px] ml-[9px] h-[17px] text-zinc-600 text-[14px] font-normal">
-              디자인 툴 수업 같이 수강 하실분 구해요!
+              {article?.name}
             </div>
           </div>
         </div>
@@ -104,107 +147,126 @@ export default function UserReview() {
             닉네임님과의 활동은 어떠셨나요?
           </div>
           <div className="mt-[26px] flex justify-between">
-            {/* verygood */}
-            {reviewPoint === "verygood" ? (
+            {/* VERY_SATISFIED */}
+            {satisfaction === "VERY_SATISFIED" ? (
               <img
                 className="w-[96px] h-[96px]"
                 alt="sticker1"
                 src={sticker1}
-                onClick={() => handleButtonClick(1)}
+                onClick={() => handleButtonClick("VERY_SATISFIED")}
               />
             ) : (
               <img
                 className="w-[96px] h-[96px]"
                 alt="sticker11"
                 src={sticker11}
-                onClick={() => handleButtonClick("verygood")}
+                onClick={() => handleButtonClick("VERY_SATISFIED")}
               />
             )}
-            {/* good */}
-            {reviewPoint === "good" ? (
+            {/* SATISFIED */}
+            {satisfaction === "SATISFIED" ? (
               <img
                 className="w-[96px] h-[96px]"
                 alt="sticker2"
                 src={sticker2}
-                onClick={() => handleButtonClick(2)}
+                onClick={() => handleButtonClick("SATISFIED")}
               />
             ) : (
               <img
                 className="w-[96px] h-[96px]"
                 alt="sticker22"
                 src={sticker22}
-                onClick={() => handleButtonClick("good")}
+                onClick={() => handleButtonClick("SATISFIED")}
               />
             )}
-            {/* bad */}
-            {reviewPoint === "bad" ? (
+            {/* DISSATISFIED */}
+            {satisfaction === "DISSATISFIED" ? (
               <img
                 className="w-[96px] h-[96px]"
                 alt="sticker3"
                 src={sticker3}
-                onClick={() => handleButtonClick(3)}
+                onClick={() => handleButtonClick("DISSATISFIED")}
               />
             ) : (
               <img
                 className="w-[96px] h-[96px]"
                 alt="sticker33"
                 src={sticker33}
-                onClick={() => handleButtonClick("bad")}
+                onClick={() => handleButtonClick("DISSATISFIED")}
               />
             )}
           </div>
         </div>
         <div className="w-[343px] h-[2px] bg-violet-100 mt-[57px] mx-[16px]" />
         {/* 좋은점  */}
-        {/* verygood */}
-        {reviewPoint === "verygood" && (
+        {/*  VERY_SATISFIED*/}
+        {satisfaction === "VERY_SATISFIED" && (
           <div className="h-[164px] mt-[36px] mx-[17px] flex flex-col justify-start items-start">
-            <div className=" w-[139px] h-[21px] text-stone-900 text-lg font-semibold">
+            <div className=" w-[139px] h-[21px] mb-[16px] text-stone-900 text-lg font-semibold">
               어떤점이 좋았나요?
             </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[26px] bg-violet-100 rounded-lg border border-violet-900 flex justify-center items-center text-violet-900 text-base font-normal">
-              친절해요☺️
-            </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[12px] rounded-lg border border-violet-300 flex justify-center items-center text-violet-900 text-base font-normal">
-              열심히 참여해요👍🏻
-            </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[12px] rounded-lg border border-violet-300 flex justify-center items-center text-violet-900 text-base font-normal">
-              시간약속을 잘지켜요🕒
-            </div>
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="KINDNESS"
+              label="친절해요☺️"
+            />
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="EFFORT"
+              label="열심히 참여해요👍🏻"
+            />
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="TIME_KEEPER"
+              label="시간약속을 잘지켜요🕒"
+            />
           </div>
         )}
-        {/* good */}
-        {reviewPoint === "good" && (
+        {/* SATISFIED */}
+        {satisfaction === "SATISFIED" && (
           <div className="h-[164px] mt-[36px] mx-[17px] flex flex-col justify-start items-start">
-            <div className=" w-[139px] h-[21px] text-stone-900 text-lg font-semibold">
+            <div className=" w-[139px] h-[21px] mb-[16px] text-stone-900 text-lg font-semibold">
               어떤점이 좋았나요?
             </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[26px] bg-violet-100 rounded-lg border border-violet-900 flex justify-center items-center text-violet-900 text-base font-normal">
-              친절해요☺️
-            </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[12px] rounded-lg border border-violet-300 flex justify-center items-center text-violet-900 text-base font-normal">
-              열심히 참여해요👍🏻
-            </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[12px] rounded-lg border border-violet-300 flex justify-center items-center text-violet-900 text-base font-normal">
-              시간약속을 잘지켜요🕒
-            </div>
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="KINDNESS"
+              label="친절해요☺️"
+            />
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="EFFORT"
+              label="열심히 참여해요👍🏻"
+            />
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="TIME_KEEPER"
+              label="시간약속을 잘지켜요🕒"
+            />
           </div>
         )}
-        {/* bad */}
-        {reviewPoint === "bad" && (
+        {/* DISSATISFIED */}
+        {satisfaction === "DISSATISFIED" && (
           <div className="h-[164px] mt-[36px] mx-[17px] flex flex-col justify-start items-start">
-            <div className="  h-[21px] text-stone-900 text-lg font-semibold">
+            <div className="  h-[21px] mb-[16px] text-stone-900 text-lg font-semibold">
               어떤점이 별로였나요?
             </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[26px] bg-violet-100 rounded-lg border border-violet-900 flex justify-center items-center text-violet-900 text-base font-normal">
-              약속에 늦어요
-            </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[12px] rounded-lg border border-violet-300 flex justify-center items-center text-violet-900 text-base font-normal">
-              참여도가 낮아요
-            </div>
-            <div className=" h-[31px] px-[14px] py-[6px] mt-[12px] rounded-lg border border-violet-300 flex justify-center items-center text-violet-900 text-base font-normal">
-              모임 분위기를 흐려요
-            </div>
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="LATER"
+              label="
+              약속에 늦어요"
+            />
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="NOT_EFFORT"
+              label="참여도가 낮아요"
+            />
+            <FeedBackTags
+              onClick={handleTagClick}
+              value="BAD_ATTITUDE"
+              label="모임 분위기를 흐려요"
+            />
           </div>
         )}
         {/* 버튼 */}
@@ -212,7 +274,7 @@ export default function UserReview() {
           className="mt-[58px] flex justify-center items-center"
           onClick={() => navigate(`/finishreview/${articleNo}`)}
         >
-          <Button text="후기 보내기" />
+          <Button text="후기 보내기" onClick={handleFeedback} />
         </div>
       </div>
     </>
