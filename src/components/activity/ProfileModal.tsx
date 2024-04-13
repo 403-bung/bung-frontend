@@ -49,8 +49,8 @@ export default function ProfileModal({
         </div>
         <ProfileBar
           userNo={userNo}
-          participantUserNo={userNo}
-          partyNo={articleNo}
+          //   participantUserNo={userNo}
+          //   partyNo={articleNo}
         />
         <MypageTab
           timelinePath={`/activity/${articleNo}/timeline`}
