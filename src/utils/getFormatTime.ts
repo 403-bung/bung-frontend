@@ -23,3 +23,10 @@ function getDayNight(hour: number) {
 export function getPaddingTime(time: number) {
   return time.toString().padStart(2, "0");
 }
+
+export function getFullTime(time: string) {
+  const dateTime = new Date(time);
+  return `${dateTime.getFullYear()}년 ${
+    dateTime.getMonth() + 1
+  }월 ${dateTime.getDate()}일 ${getFormatTime(time)} `;
+}
