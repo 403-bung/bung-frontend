@@ -18,14 +18,16 @@ import EditWritePage from "pages/EditWritePage";
 
 import ActivityModal from "./components/ActivityModal";
 import Review from "./pages/Review";
-import UserReview from "./components/UserReview";
 
 import DraftModal from "components/write/DraftModal";
 import DraftArticle from "pages/DraftArticle";
 import Activity from "pages/Activity";
+import FinishReview from "pages/FinishReview";
+import UserReview from "pages/UserReview";
 
 const router = createBrowserRouter([
   { path: "/review/:articleNo/userNo", element: <UserReview /> },
+  { path: "/finishreview/:articleNo", element: <FinishReview /> },
   { path: "/activityModal", element: <ActivityModal /> },
   { path: "/review/:articleNo", element: <Review /> },
   { path: "/draftModal", element: <DraftModal /> },

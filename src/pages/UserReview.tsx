@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import closeBtn from "../icons/closeBtn.svg";
-import StatusBar from "./UI/StatusBar";
 import profile from "../icons/profile.svg";
 import sticker1 from "../icons/sticker1.svg";
 import sticker2 from "../icons/sticker2.svg";
@@ -8,11 +7,60 @@ import sticker3 from "../icons/sticker3.svg";
 import sticker11 from "../icons/sticker11.svg";
 import sticker22 from "../icons/sticker22.svg";
 import sticker33 from "../icons/sticker33.svg";
-import Button from "./UI/Button";
 import { useState } from "react";
-import TimeButton from "./write/TimeButton";
+import StatusBar from "components/UI/StatusBar";
+import Button from "components/UI/Button";
+import { Cookies } from "react-cookie";
+import { useQuery } from "@tanstack/react-query";
+import { getArticle, getUser } from "api";
+import { Article } from "components/detail/DetailCard";
+import { useEffect } from "react";
+
+type ParticipantInfo = {
+  profileImageUrl: string;
+  nickname: string;
+  state: string;
+  userNo: number;
+};
 
 export default function UserReview() {
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+  const userNo = cookies.get("userNo");
+  const params = useParams();
+  // const articleNo = 0;
+  const [userInfo, setUserInfo] = useState<ParticipantInfo[]>();
+  const { data: article } = useQuery<Article>({
+    queryKey: ["article", params.articleNo],
+    queryFn: async () => await getArticle(Number(params.articleNo)),
+  });
+  const { data: userData } = useQuery({
+    queryKey: ["writer", article?.userNo],
+    queryFn: async () => await getUser(article?.userNo as number),
+  });
+  useEffect(() => {
+    const participantDetails: ParticipantInfo[] = [];
+    article?.participants.map(async (value) => {
+      if (value.participantUserNo !== article.userNo) {
+        const user = await getUser(value.participantUserNo);
+        console.log(user.profileImageUrl, user.nickname);
+        const item = {
+          profileImageUrl: user.profileImageUrl,
+          nickname: user.nickname,
+          state: value.state,
+          userNo: value.participantUserNo,
+        };
+        participantDetails.push(item);
+        // setUserInfo(() => [...(userInfo + item)]);
+      }
+      setUserInfo(participantDetails);
+    });
+  }, [article, userNo]);
+  useEffect(() => {
+    console.log(article);
+  }, [article]);
+  const articleNo = article?.articleNo;
+
   const [reviewPoint, setReviewPoint] = useState(null);
   const handleButtonClick = (value: any) => {
     setReviewPoint(value);
@@ -160,7 +208,10 @@ export default function UserReview() {
           </div>
         )}
         {/* 버튼 */}
-        <div className="mt-[58px] flex justify-center items-center">
+        <div
+          className="mt-[58px] flex justify-center items-center"
+          onClick={() => navigate(`/finishreview/${articleNo}`)}
+        >
           <Button text="후기 보내기" />
         </div>
       </div>
