@@ -15,7 +15,7 @@ type ParticipantInfo = {
   userNo: number;
 };
 
-export default function Review() {
+export default function FinishReview() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const userNo = cookies.get("userNo");
@@ -50,6 +50,7 @@ export default function Review() {
   useEffect(() => {
     console.log(article);
   }, [article]);
+  const articleNo = article?.articleNo;
   return (
     <>
       <div className="w-[375px] h-screen bg-white flex flex-col">
@@ -62,6 +63,16 @@ export default function Review() {
             <img src={closeBtn} alt="close" />
           </Link>
         </div>
+        {/* 추가 멘트 */}
+        <div className="w-[375px] h-[97px] bg-violet-100 flex flex-col justify-center items-center">
+          <div className="text-stone-900 text-lg font-semibold">
+            다른 팀원에게도 후기를
+          </div>
+          <div className="text-stone-900 text-lg font-semibold">
+            보내보는거 어때요?
+          </div>
+        </div>
+        {/* 참여자정보 */}
         <div className="flex flex-col items-center justify-center">
           <div className="mt-[14px] w-[344px] text-center text-stone-900 text-lg font-semibold">
             참여자 정보
@@ -104,7 +115,7 @@ export default function Review() {
                   width="100px"
                   height="100px"
                   alt="profile"
-                  onClick={() => navigate(`userNo`)}
+                  onClick={() => navigate(`/review/${articleNo}/userNo`)}
                 />
               </div>
 
