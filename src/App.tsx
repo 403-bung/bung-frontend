@@ -47,10 +47,20 @@ const router = createBrowserRouter([
   {
     path: "/my",
     element: <My />,
-    children: [{ path: "/my/timeline" }, { path: "/my/manner" }],
+    children: [
+      { path: "/my/timeline", element: <></> },
+      { path: "/my/manner", element: <></> },
+    ],
   },
   { path: "/my/changePwd", element: <ChangePwd /> },
-  { path: "/activity/:articleNo", element: <Activity /> },
+  {
+    path: "/activity/:articleNo",
+    element: <Activity />,
+    children: [
+      { path: "/activity/:articleNo/timeline", element: <></> },
+      { path: "/activity/:articleNo/manner", element: <></> },
+    ],
+  },
 ]);
 
 const queryClient = new QueryClient();

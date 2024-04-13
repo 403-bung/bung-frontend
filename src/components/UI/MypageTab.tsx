@@ -1,15 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 
-export default function MypageTab() {
+type MypageTabProps = {
+  timelinePath: string;
+  mannerPath: string;
+};
+export default function MypageTab({
+  timelinePath,
+  mannerPath,
+}: MypageTabProps) {
   const location = useLocation();
-  const isTimelineActive = location.pathname === "/my/timeline";
-  const isMannerActive = location.pathname === "/my/manner";
+  const isTimelineActive = location.pathname === timelinePath;
+  const isMannerActive = location.pathname === mannerPath;
 
   return (
     <div className="w-full flex">
       <div className="w-1/2 px-[10px] pt-[10px] flex flex-col justify-center items-center gap-[10px]">
         <Link
-          to="/my/timeline"
+          to={timelinePath}
           className={`text-lg ${
             isTimelineActive
               ? "font-semibold text-[#4A25A9]"
@@ -26,7 +33,7 @@ export default function MypageTab() {
       </div>
       <div className="w-1/2 px-[10px] pt-[10px] flex flex-col justify-center items-center gap-[10px]">
         <Link
-          to="/my/manner"
+          to={mannerPath}
           className={`text-lg ${
             isMannerActive
               ? "font-semibold text-[#4A25A9]"

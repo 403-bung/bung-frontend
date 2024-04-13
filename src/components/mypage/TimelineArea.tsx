@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import TimelineCard from "./TimelineCard";
 import { Cookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
@@ -26,10 +25,9 @@ type ParticipationHistories = {
   partyStartTime: string;
 };
 
-export default function TimelineArea() {
+export default function TimelineArea({ userNo }: { userNo: number }) {
   const cookies = new Cookies();
   const token = cookies.get("id");
-  const userNo = cookies.get("userNo");
 
   async function getPartyHistory(userNo: number) {
     const response = await axios.get(
@@ -53,16 +51,17 @@ export default function TimelineArea() {
   return (
     <div className="w-full flex flex-col items-center bg-[#F2F2F6] ">
       <div className="w-full h-full flex flex-col p-5 gap-[10px]">
-        {data?.participationHistories.map((history) => (
-          <TimelineCard
-            status={getStatusText(history.status)}
-            title={history.name}
-            time={getFullTime(history.partyStartTime)}
-            category={categories.get(history.category || "FREE") || "자유"}
-            tag="열심히 참여해요👍"
-            articleNo={history.articleNo}
-          />
-        ))}
+        {data?.participationHistories &&
+          data?.participationHistories.map((history) => (
+            <TimelineCard
+              status={getStatusText(history.status)}
+              title={history.name}
+              time={getFullTime(history.partyStartTime)}
+              category={categories.get(history.category || "FREE") || "자유"}
+              tag="열심히 참여해요👍"
+              articleNo={history.articleNo}
+            />
+          ))}
       </div>
     </div>
   );
