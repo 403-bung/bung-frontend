@@ -51,7 +51,7 @@ export default function My() {
               <>
                 <div className="w-full h-full bg-[#F2F2F6] overflow-y-auto scrollbar-hide pb-18">
                   <AlarmTab />
-                  <TimelineArea />
+                  <TimelineArea userNo={userNo} />
                 </div>
                 <div className="pt-5 pb-24 bg-[#F2F2F6] w-full flex justify-center">
                   <button
