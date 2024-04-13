@@ -113,7 +113,6 @@ export default function Review() {
 
                   <span className=" font-normal text-sm text-[#1F1F1F]">
                     {user.nickname}
-                    닉네임
                   </span>
                 </div>
               </div>

@@ -57,6 +57,13 @@ export default function UserReview() {
       setUserInfo(participantDetails);
     });
   }, [article, userNo]);
+  const nickname = userInfo?.map((info) => info.nickname);
+  const profileArr: string[] | undefined = userInfo?.map(
+    (info) => info.profileImageUrl
+  );
+  const profile = profileArr ? profileArr[0] : undefined;
+  console.log(profile);
+  // console.log(userInfo?.map((info) => info.nickname));
   useEffect(() => {
     console.log(article);
   }, [article]);
@@ -84,7 +91,6 @@ export default function UserReview() {
       setFeedbackTags([...feedbackTags, value]);
     }
   };
-  console.log(feedbackTags);
   const handleFeedback = async () => {
     try {
       const response = await axios.post(
@@ -134,7 +140,7 @@ export default function UserReview() {
           </div>
           <div>
             <div className="mt-[23px] ml-[9px] h-[21px] text-stone-900 text-[18px] font-semibold">
-              닉네임
+              {nickname}
             </div>
             <div className="mt-[8px] ml-[9px] h-[17px] text-zinc-600 text-[14px] font-normal">
               {article?.name}
