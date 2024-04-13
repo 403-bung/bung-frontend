@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import OptionSelect from "components/UI/OptionSelect";
 import ModalDeleteConfirm from "components/UI/ModalDeleteConfirm";
 import ArticleInfo from "components/UI/ArticleInfo";
+import Button from "components/UI/Button";
+import ProfileModal from "components/activity/ProfileModal";
 
 type ParticipantInfo = {
   profileImageUrl: string;
@@ -24,6 +26,8 @@ export default function Activity() {
   const userNo = cookies.get("userNo");
   const params = useParams();
   const [modalOpen, setModalOpen] = useState(false);
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [firstModal, setFirstModal] = useState(false);
   // 참여자 정보
   const [participantInfo, setParticipantInfo] = useState<ParticipantInfo[]>();
 
@@ -100,7 +104,7 @@ export default function Activity() {
             )}
           </div>
         </div>
-        <div className="w-full  pt-5">
+        <div className="w-full pt-5">
           <div className="bg-white w-full flex flex-col items-center p-4 gap-7">
             <span className=" font-semibold text-lg text-[#1f1f1f]">
               사용자 정보
@@ -109,7 +113,12 @@ export default function Activity() {
             <div className="w-full grid grid-flow-col auto-cols-max gap-6 justify-start flex-wrap">
               {/* 방장 정보 */}
               <div className="flex flex-col gap-2 items-center">
-                <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-[3px] border-solid border-[#6E51BA]">
+                <div
+                  className="w-[100px] h-[100px] rounded-full overflow-hidden border-[3px] border-solid border-[#6E51BA]"
+                  onClick={() => {
+                    setFirstModal(true);
+                  }}
+                >
                   <img
                     src={userData?.profileImageUrl}
                     className="w-full h-full object-cover"
@@ -127,11 +136,24 @@ export default function Activity() {
                   </span>
                 </div>
               </div>
-
+              <ProfileModal
+                isOpen={firstModal}
+                onClose={() => {
+                  setFirstModal(false);
+                  navigate(`/activity/${article?.articleNo}/timeline`);
+                }}
+                articleNo={article?.articleNo}
+                userNo={userData?.userNo || 0}
+              />
               {participantInfo?.map((participant) => (
                 <>
                   <div className="flex flex-col gap-2 items-center">
-                    <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
+                    <div
+                      className="w-[100px] h-[100px] rounded-full overflow-hidden"
+                      onClick={() => {
+                        setProfileModalOpen(true);
+                      }}
+                    >
                       <img
                         src={participant.profileImageUrl}
                         className="w-full h-full object-cover"
@@ -167,12 +189,25 @@ export default function Activity() {
                       </span>
                     </div>
                   </div>
+                  <ProfileModal
+                    isOpen={profileModalOpen}
+                    onClose={() => {
+                      setProfileModalOpen(false);
+                      navigate(`/activity/${article?.articleNo}/timeline`);
+                    }}
+                    articleNo={article?.articleNo}
+                    userNo={participant.userNo}
+                  />
                 </>
               ))}
             </div>
           </div>
         </div>
+        <div className="absolute bottom-0 z-[1] w-[375px] flex flex-col items-center py-14">
+          <Button text="시작하기"></Button>
+        </div>
       </div>
+
       <ModalDeleteConfirm
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}

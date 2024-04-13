@@ -35,7 +35,7 @@ export default function My() {
   const notify = () => toast.success("닉네임이 수정됐어요");
 
   const cookies = new Cookies();
-
+  const userNo = cookies.get("userNo");
   const navigate = useNavigate();
   return (
     <>
@@ -45,8 +45,8 @@ export default function My() {
         <NavBar />
         {cookies.get("id") ? (
           <>
-            <ProfileBar />
-            <MypageTab />
+            <ProfileBar userNo={userNo} />
+            <MypageTab timelinePath="/my/timeline" mannerPath={"/my/manner"} />
             {location.pathname === "/my/timeline" && (
               <>
                 <div className="w-full h-full bg-[#F2F2F6] overflow-y-auto scrollbar-hide pb-18">

@@ -1,25 +1,18 @@
 import { useNavigate } from "react-router";
 import profile from "icons/profile.svg";
 import { Cookies } from "react-cookie";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { getUser } from "api";
+import { useQuery } from "@tanstack/react-query";
+import { UserInfo } from "components/detail/DetailCard";
 
-export default function ProfileBar() {
+export default function ProfileBar({ userNo }: { userNo: number }) {
   const navigate = useNavigate();
   const cookies = new Cookies();
-  const token = cookies.get("id");
-  const userNo = cookies.get("userNo");
-  // redux 사용하기
-  const [nickname, setNickname] = useState("닉네임");
+  // const userNo = cookies.get("userNo");
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/users/${userNo}/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        setNickname(response.data.nickname);
-      });
+  const { data } = useQuery<UserInfo>({
+    queryKey: ["user", userNo],
+    queryFn: async () => await getUser(userNo),
   });
 
   return (
@@ -28,7 +21,7 @@ export default function ProfileBar() {
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <span className="text-[18px] font-medium leading-none">
-            {nickname}
+            {data?.nickname}
           </span>
           <button
             className="w-[37px] h-[21px] px-[6px] py-[2px] rounded-md bg-[#EDE9F6] text-nowrap flex justify-center items-center gap-[10px] border border-solid border-[#C7BBE4] text-[#4A25A9] font-semibold text-[14px]"
