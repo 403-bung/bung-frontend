@@ -39,7 +39,7 @@ export async function getArticle(articleNo: number) {
     `${process.env.REACT_APP_API_URL}/articles/${articleNo}`,
     {
       headers: { Authorization: `Bearer ${token}` },
-      params: { articleNo: articleNo },
+      params: { userNo: userNo, articleNo: articleNo },
     }
   );
 
