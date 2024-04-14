@@ -49,8 +49,8 @@ export default function ProfileModal({
         </div>
         <ProfileBar
           userNo={userNo}
-          //   participantUserNo={userNo}
-          //   partyNo={articleNo}
+          participantUserNo={userNo}
+          articleNo={articleNo}
         />
         <MypageTab
           timelinePath={`/activity/${articleNo}/timeline`}
@@ -63,7 +63,6 @@ export default function ProfileModal({
         )}
         {manner && (
           <div className=" overflow-hidden">
-            {" "}
             <MannerArea />
           </div>
         )}

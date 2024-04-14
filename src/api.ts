@@ -65,3 +65,21 @@ export async function deleteArticle(articleNo: number) {
 
   return response.data;
 }
+
+export async function changeAcceptence(
+  state: string,
+  articleNo: number,
+  participantUserNo: number
+) {
+  await axios.put(
+    `${process.env.REACT_APP_API_URL}/party/acceptence`,
+    {
+      state: state,
+      articleNo: articleNo,
+      participantUserNo: participantUserNo,
+    },
+    {
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
+    }
+  );
+}

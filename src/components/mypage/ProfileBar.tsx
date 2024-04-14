@@ -1,11 +1,20 @@
 import { useNavigate } from "react-router";
 import profile from "icons/profile.svg";
-import { getUser } from "api";
+import { changeAcceptence, getUser } from "api";
 import { useQuery } from "@tanstack/react-query";
 import { UserInfo } from "components/detail/DetailCard";
-import { useLocation, useMatch } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 
-export default function ProfileBar({ userNo }: { userNo: number }) {
+export default function ProfileBar({
+  userNo,
+  participantUserNo,
+  articleNo,
+}: {
+  userNo: number;
+
+  participantUserNo?: number;
+  articleNo?: number;
+}) {
   const navigate = useNavigate();
 
   const { data } = useQuery<UserInfo>({
@@ -39,10 +48,28 @@ export default function ProfileBar({ userNo }: { userNo: number }) {
               {data?.nickname}
             </span>
             <div className="flex gap-2">
-              <button className="px-2 py-3 text-[#4A25A9] font-semibold text-sm bg-[#EDE9F6] rounded-md flex justify-center items-center text-nowrap h-6">
+              <button
+                className="px-2 py-3 text-[#4A25A9] font-semibold text-sm bg-[#EDE9F6] rounded-md flex justify-center items-center text-nowrap h-6"
+                onClick={() => {
+                  changeAcceptence(
+                    "ACCEPT",
+                    articleNo || 0,
+                    participantUserNo || 0
+                  );
+                }}
+              >
                 참여수락
               </button>
-              <button className="px-2 py-3 text-[#F66D6F] font-semibold text-sm bg-[#F66D6F1A] rounded-md flex justify-center items-center text-nowrap h-6">
+              <button
+                className="px-2 py-3 text-[#F66D6F] font-semibold text-sm bg-[#F66D6F1A] rounded-md flex justify-center items-center text-nowrap h-6"
+                onClick={() => {
+                  changeAcceptence(
+                    "DENY",
+                    articleNo || 0,
+                    participantUserNo || 0
+                  );
+                }}
+              >
                 참여거절
               </button>
             </div>
