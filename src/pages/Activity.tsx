@@ -145,6 +145,8 @@ export default function Activity() {
                 }}
                 articleNo={article?.articleNo}
                 userNo={userData?.userNo || 0}
+                isParticipant={false}
+                isHost={true}
               />
               {participantInfo?.map((participant) => (
                 <>
@@ -168,8 +170,8 @@ export default function Activity() {
                     <div className="w-full flex items-center justify-evenly">
                       {/* READY, ACCEPT, DENY */}
                       {/* 방장은 상태를 볼 수 있음, 참여자는 자신의 상태만 볼 수 있음 */}
-                      {(userData?.userNo === article?.userNo ||
-                        userData?.userNo === participant.userNo) && (
+                      {(article?.userNo === userNo ||
+                        participant.userNo === userNo) && (
                         <div
                           className={`w-[37px] font-semibold text-xs  flex justify-center items-center rounded-lg py-[2px] ${
                             participant.state === "READY"
@@ -199,6 +201,8 @@ export default function Activity() {
                     }}
                     articleNo={article?.articleNo}
                     userNo={participant.userNo}
+                    isParticipant={true}
+                    isHost={article?.userNo === userNo}
                   />
                 </>
               ))}

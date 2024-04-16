@@ -4,16 +4,21 @@ import { changeAcceptence, getUser } from "api";
 import { useQuery } from "@tanstack/react-query";
 import { UserInfo } from "components/detail/DetailCard";
 import { useMatch } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function ProfileBar({
   userNo,
   participantUserNo,
   articleNo,
+  isParticipant,
+  isHost,
 }: {
   userNo: number;
 
   participantUserNo?: number;
   articleNo?: number;
+  isParticipant?: boolean;
+  isHost?: boolean;
 }) {
   const navigate = useNavigate();
 
@@ -47,32 +52,34 @@ export default function ProfileBar({
             <span className="text-[18px] font-medium leading-none">
               {data?.nickname}
             </span>
-            <div className="flex gap-2">
-              <button
-                className="px-2 py-3 text-[#4A25A9] font-semibold text-sm bg-[#EDE9F6] rounded-md flex justify-center items-center text-nowrap h-6"
-                onClick={() => {
-                  changeAcceptence(
-                    "ACCEPT",
-                    articleNo || 0,
-                    participantUserNo || 0
-                  );
-                }}
-              >
-                참여수락
-              </button>
-              <button
-                className="px-2 py-3 text-[#F66D6F] font-semibold text-sm bg-[#F66D6F1A] rounded-md flex justify-center items-center text-nowrap h-6"
-                onClick={() => {
-                  changeAcceptence(
-                    "DENY",
-                    articleNo || 0,
-                    participantUserNo || 0
-                  );
-                }}
-              >
-                참여거절
-              </button>
-            </div>
+            {isParticipant && isHost && (
+              <div className="flex gap-2">
+                <button
+                  className="px-2 py-3 text-[#4A25A9] font-semibold text-sm bg-[#EDE9F6] rounded-md flex justify-center items-center text-nowrap h-6"
+                  onClick={() => {
+                    changeAcceptence(
+                      "ACCEPT",
+                      articleNo || 0,
+                      participantUserNo || 0
+                    );
+                  }}
+                >
+                  참여수락
+                </button>
+                <button
+                  className="px-2 py-3 text-[#F66D6F] font-semibold text-sm bg-[#F66D6F1A] rounded-md flex justify-center items-center text-nowrap h-6"
+                  onClick={() => {
+                    changeAcceptence(
+                      "DENY",
+                      articleNo || 0,
+                      participantUserNo || 0
+                    );
+                  }}
+                >
+                  참여거절
+                </button>
+              </div>
+            )}
           </div>
         )}
         <div className="text-[14px] flex gap-[10px]">
