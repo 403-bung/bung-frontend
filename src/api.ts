@@ -83,3 +83,13 @@ export async function changeAcceptence(
     }
   );
 }
+
+export async function changeArticleStatus(status: string, articleNo: number) {
+  await axios.put(
+    `${process.env.REACT_APP_API_URL}/articles/${articleNo}/status`,
+    { status },
+    {
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
+    }
+  );
+}
