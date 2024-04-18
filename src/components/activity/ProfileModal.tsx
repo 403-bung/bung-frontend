@@ -69,7 +69,7 @@ export default function ProfileModal({
         )}
         {manner && (
           <div className=" overflow-hidden">
-            <MannerArea />
+            <MannerArea userNo={userNo} />
           </div>
         )}
       </Modal>
