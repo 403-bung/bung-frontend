@@ -16,8 +16,8 @@ const customModalStyle: ReactModal.Styles = {
   content: {
     position: "absolute",
     width: "300px",
-    height: "280px",
-    top: "calc(50% - 140px)",
+    height: "352px",
+    top: "calc(50% - 176px)",
     left: "calc(50% - 150px)",
     backgroundColor: "white",
     padding: "40px 24px 28px 24px",
@@ -27,6 +27,7 @@ const customModalStyle: ReactModal.Styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: "72px",
   },
 };
 
@@ -46,10 +47,20 @@ const ModalDeleteConfirm: React.FC<ModalDeleteConfirmProps> = ({
 
   return (
     <Modal isOpen={isOpen} style={customModalStyle} onRequestClose={onClose}>
-      <Title text={"벙개를 삭제하시겠어요?"} />
+      <div className="flex flex-col gap-2">
+        <Title text={"벙개를 삭제하시겠어요?"} />
+        <div className="flex flex-col items-center">
+          <span className=" font-medium text-lg text-[#1f1f1f]">
+            삭제하면 참여기록이 사라지고
+          </span>
+          <span className=" font-medium text-lg text-[#1f1f1f]">
+            해당 벙개도 삭제됩니다.
+          </span>
+        </div>
+      </div>
       <div className="w-full flex flex-col items-center gap-5">
         <button
-          className="bg-[#4A25A9] w-full text-white text-base font-semibold py-5 rounded-[10px]"
+          className="bg-[#4A25A9] w-full text-white text-base font-semibold py-4 rounded-[10px]"
           onClick={handleDelete}
         >
           삭제하기
