@@ -68,7 +68,9 @@ export default function My() {
                 </div>
               </>
             )}
-            {location.pathname === "/my/manner" && <MannerArea />}
+            {location.pathname === "/my/manner" && (
+              <MannerArea userNo={userNo} />
+            )}
           </>
         ) : (
           <>

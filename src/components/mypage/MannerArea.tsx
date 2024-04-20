@@ -95,13 +95,13 @@ function rateFormat(rate: number) {
   return { text, sticker };
 }
 
-export default function MannerArea() {
+export default function MannerArea({ userNo }: { userNo: number }) {
   const [text, setText] = useState("");
   const [sticker, setSticker] = useState("");
 
   const { data } = useQuery<Feedback>({
-    queryKey: ["feedback"],
-    queryFn: feedback,
+    queryKey: ["feedback", userNo],
+    queryFn: () => feedback(userNo),
   });
 
   useEffect(() => {

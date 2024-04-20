@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import Title from "components/UI/Title";
 import { deleteArticle } from "api";
 
-interface ModalDeleteConfirmProps {
+interface CancleModalProps {
   isOpen: boolean;
   onClose: () => void;
   articleNo?: number;
@@ -31,7 +31,7 @@ const customModalStyle: ReactModal.Styles = {
   },
 };
 
-const ModalDeleteConfirm: React.FC<ModalDeleteConfirmProps> = ({
+const CancleModal: React.FC<CancleModalProps> = ({
   isOpen,
   onClose,
   articleNo,
@@ -48,22 +48,22 @@ const ModalDeleteConfirm: React.FC<ModalDeleteConfirmProps> = ({
   return (
     <Modal isOpen={isOpen} style={customModalStyle} onRequestClose={onClose}>
       <div className="flex flex-col gap-2">
-        <Title text={"벙개를 삭제하시겠어요?"} />
+        <Title text="벙개를 나가시겠어요?" />
         <div className="flex flex-col items-center">
           <span className=" font-medium text-lg text-[#1f1f1f]">
             삭제하면 참여기록이 사라지고
           </span>
           <span className=" font-medium text-lg text-[#1f1f1f]">
-            해당 벙개도 삭제됩니다.
+            해당 벙개 참여도 불가능해요.
           </span>
         </div>
       </div>
       <div className="w-full flex flex-col items-center gap-5">
         <button
           className="bg-[#4A25A9] w-full text-white text-base font-semibold py-4 rounded-[10px]"
-          onClick={handleDelete}
+          //   onClick={handleDelete}
         >
-          삭제하기
+          나가기
         </button>
         <button onClick={onClose}>취소하기</button>
       </div>
@@ -71,4 +71,4 @@ const ModalDeleteConfirm: React.FC<ModalDeleteConfirmProps> = ({
   );
 };
 
-export default ModalDeleteConfirm;
+export default CancleModal;

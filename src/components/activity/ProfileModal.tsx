@@ -11,6 +11,8 @@ interface ProfileModalProps {
   onClose: () => void;
   articleNo?: number;
   userNo: number;
+  isParticipant: boolean;
+  isHost: boolean;
 }
 
 const profileModalStyle: ReactModal.Styles = {
@@ -37,6 +39,8 @@ export default function ProfileModal({
   onClose,
   articleNo,
   userNo,
+  isParticipant,
+  isHost,
 }: ProfileModalProps) {
   const timelineMatch = useMatch("/activity/:article/timeline");
   const manner = useMatch("/activity/:article/manner");
@@ -51,6 +55,8 @@ export default function ProfileModal({
           userNo={userNo}
           participantUserNo={userNo}
           articleNo={articleNo}
+          isHost={isHost}
+          isParticipant={isParticipant}
         />
         <MypageTab
           timelinePath={`/activity/${articleNo}/timeline`}
@@ -63,7 +69,7 @@ export default function ProfileModal({
         )}
         {manner && (
           <div className=" overflow-hidden">
-            <MannerArea />
+            <MannerArea userNo={userNo} />
           </div>
         )}
       </Modal>

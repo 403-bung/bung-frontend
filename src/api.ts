@@ -20,11 +20,11 @@ export function joinParty(participantUserNo: number, articleNo: number) {
     });
 }
 
-export async function feedback() {
+export async function feedback(userNo: number) {
   const response = await axios.get(
-    `${process.env.REACT_APP_API_URL}/users/${cookies.get("userNo")}/feedback`,
+    `${process.env.REACT_APP_API_URL}/users/${userNo}/feedback`,
     {
-      params: { userNo: cookies.get("userNo") },
+      params: { userNo },
       headers: { Authorization: `Bearer ${cookies.get("id")}` },
     }
   );
@@ -78,6 +78,16 @@ export async function changeAcceptence(
       articleNo: articleNo,
       participantUserNo: participantUserNo,
     },
+    {
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
+    }
+  );
+}
+
+export async function changeArticleStatus(status: string, articleNo: number) {
+  await axios.put(
+    `${process.env.REACT_APP_API_URL}/articles/${articleNo}/status`,
+    { status },
     {
       headers: { Authorization: `Bearer ${cookies.get("id")}` },
     }

@@ -16,7 +16,7 @@ export default function getStatusText(status: string) {
     case Status.IN_PLAY:
       return "진행 중";
     case Status.COMPLETE_PLAY:
-      return "진행 완료";
+      return "벙개 종료";
     case Status.COMPLETE_COLLECT:
       return "모집 완료";
     case Status.FAIL_COLLECT:
