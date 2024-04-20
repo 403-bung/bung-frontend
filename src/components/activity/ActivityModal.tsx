@@ -10,6 +10,8 @@ interface ActivityModalProps {
   content1: string;
   content2?: string;
   actionFunc: React.MouseEventHandler;
+  trueBtn: string;
+  falseBtn: string;
 }
 
 const customModalStyle: ReactModal.Styles = {
@@ -43,6 +45,8 @@ const ActivityModal: React.FC<ActivityModalProps> = ({
   content1,
   content2,
   actionFunc,
+  trueBtn,
+  falseBtn,
 }) => {
   const handleDelete = async () => {
     if (articleNo) {
@@ -71,9 +75,9 @@ const ActivityModal: React.FC<ActivityModalProps> = ({
           className="bg-[#4A25A9] w-full text-white text-base font-semibold py-4 rounded-[10px]"
           onClick={actionFunc}
         >
-          나가기
+          {trueBtn}
         </button>
-        <button onClick={onClose}>취소하기</button>
+        <button onClick={onClose}>{falseBtn}</button>
       </div>
     </Modal>
   );

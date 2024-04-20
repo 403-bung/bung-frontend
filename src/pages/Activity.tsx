@@ -32,6 +32,7 @@ export default function Activity() {
   const [hostModalOpen, setHostModalOpen] = useState(false);
   const [cancleModalOpen, setCancleModalOpen] = useState(false);
   const [closePartyModalOpen, setClosePartyModalOpen] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
 
   // 참여자 정보
   const [participantInfo, setParticipantInfo] = useState<ParticipantInfo[]>();
@@ -81,10 +82,10 @@ export default function Activity() {
 
   const statusText = getStatusText(article?.status || "");
 
-  useEffect(() => {
-    console.log(article);
-    article && changeArticleStatus("IN_COLLECT", article?.articleNo || 0);
-  }, [article]);
+  // useEffect(() => {
+  //   console.log(article);
+  //   article && changeArticleStatus("IN_COLLECT", article?.articleNo || 0);
+  // }, [article]);
 
   const handleStartClick = async () => {
     try {
@@ -103,6 +104,7 @@ export default function Activity() {
       console.error("Failed to change article status:", error);
     }
     setClosePartyModalOpen(false);
+    setReviewModalOpen(true);
   };
 
   return (
@@ -276,6 +278,18 @@ export default function Activity() {
         title="벙개를 나가시겠어요?"
         content1="벙개를 나가면 모임이 종료됩니다"
         actionFunc={handleEndClick}
+        trueBtn="나가기"
+        falseBtn="취소하기"
+      />
+      <ActivityModal
+        isOpen={reviewModalOpen}
+        onClose={() => navigate("/home")}
+        title="후기를 남겨주세요!"
+        content1="고마운 분께 감사의 마음을"
+        content2="전해보세요!"
+        actionFunc={() => navigate(`/review/${article?.articleNo}`)}
+        trueBtn="후기남기기"
+        falseBtn="다음에 할게요"
       />
       <CancleModal
         isOpen={cancleModalOpen}
