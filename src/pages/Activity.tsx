@@ -13,6 +13,7 @@ import ArticleInfo from "components/UI/ArticleInfo";
 import Button from "components/UI/Button";
 import ProfileModal from "components/activity/ProfileModal";
 import CancleModal from "components/activity/CancleModal";
+import ActivityModal from "components/activity/ActivityModal";
 
 type ParticipantInfo = {
   profileImageUrl: string;
@@ -30,6 +31,7 @@ export default function Activity() {
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [hostModalOpen, setHostModalOpen] = useState(false);
   const [cancleModalOpen, setCancleModalOpen] = useState(false);
+  const [closePartyModalOpen, setClosePartyModalOpen] = useState(false);
 
   // 참여자 정보
   const [participantInfo, setParticipantInfo] = useState<ParticipantInfo[]>();
@@ -100,6 +102,7 @@ export default function Activity() {
     } catch (error) {
       console.error("Failed to change article status:", error);
     }
+    setClosePartyModalOpen(false);
   };
 
   return (
@@ -201,7 +204,7 @@ export default function Activity() {
                         {(article?.userNo === userNo ||
                           participant.userNo === userNo) && (
                           <div
-                            className={`w-[37px] font-semibold text-xs  flex justify-center items-center rounded-lg py-[2px] ${
+                            className={`w-[37px] font-semibold text-xs flex justify-center items-center rounded-lg py-[2px] ${
                               participant.state === "READY"
                                 ? "text-[#4A25A9] bg-[#EDE9F6]"
                                 : participant.state === "ACCEPT"
@@ -254,7 +257,10 @@ export default function Activity() {
         )}
         {article?.status === "IN_PLAY" && (
           <div className="absolute bottom-0 z-[1] w-[375px] flex flex-col items-center py-14 bg-white">
-            <Button text="종료하기" onClick={handleEndClick} />
+            <Button
+              text="종료하기"
+              onClick={() => setClosePartyModalOpen(true)}
+            />
           </div>
         )}
         {article?.status === "COMPLETE_PLAY" && (
@@ -263,6 +269,14 @@ export default function Activity() {
           </div>
         )}
       </div>
+      {/* 방장이 벙개 종료하는 모달 */}
+      <ActivityModal
+        isOpen={closePartyModalOpen}
+        onClose={() => setClosePartyModalOpen(false)}
+        title="벙개를 나가시겠어요?"
+        content1="벙개를 나가면 모임이 종료됩니다"
+        actionFunc={handleEndClick}
+      />
       <CancleModal
         isOpen={cancleModalOpen}
         onClose={() => setCancleModalOpen(false)}
