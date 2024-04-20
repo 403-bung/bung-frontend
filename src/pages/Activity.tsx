@@ -45,26 +45,28 @@ export default function Activity() {
   });
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
-  useEffect(() => {
-    const participantDetails: ParticipantInfo[] = [];
-    article?.participants.map(async (value) => {
-      if (value.participantUserNo !== article.userNo) {
-        const user = await getUser(value.participantUserNo);
-        console.log(user.profileImageUrl, user.nickname);
-        const item = {
-          profileImageUrl: user.profileImageUrl,
-          nickname: user.nickname,
-          state: value.state,
-          userNo: value.participantUserNo,
-        };
-        participantDetails.push(item);
+    const fetchParticipantDetails = async () => {
+      if (article) {
+        const participantDetails: ParticipantInfo[] = [];
+        for (const value of article.participants) {
+          if (value.participantUserNo !== article.userNo) {
+            const user = await getUser(value.participantUserNo);
+            if (user) {
+              const item: ParticipantInfo = {
+                profileImageUrl: user.profileImageUrl,
+                nickname: user.nickname,
+                state: value.state,
+                userNo: value.participantUserNo,
+              };
+              participantDetails.push(item);
+            }
+          }
+        }
+        setParticipantInfo(participantDetails);
       }
-      setParticipantInfo(participantDetails);
-    });
-  }, [article, userNo]);
+    };
+    fetchParticipantDetails();
+  }, [article]);
 
   const handleOptionChange = (selectedOption: string) => {
     const articleNo = article?.articleNo;
