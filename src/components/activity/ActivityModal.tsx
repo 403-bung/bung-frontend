@@ -22,7 +22,7 @@ const customModalStyle: ReactModal.Styles = {
   content: {
     position: "absolute",
     width: "300px",
-    height: "352px",
+    height: "300px",
     top: "calc(50% - 176px)",
     left: "calc(50% - 150px)",
     backgroundColor: "white",
@@ -33,7 +33,6 @@ const customModalStyle: ReactModal.Styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: "72px",
   },
 };
 
