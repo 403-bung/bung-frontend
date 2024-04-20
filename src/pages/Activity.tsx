@@ -12,6 +12,7 @@ import ModalDeleteConfirm from "components/UI/ModalDeleteConfirm";
 import ArticleInfo from "components/UI/ArticleInfo";
 import Button from "components/UI/Button";
 import ProfileModal from "components/activity/ProfileModal";
+import CancleModal from "components/activity/CancleModal";
 
 type ParticipantInfo = {
   profileImageUrl: string;
@@ -27,11 +28,13 @@ export default function Activity() {
   const params = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
-  const [firstModal, setFirstModal] = useState(false);
+  const [hostModalOpen, setHostModalOpen] = useState(false);
+  const [cancleModalOpen, setCancleModalOpen] = useState(false);
+
   // 참여자 정보
   const [participantInfo, setParticipantInfo] = useState<ParticipantInfo[]>();
 
-  const { data: article } = useQuery<Article>({
+  const { data: article, refetch } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
     queryFn: async () => await getArticle(Number(params.articleNo)),
   });
@@ -76,7 +79,26 @@ export default function Activity() {
 
   useEffect(() => {
     console.log(article);
+    article && changeArticleStatus("IN_COLLECT", article?.articleNo || 0);
   }, [article]);
+
+  const handleStartClick = async () => {
+    try {
+      await changeArticleStatus("IN_PLAY", article?.articleNo || 0);
+      refetch();
+    } catch (error) {
+      console.error("Failed to change article status:", error);
+    }
+  };
+
+  const handleEndClick = async () => {
+    try {
+      await changeArticleStatus("COMPLETE_PLAY", article?.articleNo || 0);
+      refetch();
+    } catch (error) {
+      console.error("Failed to change article status:", error);
+    }
+  };
 
   return (
     <>
@@ -120,7 +142,7 @@ export default function Activity() {
                   <div
                     className="w-[100px] h-[100px] rounded-full overflow-hidden border-[3px] border-solid border-[#6E51BA]"
                     onClick={() => {
-                      setFirstModal(true);
+                      setHostModalOpen(true);
                       navigate(`/activity/${article?.articleNo}/timeline`);
                     }}
                   >
@@ -142,9 +164,9 @@ export default function Activity() {
                   </div>
                 </div>
                 <ProfileModal
-                  isOpen={firstModal}
+                  isOpen={hostModalOpen}
                   onClose={() => {
-                    setFirstModal(false);
+                    setHostModalOpen(false);
                     navigate(`/activity/${article?.articleNo}`);
                   }}
                   articleNo={article?.articleNo}
@@ -216,20 +238,21 @@ export default function Activity() {
         </div>
         {article?.status === "IN_COLLECT" && (
           <div className="absolute bottom-0 z-[1] w-[375px] flex flex-col items-center py-14 bg-white">
-            <Button
-              text="시작하기"
-              onClick={() => changeArticleStatus("IN_PLAY", article.articleNo)}
-            />
+            {/* 방장 */}
+            {article?.userNo === userNo ? (
+              <Button text="시작하기" onClick={handleStartClick} />
+            ) : (
+              // 유저
+              <Button
+                text="취소하기"
+                onClick={() => setCancleModalOpen(true)}
+              />
+            )}
           </div>
         )}
         {article?.status === "IN_PLAY" && (
           <div className="absolute bottom-0 z-[1] w-[375px] flex flex-col items-center py-14 bg-white">
-            <Button
-              text="종료하기"
-              onClick={() =>
-                changeArticleStatus("COMPLETE_PLAY", article.articleNo)
-              }
-            />
+            <Button text="종료하기" onClick={handleEndClick} />
           </div>
         )}
         {article?.status === "COMPLETE_PLAY" && (
@@ -238,7 +261,11 @@ export default function Activity() {
           </div>
         )}
       </div>
-
+      <CancleModal
+        isOpen={cancleModalOpen}
+        onClose={() => setCancleModalOpen(false)}
+        articleNo={article?.articleNo}
+      />
       <ModalDeleteConfirm
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
