@@ -51,7 +51,7 @@ const CancleModal: React.FC<CancleModalProps> = ({
         <Title text="벙개를 나가시겠어요?" />
         <div className="flex flex-col items-center">
           <span className=" font-medium text-lg text-[#1f1f1f]">
-            삭제하면 참여기록이 사라지고
+            나가면 참여기록이 사라지고
           </span>
           <span className=" font-medium text-lg text-[#1f1f1f]">
             해당 벙개 참여도 불가능해요.
