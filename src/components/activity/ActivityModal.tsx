@@ -1,6 +1,5 @@
 import Modal from "react-modal";
 import Title from "components/UI/Title";
-import { deleteArticle } from "api";
 
 interface ActivityModalProps {
   isOpen: boolean;
@@ -47,15 +46,6 @@ const ActivityModal: React.FC<ActivityModalProps> = ({
   trueBtn,
   falseBtn,
 }) => {
-  const handleDelete = async () => {
-    if (articleNo) {
-      const result = await deleteArticle(articleNo);
-      if (result) {
-        window.location.href = "/home";
-      }
-    }
-  };
-
   return (
     <Modal isOpen={isOpen} style={customModalStyle} onRequestClose={onClose}>
       <div className="flex flex-col gap-2">
