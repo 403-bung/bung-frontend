@@ -13,6 +13,7 @@ import ArticleInfo from "components/UI/ArticleInfo";
 import Button from "components/UI/Button";
 import ProfileModal from "components/activity/ProfileModal";
 import CancleModal from "components/activity/CancleModal";
+import ActivityModal from "components/activity/ActivityModal";
 
 type ParticipantInfo = {
   profileImageUrl: string;
@@ -30,6 +31,8 @@ export default function Activity() {
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [hostModalOpen, setHostModalOpen] = useState(false);
   const [cancleModalOpen, setCancleModalOpen] = useState(false);
+  const [closePartyModalOpen, setClosePartyModalOpen] = useState(false);
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
 
   // 참여자 정보
   const [participantInfo, setParticipantInfo] = useState<ParticipantInfo[]>();
@@ -45,26 +48,28 @@ export default function Activity() {
   });
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
-  useEffect(() => {
-    const participantDetails: ParticipantInfo[] = [];
-    article?.participants.map(async (value) => {
-      if (value.participantUserNo !== article.userNo) {
-        const user = await getUser(value.participantUserNo);
-        console.log(user.profileImageUrl, user.nickname);
-        const item = {
-          profileImageUrl: user.profileImageUrl,
-          nickname: user.nickname,
-          state: value.state,
-          userNo: value.participantUserNo,
-        };
-        participantDetails.push(item);
+    const fetchParticipantDetails = async () => {
+      if (article) {
+        const participantDetails: ParticipantInfo[] = [];
+        for (const value of article.participants) {
+          if (value.participantUserNo !== article.userNo) {
+            const user = await getUser(value.participantUserNo);
+            if (user) {
+              const item: ParticipantInfo = {
+                profileImageUrl: user.profileImageUrl,
+                nickname: user.nickname,
+                state: value.state,
+                userNo: value.participantUserNo,
+              };
+              participantDetails.push(item);
+            }
+          }
+        }
+        setParticipantInfo(participantDetails);
       }
-      setParticipantInfo(participantDetails);
-    });
-  }, [article, userNo]);
+    };
+    fetchParticipantDetails();
+  }, [article]);
 
   const handleOptionChange = (selectedOption: string) => {
     const articleNo = article?.articleNo;
@@ -77,10 +82,10 @@ export default function Activity() {
 
   const statusText = getStatusText(article?.status || "");
 
-  useEffect(() => {
-    console.log(article);
-    article && changeArticleStatus("IN_COLLECT", article?.articleNo || 0);
-  }, [article]);
+  // useEffect(() => {
+  //   console.log(article);
+  //   article && changeArticleStatus("IN_COLLECT", article?.articleNo || 0);
+  // }, [article]);
 
   const handleStartClick = async () => {
     try {
@@ -98,6 +103,8 @@ export default function Activity() {
     } catch (error) {
       console.error("Failed to change article status:", error);
     }
+    setClosePartyModalOpen(false);
+    setReviewModalOpen(true);
   };
 
   return (
@@ -199,7 +206,7 @@ export default function Activity() {
                         {(article?.userNo === userNo ||
                           participant.userNo === userNo) && (
                           <div
-                            className={`w-[37px] font-semibold text-xs  flex justify-center items-center rounded-lg py-[2px] ${
+                            className={`w-[37px] font-semibold text-xs flex justify-center items-center rounded-lg py-[2px] ${
                               participant.state === "READY"
                                 ? "text-[#4A25A9] bg-[#EDE9F6]"
                                 : participant.state === "ACCEPT"
@@ -252,7 +259,10 @@ export default function Activity() {
         )}
         {article?.status === "IN_PLAY" && (
           <div className="absolute bottom-0 z-[1] w-[375px] flex flex-col items-center py-14 bg-white">
-            <Button text="종료하기" onClick={handleEndClick} />
+            <Button
+              text="종료하기"
+              onClick={() => setClosePartyModalOpen(true)}
+            />
           </div>
         )}
         {article?.status === "COMPLETE_PLAY" && (
@@ -261,6 +271,26 @@ export default function Activity() {
           </div>
         )}
       </div>
+      {/* 방장이 벙개 종료하는 모달 */}
+      <ActivityModal
+        isOpen={closePartyModalOpen}
+        onClose={() => setClosePartyModalOpen(false)}
+        title="벙개를 나가시겠어요?"
+        content1="벙개를 나가면 모임이 종료됩니다"
+        actionFunc={handleEndClick}
+        trueBtn="나가기"
+        falseBtn="취소하기"
+      />
+      <ActivityModal
+        isOpen={reviewModalOpen}
+        onClose={() => navigate("/home")}
+        title="후기를 남겨주세요!"
+        content1="고마운 분께 감사의 마음을"
+        content2="전해보세요!"
+        actionFunc={() => navigate(`/review/${article?.articleNo}`)}
+        trueBtn="후기남기기"
+        falseBtn="다음에 할게요"
+      />
       <CancleModal
         isOpen={cancleModalOpen}
         onClose={() => setCancleModalOpen(false)}

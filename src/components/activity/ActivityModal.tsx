@@ -1,11 +1,16 @@
 import Modal from "react-modal";
 import Title from "components/UI/Title";
-import { deleteArticle } from "api";
 
-interface CancleModalProps {
+interface ActivityModalProps {
   isOpen: boolean;
   onClose: () => void;
   articleNo?: number;
+  title: string;
+  content1: string;
+  content2?: string;
+  actionFunc: React.MouseEventHandler;
+  trueBtn: string;
+  falseBtn: string;
 }
 
 const customModalStyle: ReactModal.Styles = {
@@ -16,7 +21,7 @@ const customModalStyle: ReactModal.Styles = {
   content: {
     position: "absolute",
     width: "300px",
-    height: "352px",
+    height: "300px",
     top: "calc(50% - 176px)",
     left: "calc(50% - 150px)",
     backgroundColor: "white",
@@ -27,48 +32,44 @@ const customModalStyle: ReactModal.Styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: "72px",
   },
 };
 
-const CancleModal: React.FC<CancleModalProps> = ({
+const ActivityModal: React.FC<ActivityModalProps> = ({
   isOpen,
   onClose,
   articleNo,
+  title,
+  content1,
+  content2,
+  actionFunc,
+  trueBtn,
+  falseBtn,
 }) => {
-  const handleDelete = async () => {
-    if (articleNo) {
-      const result = await deleteArticle(articleNo);
-      if (result) {
-        window.location.href = "/home";
-      }
-    }
-  };
-
   return (
     <Modal isOpen={isOpen} style={customModalStyle} onRequestClose={onClose}>
       <div className="flex flex-col gap-2">
-        <Title text="벙개를 나가시겠어요?" />
+        <Title text={title} />
         <div className="flex flex-col items-center">
           <span className=" font-medium text-lg text-[#1f1f1f]">
-            나가면 참여기록이 사라지고
+            {content1}
           </span>
           <span className=" font-medium text-lg text-[#1f1f1f]">
-            해당 벙개 참여도 불가능해요.
+            {content2}
           </span>
         </div>
       </div>
       <div className="w-full flex flex-col items-center gap-5">
         <button
           className="bg-[#4A25A9] w-full text-white text-base font-semibold py-4 rounded-[10px]"
-          //   onClick={handleDelete}
+          onClick={actionFunc}
         >
-          나가기
+          {trueBtn}
         </button>
-        <button onClick={onClose}>취소하기</button>
+        <button onClick={onClose}>{falseBtn}</button>
       </div>
     </Modal>
   );
 };
 
-export default CancleModal;
+export default ActivityModal;
