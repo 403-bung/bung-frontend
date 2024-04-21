@@ -1,6 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import closeBtn from "../icons/closeBtn.svg";
-import profile from "../icons/profile.svg";
 import { useQuery } from "@tanstack/react-query";
 import { getArticle, getUser } from "../api";
 import { useEffect, useState } from "react";
@@ -104,7 +103,7 @@ export default function Review() {
                     width="100px"
                     height="100px"
                     alt="profile"
-                    onClick={() => navigate(`${userNo}`)}
+                    onClick={() => navigate(`${user.userNo}`)}
                   />
                 </div>
 

@@ -1,6 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import closeBtn from "../icons/closeBtn.svg";
-import profile from "../icons/profile.svg";
 import sticker1 from "../icons/sticker1.svg";
 import sticker2 from "../icons/sticker2.svg";
 import sticker3 from "../icons/sticker3.svg";
@@ -13,7 +12,7 @@ import Button from "components/UI/Button";
 import { Cookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { getArticle, getUser } from "api";
-import { Article } from "components/detail/DetailCard";
+import { Article, UserInfo } from "components/detail/DetailCard";
 import { useEffect } from "react";
 import axios from "axios";
 import FeedBackTags from "components/FeedbackTags";
@@ -31,14 +30,17 @@ export default function UserReview() {
   const userNo = cookies.get("userNo");
   const params = useParams();
   const [userInfo, setUserInfo] = useState<ParticipantInfo[]>();
+
   const { data: article } = useQuery<Article>({
     queryKey: ["article", params.articleNo],
     queryFn: async () => await getArticle(Number(params.articleNo)),
   });
-  const { data: userData } = useQuery({
-    queryKey: ["writer", article?.userNo],
-    queryFn: async () => await getUser(article?.userNo as number),
+
+  const { data: userData } = useQuery<UserInfo>({
+    queryKey: ["writer", params.userNo],
+    queryFn: async () => await getUser(Number(params.userNo)),
   });
+
   useEffect(() => {
     const participantDetails: ParticipantInfo[] = [];
     article?.participants.map(async (value) => {
@@ -70,7 +72,6 @@ export default function UserReview() {
 
   //postAPI
   const token = cookies.get("id");
-  const fromUserNo = article?.userNo;
   const articleNo = article?.articleNo;
   const [satisfaction, setSatisfaction] = useState("VERY_SATISFIED");
   const handleButtonClick = (value: any) => {
@@ -96,8 +97,8 @@ export default function UserReview() {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/feedback`,
         {
-          fromUserNo,
-          toUserNo: userInfo,
+          fromUserNo: userNo,
+          toUserNo: userData?.userNo,
           satisfaction,
           articleNo,
           feedbackTags,
@@ -108,7 +109,8 @@ export default function UserReview() {
           },
         }
       );
-      console.log("후기 작성 성공", response.config.data);
+      // console.log(response.data);
+      // console.log("후기 작성 성공", response.config.data);
       navigate(`/finishreview/${articleNo}`);
     } catch (error) {
       console.error("후기 작성 실패", error);
