@@ -87,8 +87,7 @@ export default function MannerArea({ userNo }: { userNo: number }) {
       setText(text);
       setSticker(sticker);
     }
-    console.log(text);
-  }, []);
+  }, [data]);
 
   // 매너 평가 합계 계산
   const totalFeedbackCount = data?.feedbackTags.reduce(
