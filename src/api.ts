@@ -3,6 +3,48 @@ import { Cookies } from "react-cookie";
 
 const cookies = new Cookies();
 
+export type UserParticipationHistories = {
+  userNo: number;
+  totalCount: number;
+  participationHistories: ParticipationHistories[];
+};
+
+type ParticipationHistories = {
+  articleNo: number;
+  name: string; // 구인글제목
+  content: string; //구인글내용
+  category: string;
+  status: string;
+  currentUserCount: number;
+  maxUserCount: number;
+  recruitingStartTime: string;
+  recruitingEndTime: string;
+  partyStartTime: string;
+};
+
+export type Feedback = {
+  userNo: number;
+  feedbackSize: number;
+  feedbackTags: UserFeedbackTagResponse[];
+  rate: number;
+};
+
+type UserFeedbackTagResponse = {
+  tag: Tag;
+  positive: boolean;
+  title: string;
+  count: number;
+};
+
+export enum Tag {
+  KINDNESS = "KINDNESS",
+  EFFORT = "EFFORT",
+  TIME_KEEPER = "TIME_KEEPER",
+  LATER = "LATER",
+  NOT_EFFORT = "NOT_EFFORT",
+  BAD_ATTITUDE = "BAD_ATTITUDE",
+}
+
 export function joinParty(participantUserNo: number, articleNo: number) {
   axios
     .post(
@@ -92,4 +134,16 @@ export async function changeArticleStatus(status: string, articleNo: number) {
       headers: { Authorization: `Bearer ${cookies.get("id")}` },
     }
   );
+}
+
+export async function getPartyHistory(userNo: number) {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_URL}/users/${userNo}/party-histories`,
+    {
+      headers: { Authorization: `Bearer ${cookies.get("id")}` },
+      params: { userNo: userNo },
+    }
+  );
+
+  return response.data;
 }

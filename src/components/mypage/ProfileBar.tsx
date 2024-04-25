@@ -4,7 +4,7 @@ import { changeAcceptence, getUser } from "api";
 import { useQuery } from "@tanstack/react-query";
 import { UserInfo } from "components/detail/DetailCard";
 import { useMatch } from "react-router-dom";
-import { useEffect } from "react";
+import ProfileInfo from "./ProfileInfo";
 
 export default function ProfileBar({
   userNo,
@@ -82,16 +82,7 @@ export default function ProfileBar({
             )}
           </div>
         )}
-        <div className="text-[14px] flex gap-[10px]">
-          <div className="flex gap-[2px]">
-            <span className="font-normal">모임</span>
-            <span className="font-semibold">5</span>
-          </div>
-          <div className="flex gap-[2px]">
-            <span className="font-normal">받은 평가</span>
-            <span className="font-semibold">20</span>
-          </div>
-        </div>
+        <ProfileInfo userNo={data?.userNo || 0} />
       </div>
     </div>
   );

@@ -3,31 +3,8 @@ import sticker1 from "icons/sticker1.svg";
 import sticker2 from "icons/sticker2.svg";
 import sticker3 from "icons/sticker3.svg";
 
-import { feedback } from "api";
+import { Feedback, Tag, feedback } from "api";
 import { useEffect, useState } from "react";
-
-type Feedback = {
-  userNo: number;
-  feedbackSize: number;
-  feedbackTags: UserFeedbackTagResponse[];
-  rate: number;
-};
-
-type UserFeedbackTagResponse = {
-  tag: Tag;
-  positive: boolean;
-  title: string;
-  count: number;
-};
-
-enum Tag {
-  KINDNESS = "KINDNESS",
-  EFFORT = "EFFORT",
-  TIME_KEEPER = "TIME_KEEPER",
-  LATER = "LATER",
-  NOT_EFFORT = "NOT_EFFORT",
-  BAD_ATTITUDE = "BAD_ATTITUDE",
-}
 
 const tagToKorean: Record<Tag, string> = {
   [Tag.KINDNESS]: "친절해요",
