@@ -82,8 +82,8 @@ export default function MannerArea({ userNo }: { userNo: number }) {
   });
 
   useEffect(() => {
-    if (fakeFeedback) {
-      const { text, sticker } = rateFormat(fakeFeedback.rate);
+    if (data) {
+      const { text, sticker } = rateFormat(data.rate);
       setText(text);
       setSticker(sticker);
     }
@@ -91,23 +91,25 @@ export default function MannerArea({ userNo }: { userNo: number }) {
   }, []);
 
   // 매너 평가 합계 계산
-  const totalFeedbackCount = fakeFeedback?.feedbackTags.reduce(
+  const totalFeedbackCount = data?.feedbackTags.reduce(
     (total, tag) => total + tag.count,
     0
   );
 
   // feedbackTags를 태그 수(count)에 따라 내림차순으로 정렬
   const sortedFeedbackTags =
-    fakeFeedback?.feedbackTags.sort((a, b) => b.count - a.count) || [];
+    data?.feedbackTags.sort((a, b) => b.count - a.count) || [];
   return (
     <>
-      {(fakeFeedback?.feedbackSize || 0) > 5 ? (
+      {(data?.feedbackSize || 0) > 5 ? (
         <>
           <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-between m-5">
             <img src={sticker} alt="sticker" />
             <div className="font-semibold text-sm flex flex-col gap-2">
               <span className="text-[#1f1f1f]">전체 평균</span>
-              <span className="text-[#4A25A9]">{`${text} ${fakeFeedback?.rate}/3`}</span>
+              <span className="text-[#4A25A9]">{`${text} ${(
+                data?.rate || 0
+              ).toFixed(1)}/3`}</span>
             </div>
           </div>
         </>
@@ -126,7 +128,7 @@ export default function MannerArea({ userNo }: { userNo: number }) {
             <span>{totalFeedbackCount}</span>
           </div>
           <div className="flex flex-col gap-1">
-            {(fakeFeedback?.feedbackSize || 0) > 0 ? (
+            {(data?.feedbackSize || 0) > 0 ? (
               sortedFeedbackTags.map((tag, index) => (
                 <>
                   <div key={tag.tag} className="p-[10px] flex justify-between ">
