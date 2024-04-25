@@ -101,27 +101,29 @@ export default function MannerArea({ userNo }: { userNo: number }) {
     data?.feedbackTags.sort((a, b) => b.count - a.count) || [];
   return (
     <>
-      {(data?.feedbackSize || 0) > 5 ? (
-        <>
-          <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-between m-5">
-            <img src={sticker} alt="sticker" />
-            <div className="font-semibold text-sm flex flex-col gap-2">
-              <span className="text-[#1f1f1f]">전체 평균</span>
-              <span className="text-[#4A25A9]">{`${text} ${(
-                data?.rate || 0
-              ).toFixed(1)}/3`}</span>
+      <div className="bg-[#F2F2F6] w-full h-screen overflow-y-scroll scrollbar-hide">
+        {(data?.feedbackSize || 0) > 5 ? (
+          <>
+            <div className="w-[375px] h-[200px] flex bg-white">
+              <div className="w-full h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-between m-5">
+                <img src={sticker} alt="sticker" />
+                <div className="font-semibold text-sm flex flex-col gap-2">
+                  <span className="text-[#1f1f1f]">전체 평균</span>
+                  <span className="text-[#4A25A9]">{`${text} ${(
+                    data?.rate || 0
+                  ).toFixed(1)}/3`}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-center items-center m-5">
-            <span className="text-[#1f1f1f]">평가가 부족해요😥</span>
-          </div>
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-center items-center m-5">
+              <span className="text-[#1f1f1f]">평가가 부족해요😥</span>
+            </div>
+          </>
+        )}
 
-      <div className="bg-[#F2F2F6] w-full h-screen">
         <div className="w-full flex flex-col px-5 pt-5 pb-7 bg-white">
           <div className="text-base font-semibold text-[#1f1f1f] flex gap-[10px]">
             <span>받은 매너 평가</span>
