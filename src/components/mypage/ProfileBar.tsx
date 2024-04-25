@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router";
-import profile from "icons/profile.svg";
 import { changeAcceptence, getUser } from "api";
 import { useQuery } from "@tanstack/react-query";
 import { UserInfo } from "components/detail/DetailCard";
@@ -32,8 +31,16 @@ export default function ProfileBar({
 
   return (
     <div className="w-full py-5 pl-5 pr-2 flex items-start gap-4">
-      <img src={profile} alt="profile" />
-      <div className="w-full flex flex-col gap-2">
+      <div className="w-8 h-8 rounded-full overflow-hidden">
+        <img
+          src={data?.profileImageUrl}
+          alt="profile"
+          className="w-full h-full object-cover"
+          width="32px"
+          height="32px"
+        />
+      </div>
+      <div className="w-[calc(100%-3rem)] flex flex-col gap-2">
         {matchMypage && (
           <div className="flex items-center gap-2">
             <span className="text-[18px] font-medium leading-none">
@@ -48,7 +55,7 @@ export default function ProfileBar({
           </div>
         )}
         {matchActivity && (
-          <div className="w-full flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <span className="text-[18px] font-medium leading-none">
               {data?.nickname}
             </span>
