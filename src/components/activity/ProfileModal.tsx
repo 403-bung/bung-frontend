@@ -63,7 +63,7 @@ export default function ProfileModal({
           mannerPath={`/activity/${articleNo}/manner`}
         />
         {timelineMatch && (
-          <div className="overflow-y-auto">
+          <div className="overflow-y-auto scrollbar-hide">
             <TimelineArea userNo={userNo} />
           </div>
         )}

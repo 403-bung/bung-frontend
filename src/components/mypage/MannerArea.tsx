@@ -3,31 +3,8 @@ import sticker1 from "icons/sticker1.svg";
 import sticker2 from "icons/sticker2.svg";
 import sticker3 from "icons/sticker3.svg";
 
-import { feedback } from "api";
+import { Feedback, Tag, feedback } from "api";
 import { useEffect, useState } from "react";
-
-type Feedback = {
-  userNo: number;
-  feedbackSize: number;
-  feedbackTags: UserFeedbackTagResponse[];
-  rate: number;
-};
-
-type UserFeedbackTagResponse = {
-  tag: Tag;
-  positive: boolean;
-  title: string;
-  count: number;
-};
-
-enum Tag {
-  KINDNESS = "KINDNESS",
-  EFFORT = "EFFORT",
-  TIME_KEEPER = "TIME_KEEPER",
-  LATER = "LATER",
-  NOT_EFFORT = "NOT_EFFORT",
-  BAD_ATTITUDE = "BAD_ATTITUDE",
-}
 
 const tagToKorean: Record<Tag, string> = {
   [Tag.KINDNESS]: "친절해요",
@@ -105,51 +82,54 @@ export default function MannerArea({ userNo }: { userNo: number }) {
   });
 
   useEffect(() => {
-    if (fakeFeedback) {
-      const { text, sticker } = rateFormat(fakeFeedback.rate);
+    if (data) {
+      const { text, sticker } = rateFormat(data.rate);
       setText(text);
       setSticker(sticker);
     }
-    console.log(text);
-  }, []);
+  }, [data]);
 
   // 매너 평가 합계 계산
-  const totalFeedbackCount = fakeFeedback?.feedbackTags.reduce(
+  const totalFeedbackCount = data?.feedbackTags.reduce(
     (total, tag) => total + tag.count,
     0
   );
 
   // feedbackTags를 태그 수(count)에 따라 내림차순으로 정렬
   const sortedFeedbackTags =
-    fakeFeedback?.feedbackTags.sort((a, b) => b.count - a.count) || [];
+    data?.feedbackTags.sort((a, b) => b.count - a.count) || [];
   return (
     <>
-      {(fakeFeedback?.feedbackSize || 0) > 5 ? (
-        <>
-          <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-between m-5">
-            <img src={sticker} alt="sticker" />
-            <div className="font-semibold text-sm flex flex-col gap-2">
-              <span className="text-[#1f1f1f]">전체 평균</span>
-              <span className="text-[#4A25A9]">{`${text} ${fakeFeedback?.rate}/3`}</span>
+      <div className="bg-[#F2F2F6] w-full h-screen overflow-y-scroll scrollbar-hide">
+        {(data?.feedbackSize || 0) > 5 ? (
+          <>
+            <div className="w-[375px] h-[200px] flex bg-white">
+              <div className="w-full h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-between m-5">
+                <img src={sticker} alt="sticker" />
+                <div className="font-semibold text-sm flex flex-col gap-2">
+                  <span className="text-[#1f1f1f]">전체 평균</span>
+                  <span className="text-[#4A25A9]">{`${text} ${(
+                    data?.rate || 0
+                  ).toFixed(1)}/3`}</span>
+                </div>
+              </div>
             </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-center items-center m-5">
-            <span className="text-[#1f1f1f]">평가가 부족해요😥</span>
-          </div>
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <div className="w-[335px] h-40 bg-[#EDE9F6] px-10 py-5 rounded-lg flex justify-center items-center m-5">
+              <span className="text-[#1f1f1f]">평가가 부족해요😥</span>
+            </div>
+          </>
+        )}
 
-      <div className="bg-[#F2F2F6] w-full h-screen">
         <div className="w-full flex flex-col px-5 pt-5 pb-7 bg-white">
           <div className="text-base font-semibold text-[#1f1f1f] flex gap-[10px]">
             <span>받은 매너 평가</span>
             <span>{totalFeedbackCount}</span>
           </div>
           <div className="flex flex-col gap-1">
-            {(fakeFeedback?.feedbackSize || 0) > 0 ? (
+            {(data?.feedbackSize || 0) > 0 ? (
               sortedFeedbackTags.map((tag, index) => (
                 <>
                   <div key={tag.tag} className="p-[10px] flex justify-between ">

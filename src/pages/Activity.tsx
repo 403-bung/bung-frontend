@@ -66,6 +66,9 @@ export default function Activity() {
           }
         }
         setParticipantInfo(participantDetails);
+        if (article.status === "COMPLETE_PLAY") {
+          setReviewModalOpen(true);
+        }
       }
     };
     fetchParticipantDetails();

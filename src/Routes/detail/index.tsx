@@ -1,11 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "components/UI/Button";
 import GoBackBtn from "components/UI/GoBackBtn";
-import DetailCard from "components/detail/DetailCard";
+import DetailCard, { Article } from "components/detail/DetailCard";
 import { useEffect, useState } from "react";
 import StatusBar from "components/UI/StatusBar";
 import { Cookies } from "react-cookie";
-import { joinParty } from "api";
+import { getArticle, joinParty } from "api";
+import useRemainingTime from "hooks/useRemainingTime";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Detail() {
   const navigate = useNavigate();
@@ -15,6 +17,13 @@ export default function Detail() {
   const cookies = new Cookies();
   const userNo = cookies.get("userNo");
   const params = useParams();
+
+  const { data: article } = useQuery<Article>({
+    queryKey: ["article", params.articleNo],
+    queryFn: async () => await getArticle(Number(params.articleNo)),
+  });
+
+  const remainingTime = useRemainingTime(article?.partyStartTime || "");
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -49,7 +58,7 @@ export default function Detail() {
               <div className="h-[24px] flex justify-start items-center ">
                 <div className="bg-indigo-900 px-[7px] pb-[2px] flex rounded-[18px] justify-center items-start">
                   <div className="text-violet-100  font-['Pretendard'] text-[16px]">
-                    mm:ss
+                    {remainingTime}
                   </div>
                 </div>
                 <div className="text-[12px] ml-[8px]">
