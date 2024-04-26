@@ -39,7 +39,9 @@ export default function NabBar() {
       <NavButton
         title="마이"
         img={
-          location.pathname === "/my/timeline" || "/my/manner" ? mySelected : my
+          location.pathname === ("/my/timeline" || "/my/manner")
+            ? mySelected
+            : my
         }
         href="/my/timeline"
       />
