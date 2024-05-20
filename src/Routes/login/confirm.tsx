@@ -138,7 +138,7 @@ function Confirm() {
 
   return (
     <>
-      <div className="w-[375px] h-screen pt-[76px] pb-14 px-4 bg-white">
+      <div className="w-[375px] h-dvh pt-[76px] pb-14 px-4 bg-white">
         <img src={left_arrow} alt="이전으로" />
 
         <div className="h-full flex flex-col justify-between">

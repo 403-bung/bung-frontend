@@ -77,15 +77,15 @@ export default function ChangePwd() {
 
   return (
     <>
-      <div className="w-[375px] h-screen bg-white flex flex-col">
+      <div className="w-[375px] h-dvh bg-white flex flex-col">
         <StatusBar />
         <div className="pr-[15px] pt-5 pb-4 flex justify-end">
           <Link to="/my/timeline">
             <img src={closeBtn} alt="close" />
           </Link>
         </div>
-        <div className="h-screen pt-5 px-4 flex flex-col gap-2 justify-between pb-14">
-          <div className="h-full h-min-screen flex flex-col">
+        <div className="h-dvh pt-5 px-4 flex flex-col gap-2 justify-between pb-14">
+          <div className="h-full h-min-dvh flex flex-col">
             <span className="font-semibold">닉네임</span>
             <form
               className="h-full flex flex-col justify-between"

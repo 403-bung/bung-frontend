@@ -39,7 +39,7 @@ export default function My() {
   const navigate = useNavigate();
   return (
     <>
-      <div className="w-[375px] h-screen min-h-screen bg-white flex flex-col items-center ">
+      <div className="w-[375px] h-dvh min-h-dvh bg-white flex flex-col items-center ">
         <StatusBar />
         <Header />
         <NavBar />

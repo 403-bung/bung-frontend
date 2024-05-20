@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function Time() {
   const navigate = useNavigate();
   return (
-    <div className="w-[375px] h-full min-h-screen bg-white flex flex-col items-center">
+    <div className="w-[375px] h-full min-h-dvh bg-white flex flex-col items-center">
       <img
         src={cancel}
         alt="이전으로"

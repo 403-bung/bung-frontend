@@ -178,7 +178,7 @@ export default function DraftArticle() {
   return (
     <>
       <WriteModal setEndTimeString={setEndTimeString} />
-      <div className="w-[375px] min-h-screen bg-white flex flex-col items-center overflow-y-scroll scrollbar-hide">
+      <div className="w-[375px] min-h-dvh bg-white flex flex-col items-center overflow-y-scroll scrollbar-hide">
         {/* 뒤로가기 */}
         <div className="w-[375px] h-[60px] flex items-center  pl-[9px] pr-[16px] border-b-violet-100 border-b-[1px] bg-white fixed top-0">
           <GoBackBtn
@@ -196,7 +196,7 @@ export default function DraftArticle() {
             </button>
           </div>
         </div>
-        <div className="mt-[80px] w-[343px] flex flex-col gap-[32px] h-screen ">
+        <div className="mt-[80px] w-[343px] flex flex-col gap-[32px] h-dvh ">
           {/* 모집시간, 모임시작 , 수정하기*/}
           <div className="flex gap-[32px] flex-col">
             <div className="flex justify-between ">
