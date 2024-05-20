@@ -14,8 +14,8 @@ export default function Home() {
 
   return (
     <>
-      <div className="w-[375px] min-h-screen bg-white flex flex-col items-center absolute top-0">
-        <div className="w-full h-screen flex flex-col items-center">
+      <div className="w-[375px] min-h-dvh bg-white flex flex-col items-center absolute top-0">
+        <div className="w-full h-dvh flex flex-col items-center">
           <StatusBar />
           <Header />
           <Category />

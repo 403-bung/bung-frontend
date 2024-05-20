@@ -21,7 +21,7 @@ export default function Intro() {
   // );
 
   return (
-    <div className="w-[375px] min-h-screen bg-white flex flex-col justify-center items-center absolute top-0">
+    <div className="w-[375px] min-h-dvh bg-white flex flex-col justify-center items-center absolute top-0">
       <img src={bung} alt="bung" className="w-[185px]" />
     </div>
   );

@@ -100,7 +100,7 @@ export default function MannerArea({ userNo }: { userNo: number }) {
     data?.feedbackTags.sort((a, b) => b.count - a.count) || [];
   return (
     <>
-      <div className="bg-[#F2F2F6] w-full h-screen overflow-y-scroll scrollbar-hide">
+      <div className="bg-[#F2F2F6] w-full h-dvh overflow-y-scroll scrollbar-hide">
         {(data?.feedbackSize || 0) > 5 ? (
           <>
             <div className="w-[375px] h-[200px] flex bg-white">

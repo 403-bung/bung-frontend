@@ -71,7 +71,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <CookiesProvider>
           <Provider store={store}>
-            <div className="bg-black w-full min-h-screen flex justify-center">
+            <div className="bg-black w-full min-h-dvh flex justify-center">
               <RouterProvider router={router} />
             </div>
           </Provider>

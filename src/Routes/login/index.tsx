@@ -7,7 +7,7 @@ function Login() {
   };
 
   return (
-    <div className="w-[375px] min-h-screen h-screen pt-[96px] pb-14 px-4 bg-white flex flex-col justify-between">
+    <div className="w-[375px] min-h-dvh h-dvh pt-[96px] pb-14 px-4 bg-white flex flex-col justify-between">
       <div>
         <img src={banner} alt="banner" />
         <div className="text-center text-stone-900 text-[26px] font-bold mt-6">

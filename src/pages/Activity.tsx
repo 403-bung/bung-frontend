@@ -112,7 +112,7 @@ export default function Activity() {
 
   return (
     <>
-      <div className="bg-[#F2F2F6] w-[375px] h-screen">
+      <div className="bg-[#F2F2F6] w-[375px] h-dvh">
         <div className="bg-white">
           <StatusBar />
           <div className="ml-[9px] py-[18px] ">

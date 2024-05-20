@@ -51,7 +51,7 @@ export default function Review() {
   }, [article]);
   return (
     <>
-      <div className="w-[375px] h-screen bg-white flex flex-col">
+      <div className="w-[375px] h-dvh bg-white flex flex-col">
         <StatusBar />
         <div className="w-[375px] h-[60px]  pl-[135px] pr-[15px] pt-[20px] pb-[16px] flex justify-end items-start gap-24">
           <div className="text-cente text-stone-900 font-semibold">
