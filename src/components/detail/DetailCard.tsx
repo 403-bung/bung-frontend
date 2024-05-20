@@ -76,7 +76,6 @@ export const customModalStyle: ReactModal.Styles = {
 
 export default function DetailCard() {
   const cookies = new Cookies();
-  const token = cookies.get("id");
   const userNo = cookies.get("userNo");
   const params = useParams();
   const [modalOpen, setModalOpen] = useState(false);
@@ -105,7 +104,7 @@ export default function DetailCard() {
 
   return (
     <>
-      <div className="bg-white w-80 z-[10] mt-[14px] pt-6 pb-7 px-6 rounded-[10px] border border-slate-200 ">
+      <div className="bg-white w-80 max-h-[calc(100dvh-300px)] z-[10] mt-[14px] pt-6 pb-7 px-6 rounded-[10px] border border-slate-200 overflow-y-auto">
         {/* 모집전, 수정하기 */}
         <div className="flex justify-between items-center mb-2">
           <div className="text-[#4A25A9] text-[14px]">{statusText}</div>
