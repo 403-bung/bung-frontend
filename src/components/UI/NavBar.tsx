@@ -6,16 +6,11 @@ import write from "icons/write.svg";
 import writeSelected from "icons/write_selected.svg";
 import NavButton from "./NavButton";
 import { useLocation } from "react-router";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkDraftArticle } from "utils/checkDraftArticle";
 
 export default function NabBar() {
   const location = useLocation();
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [location.pathname]);
-
   const navigate = useNavigate();
 
   const handleDraftArticleCheck = () => {
@@ -26,7 +21,7 @@ export default function NabBar() {
     <div className="bg-white w-[375px] flex h-20 justify-center items-center fixed bottom-0 border-t-[0.5px] border-solid border-[#DDDDDD]">
       <NavButton
         title="홈"
-        img={location.pathname === "/home" ? homeSelected : home}
+        img={location.pathname.startsWith("/home") ? homeSelected : home}
         href={"/home"}
       />
       <div onClick={handleDraftArticleCheck}>
@@ -38,11 +33,7 @@ export default function NabBar() {
       </div>
       <NavButton
         title="마이"
-        img={
-          location.pathname === ("/my/timeline" || "/my/manner")
-            ? mySelected
-            : my
-        }
+        img={location.pathname.startsWith("/my") ? mySelected : my}
         href="/my/timeline"
       />
     </div>
