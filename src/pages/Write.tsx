@@ -109,33 +109,35 @@ export default function Write() {
   // console.log(draft);
   //글 작성 API
   const handleWrite = async () => {
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/articles`,
-        {
-          name: name,
-          category: selected,
-          content: content,
-          maxUserCount: parseInt(userCount),
-          recruitingStartTime,
-          recruitingEndTime,
-          partyStartTime,
-          link: link,
-          showLink,
-          draft,
-        },
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    if (name.trim() && content.trim()) {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/articles`,
+          {
+            name: name.trim(),
+            category: selected,
+            content: content.trim(),
+            maxUserCount: parseInt(userCount),
+            recruitingStartTime,
+            recruitingEndTime,
+            partyStartTime,
+            link: link,
+            showLink,
+            draft,
           },
-        }
-      );
-      console.log("글 작성 성공:", response.config.data);
-      console.log(response);
-      navigate("/home");
-    } catch (error) {
-      console.error("글 작성 실패:", error);
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("글 작성 성공:", response.config.data);
+        console.log(response);
+        navigate("/home");
+      } catch (error) {
+        console.error("글 작성 실패:", error);
+      }
     }
   };
   return (
