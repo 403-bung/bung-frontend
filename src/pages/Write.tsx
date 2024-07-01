@@ -100,7 +100,7 @@ export default function Write() {
   const handleShowLink = () => {
     setShowLink(!showLink);
   };
-  console.log(showLink);
+
   const [draft, setDraft] = useState(false);
   const handleDraft = () => {
     setDraft(true);
