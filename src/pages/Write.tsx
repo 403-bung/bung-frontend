@@ -135,7 +135,10 @@ export default function Write() {
             category: selected,
             content: content.trim(),
             maxUserCount: parseInt(userCount),
-            recruitingStartTime: diffInMinutes > 30 ? thirtyMinutesAgo : now,
+            recruitingStartTime:
+              diffInMinutes > 30
+                ? thirtyMinutesAgo
+                : new Date(Date.now() + offset + 60 * 1000),
             recruitingEndTime: finalTime,
             partyStartTime: finalTime,
             link: link,
