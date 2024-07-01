@@ -25,8 +25,6 @@ export default function Detail() {
 
   const remainingTime = useRemainingTime(article?.partyStartTime || "");
 
-  console.log(article);
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (repeatCount < 3) {

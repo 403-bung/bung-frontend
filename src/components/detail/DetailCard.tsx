@@ -102,6 +102,7 @@ export default function DetailCard() {
 
   const statusText = getStatusText(article?.status || "");
 
+  console.log(article);
   return (
     <>
       <div className="bg-white w-80 max-h-[calc(100dvh-300px)] z-[10] mt-[14px] pt-6 pb-7 px-6 rounded-[10px] border border-slate-200 overflow-y-auto">
