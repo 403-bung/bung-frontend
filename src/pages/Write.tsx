@@ -11,10 +11,23 @@ export default function Write() {
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get("id");
+
   //timeModal
   const [endtimeModalString, setEndTimeModalString] = useState<
     string | undefined
   >(undefined);
+  const [endTimeString, setEndTimeString] = useState<string | undefined>(
+    undefined
+  );
+  const [endTime, setEndTime] = useState<string | undefined>("00시 00분");
+  const [time, setTime] = useState<Date>();
+  const finalTime = convertStringToDate(endTime);
+  const recruitingStartTime = finalTime;
+  const recruitingEndTime = finalTime;
+  const partyStartTime = finalTime;
+  const [name, setTitle] = useState<string>("");
+  const [selected, setSelected] = useState("카테고리");
+
   useEffect(() => {
     if (endtimeModalString) {
       const dateObject: Date = new Date(endtimeModalString);
@@ -34,9 +47,7 @@ export default function Write() {
     }
   }, [endtimeModalString]);
   //writeModal
-  const [endTimeString, setEndTimeString] = useState<string | undefined>(
-    undefined
-  );
+
   useEffect(() => {
     if (endTimeString) {
       const dateObject: Date = new Date(endTimeString);
@@ -55,8 +66,7 @@ export default function Write() {
       setTime(dateObject);
     }
   }, [endTimeString]);
-  const [endTime, setEndTime] = useState<string | undefined>("00시 00분");
-  const [time, setTime] = useState<Date>();
+
   function convertStringToDate(endTime: any) {
     const regex = /(\d{1,2})시 (\d{1,2})분/;
     const match = endTime.match(regex);
@@ -79,14 +89,10 @@ export default function Write() {
     const koreaTime = new Date(date.getTime() + koreaTimeOffset * 60000);
     return koreaTime;
   }
-  const finalTime = convertStringToDate(endTime);
+
   // console.log(finalTime);
   //post API
-  const recruitingStartTime = finalTime;
-  const recruitingEndTime = finalTime;
-  const partyStartTime = finalTime;
-  const [name, setTitle] = useState<string>("");
-  const [selected, setSelected] = useState("카테고리");
+
   const handleSelect = (e: any) => {
     setSelected(e.target.value);
   };
@@ -110,6 +116,17 @@ export default function Write() {
   //글 작성 API
   const handleWrite = async () => {
     if (name.trim() && content.trim()) {
+      let offset = 1000 * 60 * 60 * 9;
+      let now = new Date(Date.now() + offset);
+      // 두 시간의 차이를 밀리초 단위로 계산
+      const diffInMillis = finalTime.getTime() - now.getTime();
+
+      // 밀리초를 분 단위로 변환
+      const diffInMinutes = Math.floor(diffInMillis / (1000 * 60));
+
+      // 모임 시작 30분 전 시각 계산
+      const thirtyMinutesAgo = new Date(finalTime.getTime() - 30 * 60 * 1000);
+
       try {
         const response = await axios.post(
           `${process.env.REACT_APP_API_URL}/articles`,
@@ -118,9 +135,9 @@ export default function Write() {
             category: selected,
             content: content.trim(),
             maxUserCount: parseInt(userCount),
-            recruitingStartTime,
-            recruitingEndTime,
-            partyStartTime,
+            recruitingStartTime: diffInMinutes > 30 ? thirtyMinutesAgo : now,
+            recruitingEndTime: finalTime,
+            partyStartTime: finalTime,
             link: link,
             showLink,
             draft,
