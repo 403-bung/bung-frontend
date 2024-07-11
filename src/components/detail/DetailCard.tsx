@@ -118,8 +118,8 @@ export default function DetailCard() {
           {article?.name}
         </div>
         {/* 텍스트 */}
-        <div className="text-[#232323] text-base mb-12">
-          <pre className="font-['Pretendard']">{article?.content}</pre>
+        <div className="w-full p-0 text-[#232323] text-base mb-12 whitespace-pre-wrap break-words">
+          {article?.content}
         </div>
         {article && (
           <ArticleInfo article={article} nickname={userData?.nickname || ""} />
