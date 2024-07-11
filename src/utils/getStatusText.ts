@@ -1,4 +1,4 @@
-enum Status {
+export enum Status {
   READY = "READY",
   IN_COLLECT = "IN_COLLECT",
   IN_PLAY = "IN_PLAY",

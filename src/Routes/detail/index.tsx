@@ -8,6 +8,7 @@ import { Cookies } from "react-cookie";
 import { getArticle, joinParty } from "api";
 import useRemainingTime from "hooks/useRemainingTime";
 import { useQuery } from "@tanstack/react-query";
+import { Status } from "utils/getStatusText";
 
 export default function Detail() {
   const navigate = useNavigate();
@@ -69,7 +70,11 @@ export default function Detail() {
             </div>
             <div className="mt-3 ">
               <Button
-                text="알림받기"
+                text={
+                  article?.status === Status.IN_COLLECT
+                    ? "참여하기"
+                    : "알림받기"
+                }
                 onClick={() => joinParty(userNo, Number(params.articleNo))}
               />
             </div>
